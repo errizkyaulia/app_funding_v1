@@ -50,6 +50,11 @@ public class Signup extends javax.swing.JFrame {
         jLabel4.setText("Confirm Password");
 
         signupButton.setText("Signup");
+        signupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signupButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Back to Login");
 
@@ -130,6 +135,17 @@ public class Signup extends javax.swing.JFrame {
         // Menghilangkan frame signup
         this.setVisible(false);
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
+        // TODO add your handling code here:
+        // Panggil Kelas Koneksi Database dalam package Connection dengan nama file ConnectionSignup.Java
+        
+        // Querry input kedalam Database
+        
+        // Cek jika querry SignUp berhasil masuk kedalam Database, tampilkan pesan berhasil atau gagal
+        
+        
+    }//GEN-LAST:event_signupButtonActionPerformed
 
     /**
      * @param args the command line arguments

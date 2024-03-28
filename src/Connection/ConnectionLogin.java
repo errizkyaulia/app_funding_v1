@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package app_funding_v1;
+package Connection;
 
 /**
  *
  * @author Rizky
  */
-public class ConnectionSignup {
+public class ConnectionLogin {
     
 }
