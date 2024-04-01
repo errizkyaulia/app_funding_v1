@@ -5,7 +5,9 @@
  */
 package app_funding_v1;
 import Connection.ConnectionSignup;
+import GUI.TestUI;
 import java.sql.Connection;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Rizky
@@ -17,11 +19,6 @@ public class App_funding_v1 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        // Membuat objek untuk frame login
-        //Login loginFrame = new Login();
-        
-        // Menampilkan frame login
-        //loginFrame.setVisible(true);
         
         // Membuat objek ConnectionSignup
         ConnectionSignup signup = new ConnectionSignup();
@@ -33,9 +30,17 @@ public class App_funding_v1 {
         if (conn != null) {
             System.out.println("Database connection successful.");
             // Tambahkan logika aplikasi Anda di sini setelah koneksi berhasil
+            // Membuat objek untuk frame login
+            Login loginFrame = new Login();
+            
+            TestUI UIFrame = new TestUI();
+            UIFrame.setVisible(true);
+            // Menampilkan frame login
+            // loginFrame.setVisible(true);
         } else {
             System.out.println("Database connection failed.");
-            // Tambahkan logika untuk menangani kasus koneksi gagal di sini
+            // Logika untuk menangani kasus koneksi gagal
+            JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
         }
     }
     

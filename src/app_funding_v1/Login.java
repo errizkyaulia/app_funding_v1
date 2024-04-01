@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
+import Connection.ConnectionSignup;
 import User.UserDashboard;
+import java.sql.Connection;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -104,31 +107,71 @@ public class Login extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         // Connect into database and fetching user data
         
+        // Membuat objek ConnectionSignup
+        ConnectionSignup signup = new ConnectionSignup();
         
-        String username = usernameTextField.getText(); // Mendapatkan username dari field teks
-        String password = new String(passwordField.getPassword()); // Mendapatkan password dari field kata sandi
+        // Memanggil metode connect untuk membuat koneksi ke database
+        Connection conn = signup.connect();
+        
+        // Cek Koneksi
+        if (conn != null){
+            // Koneksi Aman
 
-        // Misalnya, Anda dapat melakukan validasi sederhana untuk contoh ini
-        if (username.equals("admin") && password.equals("admin123")) {
-            // Jika login berhasil, Anda dapat menavigasi ke halaman berikutnya
-            // Membuat objek UserDashboard dan menampilkannya
-            UserDashboard userDashboard = new UserDashboard();
-            userDashboard.showWelcomeMessage();
+            // Masukan Input
+            String username = usernameTextField.getText(); // Mendapatkan username dari field teks
+            String password = new String(passwordField.getPassword()); // Mendapatkan password dari field kata sandi
 
-            // Menyembunyikan frame login saat ini jika diperlukan
-            this.setVisible(false);
+            // Validasi Login
+            if (isLoginValid(conn, username, password)) {
+                // Jika login berhasil, Anda dapat menavigasi ke halaman berikutnya
+                
+                // Membuat objek UserDashboard dan menampilkannya
+                UserDashboard userDashboard = new UserDashboard();
+                userDashboard.showWelcomeMessage();
+
+                // Menyembunyikan frame login saat ini jika diperlukan
+                this.setVisible(false);
+            } else {
+                // Jika login gagal, Anda bisa menampilkan pesan kesalahan
+                JOptionPane.showMessageDialog(null, "Username atau password salah!");
+            }
         } else {
-            // Jika login gagal, Anda bisa menampilkan pesan kesalahan
-            JOptionPane.showMessageDialog(null, "Username atau password salah!");
+            // Logika untuk menangani kasus koneksi gagal
+            JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 
+    // Metode untuk memverifikasi password
+    private boolean verifyPassword(String password, String storedPassword) {
+        // Gunakan BCrypt.checkpw() untuk memverifikasi password
+        return BCrypt.checkpw(password, storedPassword);
+    }
+    // Metode untuk Validasi Login
+    private boolean isLoginValid(Connection conn, String username, String password) {
+        // For Developing purpose
+        System.out.println(username);
+        System.out.println("Input Password: " + password);
+        
+        String storedPassword = "$2y$10$BRbC94pwQEnAY2HBFzOBBuVg.CgMbTTiV5bZRMnfheOqIo2zK0x2i";
+        String storedUsername = "Er@admin";
+        
+        
+        if(username.equals(storedUsername)){
+            System.out.println(storedPassword);
+            return verifyPassword(password, storedPassword);
+        } else {
+            System.out.println(storedPassword);
+            return false;
+        }
+    }
+    
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
         Signup signupFrame = new Signup();
@@ -181,4 +224,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton signupButton;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
+
 }

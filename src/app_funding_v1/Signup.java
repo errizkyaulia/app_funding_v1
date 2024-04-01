@@ -4,6 +4,14 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
+import Connection.ConnectionSignup;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import Connection.email.EmailSignupSender;
+import java.util.UUID;
 
 /**
  *
@@ -38,6 +46,10 @@ public class Signup extends javax.swing.JFrame {
         signupButton = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        fullnameSignupTextField = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        phonenumberSignupTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,38 +77,58 @@ public class Signup extends javax.swing.JFrame {
             }
         });
 
+        jLabel6.setText("Full Name");
+
+        jLabel7.setText("Phone Number");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(64, 64, 64)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(emailSignupTextField, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(passwordSignupField)
-                            .addComponent(usernameSignupTextField)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(signupButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
+                        .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(signupButton)
-                            .addComponent(confirmPasswordSignupField, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(loginButton))))
-                .addGap(112, 112, 112))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(loginButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addGap(52, 52, 52)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(passwordSignupField)
+                                    .addComponent(confirmPasswordSignupField)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
+                                .addGap(72, 72, 72)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(emailSignupTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(usernameSignupTextField)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(fullnameSignupTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(phonenumberSignupTextField))))))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(fullnameSignupTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(usernameSignupTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -104,7 +136,11 @@ public class Signup extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(emailSignupTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(phonenumberSignupTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(passwordSignupField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -112,16 +148,17 @@ public class Signup extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(confirmPasswordSignupField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(signupButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(loginButton))
-                .addGap(38, 38, 38))
+                .addGap(22, 22, 22))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
@@ -139,14 +176,118 @@ public class Signup extends javax.swing.JFrame {
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
         // Panggil Kelas Koneksi Database dalam package Connection dengan nama file ConnectionSignup.Java
+        ConnectionSignup signup = new ConnectionSignup();
+        Connection conn = signup.connect();
         
-        // Querry input kedalam Database
-        
-        // Cek jika querry SignUp berhasil masuk kedalam Database, tampilkan pesan berhasil atau gagal
-        
-        
+        if (conn != null) {
+            if (inputSignup(conn)) {
+                JOptionPane.showMessageDialog(null, "Signup Successful");
+                // Reset fields after successful signup if needed
+            } else {
+                JOptionPane.showMessageDialog(null, "Signup Failed");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to Connect to Database");
+        }
     }//GEN-LAST:event_signupButtonActionPerformed
 
+    // Metode untuk menghash password menggunakan BCrypt
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+    
+    // Metode Signup
+    private boolean inputSignup(Connection conn){
+        // Terima Input User
+        String username = usernameSignupTextField.getText();
+        String fullname = fullnameSignupTextField.getText();
+        String email = emailSignupTextField.getText();
+        String phonenumber = phonenumberSignupTextField.getText();
+        String password = new String(passwordSignupField.getPassword());
+        String confirmPassword = new String(confirmPasswordSignupField.getPassword());
+
+        // Cek Password
+        if (confirmPassword.equals(password)) {
+            // Cek DATA Username, Email, Phone Number
+            if (cekData(conn, username, email, phonenumber)) {
+                // User already exists
+                return false;
+            }
+
+            // Encrypt user Password before storing into Database
+            String hashedPassword = hashPassword(password);
+            
+            // Generate Token
+            String token = generateToken(conn);
+            
+            // Execute SQL query to insert signup data into the database
+            String query = "INSERT INTO user (username, fullname, email, phonenumber, password, token) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, fullname);
+                pstmt.setString(3, email);
+                pstmt.setString(4, phonenumber);
+                pstmt.setString(5, hashedPassword);
+                pstmt.setString(6, token);
+                pstmt.executeUpdate();
+                
+                // Mengirimkan Email Verifikasi
+                EmailSignupSender emailSender = new EmailSignupSender();
+                emailSender.sendEmail(email, token);
+                
+                return true;
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        }
+
+        return false;
+    }
+    
+    // Metode Cek Database
+    private boolean cekData(Connection conn, String username, String email, String phonenumber) {
+        String query = "SELECT * FROM user WHERE username = ? OR email = ? OR phonenumber = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, email);
+            pstmt.setString(3, phonenumber);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // If ResultSet has next, means data exists
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return true; // Return true to indicate data exists (conservative approach)
+        }
+    }
+    
+    // Generate Verification Token
+    public static String generateToken(Connection conn) {
+        String token = null;
+        boolean isUnique = false;
+
+        while (!isUnique) {
+            // Generate random UUID
+            UUID uuid = UUID.randomUUID();
+            // Convert UUID to string
+            token = uuid.toString();
+
+            // Check if the token already exists in the database
+            String query = "SELECT token FROM user WHERE token = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, token);
+                ResultSet rs = pstmt.executeQuery();
+                if (!rs.next()) {
+                    // Token is unique, break the loop
+                    isUnique = true;
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                // Handle exception
+            }
+        }
+
+        return token;
+    }
     /**
      * @param args the command line arguments
      */
@@ -185,13 +326,17 @@ public class Signup extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField confirmPasswordSignupField;
     private javax.swing.JTextField emailSignupTextField;
+    private javax.swing.JTextField fullnameSignupTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JButton loginButton;
     private javax.swing.JPasswordField passwordSignupField;
+    private javax.swing.JTextField phonenumberSignupTextField;
     private javax.swing.JButton signupButton;
     private javax.swing.JTextField usernameSignupTextField;
     // End of variables declaration//GEN-END:variables

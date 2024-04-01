@@ -33,7 +33,7 @@ public class ConnectionSignup {
             
             // Create database connection
             conn = DriverManager.getConnection(url, user, password);
-            System.out.println("Database connection successful.");
+            // System.out.println("Database connection successful.");
         } catch (IOException | SQLException e) {
             System.out.println("Database connection failed.");
             e.printStackTrace();
