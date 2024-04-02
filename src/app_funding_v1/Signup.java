@@ -52,6 +52,7 @@ public class Signup extends javax.swing.JFrame {
         phonenumberSignupTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Signup");
 
         jLabel1.setText("Username");
 
@@ -220,15 +221,17 @@ public class Signup extends javax.swing.JFrame {
             // Generate Token
             String token = generateToken(conn);
             
+            String accountstate = "Pending Activation";
             // Execute SQL query to insert signup data into the database
-            String query = "INSERT INTO user (username, fullname, email, phonenumber, password, token) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO user (username, fullname, email, phonenumber, password, accountstate, token) VALUES (?, ?, ?, ?, ?, ?, ?)";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, username);
                 pstmt.setString(2, fullname);
                 pstmt.setString(3, email);
                 pstmt.setString(4, phonenumber);
                 pstmt.setString(5, hashedPassword);
-                pstmt.setString(6, token);
+                pstmt.setString(6, accountstate);
+                pstmt.setString(7, token);
                 pstmt.executeUpdate();
                 
                 // Mengirimkan Email Verifikasi

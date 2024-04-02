@@ -34,9 +34,9 @@ public class App_funding_v1 {
             Login loginFrame = new Login();
             
             TestUI UIFrame = new TestUI();
-            UIFrame.setVisible(true);
+            // UIFrame.setVisible(true);
             // Menampilkan frame login
-            // loginFrame.setVisible(true);
+            loginFrame.setVisible(true);
         } else {
             System.out.println("Database connection failed.");
             // Logika untuk menangani kasus koneksi gagal
