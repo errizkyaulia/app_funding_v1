@@ -7,6 +7,9 @@ package app_funding_v1;
 import Connection.ConnectionSignup;
 import User.UserDashboard;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 
@@ -128,26 +131,24 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private int loginAttempts = 0;
+    private static final int MAX_LOGIN_ATTEMPTS = 3;
+    
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
+        
         // Connect into database and fetching user data
-        
-        // Membuat objek ConnectionSignup
-        ConnectionSignup signup = new ConnectionSignup();
-        
-        // Memanggil metode connect untuk membuat koneksi ke database
-        Connection conn = signup.connect();
+        ConnectionSignup signup = new ConnectionSignup(); // Membuat objek ConnectionSignup
+        Connection conn = signup.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
         // Cek Koneksi
-        if (conn != null){
-            // Koneksi Aman
-
-            // Masukan Input
-            String username = usernameTextField.getText(); // Mendapatkan username dari field teks
+        if (conn != null){ // Koneksi Aman
+            // Masukan Input User
+            String usernameEmail = usernameTextField.getText(); // Mendapatkan username/email dari field teks
             String password = new String(passwordField.getPassword()); // Mendapatkan password dari field kata sandi
 
             // Validasi Login
-            if (isLoginValid(conn, username, password)) {
+            if (isLoginValid(conn, usernameEmail, password)) {
                 // Jika login berhasil, Anda dapat menavigasi ke halaman berikutnya
                 
                 // Membuat objek UserDashboard dan menampilkannya
@@ -157,10 +158,16 @@ public class Login extends javax.swing.JFrame {
                 // Menyembunyikan frame login saat ini jika diperlukan
                 this.setVisible(false);
             } else {
-                // Jika login gagal, Anda bisa menampilkan pesan kesalahan
-                JOptionPane.showMessageDialog(null, "Username atau password salah!");
+                // Counter gagal login
+                loginAttempts++;
+                if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+                    JOptionPane.showMessageDialog(null, "Anda telah melebihi batas percobaan login.");
+                    
+                } else {
+                    JOptionPane.showMessageDialog(null, "Username, email, atau password salah! Percobaan login ke-" + loginAttempts);
+                }
             }
-        } else {
+        } else { // Koneksi GAGAL
             // Logika untuk menangani kasus koneksi gagal
             JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
         }
@@ -171,21 +178,49 @@ public class Login extends javax.swing.JFrame {
         // Gunakan BCrypt.checkpw() untuk memverifikasi password
         return BCrypt.checkpw(password, storedPassword);
     }
+    
     // Metode untuk Validasi Login
-    private boolean isLoginValid(Connection conn, String username, String password) {
+    private boolean isLoginValid(Connection conn, String usernameEmail, String password) {
         // For Developing purpose
-        System.out.println(username);
+        System.out.println(usernameEmail);
         System.out.println("Input Password: " + password);
         
-        String storedPassword = "$2y$10$BRbC94pwQEnAY2HBFzOBBuVg.CgMbTTiV5bZRMnfheOqIo2zK0x2i";
-        String storedUsername = "Er@admin";
-        
-        
-        if(username.equals(storedUsername)){
-            System.out.println(storedPassword);
-            return verifyPassword(password, storedPassword);
-        } else {
-            System.out.println(storedPassword);
+        String query = "SELECT * FROM user WHERE (username = ? OR email = ?) LIMIT 1";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, usernameEmail);
+            pstmt.setString(2, usernameEmail);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                // Cek Password
+                String storedPassword = rs.getString("password");
+                if (verifyPassword(password, storedPassword)){
+                    return isAccountActive(conn, usernameEmail); // Cek Akun aktif
+                } else {
+                    JOptionPane.showMessageDialog(null, "Wrong Password");
+                    return false;
+                }
+            } else {
+                return false; // Username/email tidak ditemukan
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log pesan kesalahan
+            return false;
+        }
+    }
+    
+    // Metode Cek Akun Aktif
+    private boolean isAccountActive(Connection conn, String usernameEmail){
+        String accountstate = "ACTIVE";
+        String query = "SELECT * FROM user WHERE (username = ? OR email = ?) AND accountstate = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, usernameEmail);
+            pstmt.setString(2, usernameEmail);
+            pstmt.setString(3, accountstate);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // Jika terdapat data akun aktif return true
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log pesan kesalahan
             return false;
         }
     }
