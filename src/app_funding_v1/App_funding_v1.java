@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
+
 import Connection.ConnectionSignup;
-import GUI.TestUI;
+import Connection.email.EmailConnection;
 import java.sql.Connection;
-import javax.swing.JOptionPane;
+
 /**
  *
  * @author Rizky
@@ -33,15 +34,17 @@ public class App_funding_v1 {
             // Membuat objek untuk frame login
             Login loginFrame = new Login();
             
-            TestUI UIFrame = new TestUI();
+            // TestUI UIFrame = new TestUI();
             // UIFrame.setVisible(true);
             // Menampilkan frame login
-            loginFrame.setVisible(true);
-        } else {
-            System.out.println("Database connection failed.");
-            // Logika untuk menangani kasus koneksi gagal
-            JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
-        }
+            // loginFrame.setVisible(true);
+            
+            String recipient = "errizkyaulia@gmail.com";
+            String subject = "Test Email";
+            String body = "This is a test email.";
+
+            EmailConnection.sendEmail(recipient, subject, body);
+            // EmailConnection.checkConnection();
+        }  
     }
-    
 }

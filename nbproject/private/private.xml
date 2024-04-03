@@ -3,10 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/Connection/ConnectionSignup.java</file>
             <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/app_funding_v1/Forgot.java</file>
             <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/app_funding_v1/App_funding_v1.java</file>
             <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/app_funding_v1/Login.java</file>
             <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/app_funding_v1/Signup.java</file>
+            <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/Connection/email/EmailOTPSender.java</file>
+            <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/Connection/email/EmailConnection.java</file>
+            <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/Connection/email/EmailSignupSender.java</file>
+            <file>file:/D:/4%20ISA%201/APPS/app_funding_v1/src/config/application.properties</file>
         </group>
     </open-files>
 </project-private>

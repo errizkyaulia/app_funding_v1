@@ -162,32 +162,39 @@ public class Forgot extends javax.swing.JFrame {
         
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
-    // Metode Cek Input
-    private boolean cekUser(Connection conn, String username, String email, String phonenumber){
+    private boolean cekUser(Connection conn, String username, String email, String phonenumber) {
         String query = "SELECT * FROM user WHERE username = ? OR email = ? OR phonenumber = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, username);
             pstmt.setString(2, email);
             pstmt.setString(3, phonenumber);
             ResultSet rs = pstmt.executeQuery();
-            
-            // OTP
-            String emailOTP = rs.getString("email");
-            String OTP = generateOTP();
-            
-            // Masukan OTP ke Database
-            if (otpInsert(conn, emailOTP, OTP)){
-                // Mengirimkan Email Verifikasi
-                EmailOTPSender emailSender = new EmailOTPSender();
-                return emailSender.sendEmail(emailOTP, OTP); // Sending Email and give the return
+
+            if (rs.next()) { // Check if any result found
+                // OTP
+                String emailOTP = rs.getString("email");
+                String OTP = generateOTP();
+
+                // Masukan OTP ke Database
+                if (otpInsert(conn, emailOTP, OTP)){
+                    // Mengirimkan Email Verifikasi
+                    EmailOTPSender emailSender = new EmailOTPSender();
+                    return emailSender.sendEmail(emailOTP, OTP); // Sending Email and give the return
+                } else {
+                    JOptionPane.showMessageDialog(null, "OTP gagal tersimpan!");
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "User not found!");
+                return false;
             }
-            return false;
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "User not found!");
+            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage());
             return false;
         }
     }
+
     
     // Metode Generate OTP
     public static String generateOTP(){
