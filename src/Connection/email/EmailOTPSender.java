@@ -4,17 +4,24 @@
  * and open the template in the editor.
  */
 package Connection.email;
-import javax.mail.*;
-import javax.mail.internet.*;
-import java.util.*;
+
 import java.io.IOException;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Rizky
  */
-public class EmailSignupSender {
-    public boolean sendEmail(String recipientEmail, String token) {
+public class EmailOTPSender {
+    public boolean sendEmail(String emailOTP, String OTP){
         try {
             // Load properties from application.properties file
             Properties props = new Properties();
@@ -30,19 +37,18 @@ public class EmailSignupSender {
                     }
                 });
 
-            String web_url = props.getProperty("WEB_HOST");
-            String emailSubject = "Verifikasi Akun";
-            String emailBody = "Klik link berikut untuk verifikasi akun Anda: " + web_url + "verify.php?token=" + token;
+            String emailSubject = "One-Time Password (OTP)";
+            String emailBody = "Kode OTP Anda: " + OTP;
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailOTP));
             message.setSubject(emailSubject);
             message.setText(emailBody);
 
             Transport.send(message);
 
             System.out.println("Email terkirim!");
-            JOptionPane.showMessageDialog(null, "Email send to: " + recipientEmail);
+            JOptionPane.showMessageDialog(null, "Email send to: " + emailOTP);
             return true;
         } catch (MessagingException | IOException e) {
             JOptionPane.showMessageDialog(null, "Cannot send email");

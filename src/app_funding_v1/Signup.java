@@ -236,16 +236,15 @@ public class Signup extends javax.swing.JFrame {
                 
                 // Mengirimkan Email Verifikasi
                 EmailSignupSender emailSender = new EmailSignupSender();
-                emailSender.sendEmail(email, token);
-                
-                return true;
+                return emailSender.sendEmail(email, token);
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 return false;
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Password does not match!");
+            return false;
         }
-
-        return false;
     }
     
     // Metode Cek Database

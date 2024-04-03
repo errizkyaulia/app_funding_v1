@@ -181,17 +181,14 @@ public class Login extends javax.swing.JFrame {
     
     // Metode untuk Validasi Login
     private boolean isLoginValid(Connection conn, String usernameEmail, String password) {
-        // For Developing purpose
-        System.out.println(usernameEmail);
-        System.out.println("Input Password: " + password);
-        
+        // Query mencari akun
         String query = "SELECT * FROM user WHERE (username = ? OR email = ?) LIMIT 1";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, usernameEmail);
             pstmt.setString(2, usernameEmail);
             ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
+            if (rs.next()) { // Akun terdaftar
                 // Cek Password
                 String storedPassword = rs.getString("password");
                 if (verifyPassword(password, storedPassword)){

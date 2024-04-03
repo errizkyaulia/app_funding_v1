@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
-
+import Connection.ConnectionSignup;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import Connection.email.EmailOTPSender;
+import java.util.Random;
 /**
  *
  * @author Rizky
@@ -133,13 +140,84 @@ public class Forgot extends javax.swing.JFrame {
 
     private void requestForgotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestForgotButtonActionPerformed
         // TODO add your handling code here:
+        // Panggil Kelas Koneksi Database dalam package Connection dengan nama file ConnectionSignup.Java
+        ConnectionSignup signup = new ConnectionSignup();
+        Connection conn = signup.connect();
         
-        OTP otpFrame = new OTP();
-        otpFrame.setVisible(true);
+        // Terima input user
+        String username = usernameForgotTextField.getText();
+        String email = emailForgotTextField.getText();
+        String phonenumber = phonenumberForgotTextField.getText();
         
-        this.setVisible(false);
+        // Cek Koneksi
+        if (conn != null){
+            if (cekUser(conn, username, email, phonenumber)){
+                // Masuk ke dalam OTP
+                OTP otpFrame = new OTP();
+                otpFrame.setVisible(true);
+
+                this.setVisible(false);
+            }
+        }
+        
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
+    // Metode Cek Input
+    private boolean cekUser(Connection conn, String username, String email, String phonenumber){
+        String query = "SELECT * FROM user WHERE username = ? OR email = ? OR phonenumber = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, email);
+            pstmt.setString(3, phonenumber);
+            ResultSet rs = pstmt.executeQuery();
+            
+            // OTP
+            String emailOTP = rs.getString("email");
+            String OTP = generateOTP();
+            
+            // Masukan OTP ke Database
+            if (otpInsert(conn, emailOTP, OTP)){
+                // Mengirimkan Email Verifikasi
+                EmailOTPSender emailSender = new EmailOTPSender();
+                return emailSender.sendEmail(emailOTP, OTP); // Sending Email and give the return
+            }
+            return false;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "User not found!");
+            return false;
+        }
+    }
+    
+    // Metode Generate OTP
+    public static String generateOTP(){
+        // Inisialisasi objek Random
+        Random random = new Random();
+        
+        // Generate angka acak antara 100000 dan 999999
+        int otpNumber = random.nextInt(900000) + 100000;
+        
+        // Konversi angka menjadi string
+        String OTP = String.valueOf(otpNumber);
+        
+        // Kembalikan kode OTP
+        return OTP;
+    }
+    
+    // Masukkan OTP ke Database
+    private boolean otpInsert(Connection conn, String email, String OTP){
+        String query = "UPDATE user SET otp = ? WHERE email = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, OTP);
+            pstmt.setString(2, email);
+            int rowsAffected = pstmt.executeUpdate();
+            return rowsAffected > 0; // Jika baris terpengaruh lebih dari 0, berarti pembaruan berhasil
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log pesan kesalahan
+            return false;
+        }
+    }
+    // Metode kembali ke Login
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
         // Membuat objek untuk frame login
