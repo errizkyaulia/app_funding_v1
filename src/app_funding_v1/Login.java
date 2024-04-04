@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
-import Connection.ConnectionSignup;
+import Connection.ConnectionDatabase;
 import User.UserDashboard;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -138,8 +138,8 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         // Connect into database and fetching user data
-        ConnectionSignup signup = new ConnectionSignup(); // Membuat objek ConnectionSignup
-        Connection conn = signup.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
         // Cek Koneksi
         if (conn != null){ // Koneksi Aman

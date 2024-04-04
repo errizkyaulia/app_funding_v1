@@ -5,8 +5,8 @@
  */
 package app_funding_v1;
 
-import Connection.ConnectionSignup;
-import Connection.email.EmailConnection;
+import Connection.ConnectionDatabase;
+import Connection.ConnectionEmail;
 import java.sql.Connection;
 
 /**
@@ -21,11 +21,9 @@ public class App_funding_v1 {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        // Membuat objek ConnectionSignup
-        ConnectionSignup signup = new ConnectionSignup();
-        
-        // Memanggil metode connect untuk membuat koneksi ke database
-        Connection conn = signup.connect();
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
         // Melakukan pengecekan apakah koneksi berhasil
         if (conn != null) {
@@ -37,14 +35,9 @@ public class App_funding_v1 {
             // TestUI UIFrame = new TestUI();
             // UIFrame.setVisible(true);
             // Menampilkan frame login
-            // loginFrame.setVisible(true);
+            loginFrame.setVisible(true);
             
-            String recipient = "errizkyaulia@gmail.com";
-            String subject = "Test Email";
-            String body = "This is a test email.";
-
-            EmailConnection.sendEmail(recipient, subject, body);
-            // EmailConnection.checkConnection();
+            ConnectionEmail.checkConnection();
         }  
     }
 }

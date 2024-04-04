@@ -15,7 +15,7 @@ import java.util.Properties;
  *
  * @author Rizky
  */
-public class ConnectionSignup {
+public class ConnectionDatabase {
     public Connection connect() {
         Connection conn = null;
         try {

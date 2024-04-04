@@ -4,13 +4,15 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
-import Connection.ConnectionSignup;
+import Connection.ConnectionDatabase;
+import Connection.ConnectionEmail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import Connection.email.EmailSignupSender;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -176,9 +178,9 @@ public class Signup extends javax.swing.JFrame {
 
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
-        // Panggil Kelas Koneksi Database dalam package Connection dengan nama file ConnectionSignup.Java
-        ConnectionSignup signup = new ConnectionSignup();
-        Connection conn = signup.connect();
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
         if (conn != null) {
             if (inputSignup(conn)) {
@@ -212,6 +214,7 @@ public class Signup extends javax.swing.JFrame {
             // Cek DATA Username, Email, Phone Number
             if (cekData(conn, username, email, phonenumber)) {
                 // User already exists
+                JOptionPane.showMessageDialog(null, "Username, email, and phone number already used!");
                 return false;
             }
 
@@ -235,8 +238,11 @@ public class Signup extends javax.swing.JFrame {
                 pstmt.executeUpdate();
                 
                 // Mengirimkan Email Verifikasi
-                EmailSignupSender emailSender = new EmailSignupSender();
-                return emailSender.sendEmail(email, token);
+                ConnectionEmail emailSender = new ConnectionEmail();
+                String web_url = PROPS.getProperty("WEB_HOST");
+                String emailSubject = "Verifikasi Akun";
+                String emailBody = "Klik link berikut untuk verifikasi akun Anda: " + web_url + "verify.php?token=" + token;
+                return emailSender.sendEmail(email, emailSubject, emailBody);
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 return false;
@@ -342,4 +348,13 @@ public class Signup extends javax.swing.JFrame {
     private javax.swing.JButton signupButton;
     private javax.swing.JTextField usernameSignupTextField;
     // End of variables declaration//GEN-END:variables
+    private static final Properties PROPS = new Properties();
+
+        static {
+            try {
+                PROPS.load(Signup.class.getClassLoader().getResourceAsStream("Config/application.properties"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 }

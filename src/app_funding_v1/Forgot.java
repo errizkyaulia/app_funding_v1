@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
-import Connection.ConnectionSignup;
+import Connection.ConnectionDatabase;
+import Connection.ConnectionEmail;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -140,9 +141,9 @@ public class Forgot extends javax.swing.JFrame {
 
     private void requestForgotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestForgotButtonActionPerformed
         // TODO add your handling code here:
-        // Panggil Kelas Koneksi Database dalam package Connection dengan nama file ConnectionSignup.Java
-        ConnectionSignup signup = new ConnectionSignup();
-        Connection conn = signup.connect();
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
         // Terima input user
         String username = usernameForgotTextField.getText();
@@ -155,11 +156,9 @@ public class Forgot extends javax.swing.JFrame {
                 // Masuk ke dalam OTP
                 OTP otpFrame = new OTP();
                 otpFrame.setVisible(true);
-
                 this.setVisible(false);
             }
         }
-        
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
     private boolean cekUser(Connection conn, String username, String email, String phonenumber) {
@@ -178,8 +177,12 @@ public class Forgot extends javax.swing.JFrame {
                 // Masukan OTP ke Database
                 if (otpInsert(conn, emailOTP, OTP)){
                     // Mengirimkan Email Verifikasi
-                    EmailOTPSender emailSender = new EmailOTPSender();
-                    return emailSender.sendEmail(emailOTP, OTP); // Sending Email and give the return
+                    ConnectionEmail emailSender = new ConnectionEmail();
+                    String emailSubject = "One-Time Password (OTP)";
+                    String emailBody = "Kode OTP Anda: " + OTP;
+                    
+                    // Sending Email and give the return
+                    return (emailSender.sendEmail(emailOTP, emailSubject, emailBody));
                 } else {
                     JOptionPane.showMessageDialog(null, "OTP gagal tersimpan!");
                     return false;
@@ -224,6 +227,7 @@ public class Forgot extends javax.swing.JFrame {
             return false;
         }
     }
+    
     // Metode kembali ke Login
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
