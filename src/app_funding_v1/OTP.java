@@ -4,13 +4,19 @@
  * and open the template in the editor.
  */
 package app_funding_v1;
+import Connection.ConnectionDatabase;
 import User.ResetPassword;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Rizky
  */
 public class OTP extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form OTP
      */
@@ -117,13 +123,52 @@ public class OTP extends javax.swing.JFrame {
 
     private void otpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otpButtonActionPerformed
         // TODO add your handling code here:
+        // Accept User Input
+        String inputString = otpTextField.getText();
+
+        // Check if input is numeric
+        if (!inputString.matches("\\d+")) {
+            // Display an error message or handle non-numeric input
+            JOptionPane.showMessageDialog(this, "Input must be numeric.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method early
+        }
+
+        // Check if input length is 6 digits
+        if (inputString.length() != 6) {
+            // Display an error message or handle invalid OTP length
+            JOptionPane.showMessageDialog(this, "OTP must be 6 digits long.", "Invalid OTP", JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method early
+        }
+
+        // Check OTP
+        if (cekOTP(inputString)){
+            // If input is valid, proceed with resetting password
+            ResetPassword resPass = new ResetPassword();
+            resPass.setVisible(true);
+
+            this.setVisible(false);
+        }
         
-        ResetPassword resPass = new ResetPassword();
-        resPass.setVisible(true);
-        
-        this.setVisible(false);
     }//GEN-LAST:event_otpButtonActionPerformed
 
+    // Metode Cek Database
+    private boolean cekOTP(String inputOTP){
+        // Value email penerima OTP
+        String email = emailLabel.getText();
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect();
+        String query = "SELECT otp FROM user WHERE email = ? AND otp = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, inputOTP);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next(); // Jika terdapat data akun aktif return true
+        } catch (SQLException ex) {
+            ex.printStackTrace(); // Log pesan kesalahan
+            return false;
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -160,7 +205,7 @@ public class OTP extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel emailLabel;
+    public javax.swing.JLabel emailLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

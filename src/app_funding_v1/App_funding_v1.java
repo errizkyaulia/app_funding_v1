@@ -37,7 +37,7 @@ public class App_funding_v1 {
             // Menampilkan frame login
             loginFrame.setVisible(true);
             
-            ConnectionEmail.checkConnection();
+            // ConnectionEmail.checkConnection();
         }  
     }
 }

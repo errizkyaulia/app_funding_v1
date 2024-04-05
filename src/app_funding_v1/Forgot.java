@@ -6,12 +6,13 @@
 package app_funding_v1;
 import Connection.ConnectionDatabase;
 import Connection.ConnectionEmail;
+import User.UserData;
+import GUI.Loading;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import Connection.email.EmailOTPSender;
 import java.util.Random;
 /**
  *
@@ -46,6 +47,7 @@ public class Forgot extends javax.swing.JFrame {
         requestForgotButton = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        loadingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Forgot Password");
@@ -83,29 +85,35 @@ public class Forgot extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(loginButton))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(usernameForgotTextField)
-                                    .addComponent(emailForgotTextField)
-                                    .addComponent(phonenumberForgotTextField)
-                                    .addComponent(requestForgotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))))
-                .addContainerGap(17, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(loginButton))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(38, 38, 38)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(usernameForgotTextField)
+                                            .addComponent(emailForgotTextField)
+                                            .addComponent(phonenumberForgotTextField)
+                                            .addComponent(requestForgotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addGap(30, 30, 30))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(30, 30, 30))
+                .addComponent(loadingLabel)
+                .addGap(93, 93, 93))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,7 +136,9 @@ public class Forgot extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(requestForgotButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(loadingLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(loginButton))
@@ -145,6 +155,11 @@ public class Forgot extends javax.swing.JFrame {
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
+        // Call Loading Screen
+        this.setVisible(false);
+        Loading loadingScreen = new Loading();
+        loadingScreen.setVisible(true);
+        
         // Terima input user
         String username = usernameForgotTextField.getText();
         String email = emailForgotTextField.getText();
@@ -153,12 +168,15 @@ public class Forgot extends javax.swing.JFrame {
         // Cek Koneksi
         if (conn != null){
             if (cekUser(conn, username, email, phonenumber)){
-                // Masuk ke dalam OTP
-                OTP otpFrame = new OTP();
-                otpFrame.setVisible(true);
-                this.setVisible(false);
+                // Close the loading screen after the process is finished
+                loadingScreen.dispose();
+                JOptionPane.showMessageDialog(null, "Email Terkirim!");
+                return;
             }
         }
+        // Close the loading screen after the process is finished
+        loadingScreen.dispose();
+        this.setVisible(true);
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
     private boolean cekUser(Connection conn, String username, String email, String phonenumber) {
@@ -173,7 +191,7 @@ public class Forgot extends javax.swing.JFrame {
                 // OTP
                 String emailOTP = rs.getString("email");
                 String OTP = generateOTP();
-
+                
                 // Masukan OTP ke Database
                 if (otpInsert(conn, emailOTP, OTP)){
                     // Mengirimkan Email Verifikasi
@@ -182,7 +200,22 @@ public class Forgot extends javax.swing.JFrame {
                     String emailBody = "Kode OTP Anda: " + OTP;
                     
                     // Sending Email and give the return
-                    return (emailSender.sendEmail(emailOTP, emailSubject, emailBody));
+                    if (emailSender.checkConnection()){
+                    //if(emailSender.sendEmail(emailOTP, emailSubject, emailBody)){
+                        // Save user information
+                        UserData userData = new UserData();
+                        userData.setEmail(emailOTP);
+                        // Masuk ke dalam OTP
+                        OTP otpFrame = new OTP();
+                        otpFrame.setVisible(true);
+                        otpFrame.emailLabel.setText(emailOTP);
+                        this.setVisible(false);
+                        // System.out.println(userData.getEmail());
+                        return true;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Gagal mengirim Email");
+                        return false;
+                    }         
                 } else {
                     JOptionPane.showMessageDialog(null, "OTP gagal tersimpan!");
                     return false;
@@ -284,6 +317,7 @@ public class Forgot extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel loadingLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JTextField phonenumberForgotTextField;
     private javax.swing.JButton requestForgotButton;
