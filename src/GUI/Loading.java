@@ -27,22 +27,23 @@ public class Loading extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        loadingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Loading");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Bars@1.25x-1.0s-200px-200px.gif"))); // NOI18N
+        loadingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Bars@1.25x-1.0s-200px-200px.gif"))); // NOI18N
+        loadingLabel.setLabelFor(this);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
+            .addComponent(loadingLabel)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
+            .addComponent(loadingLabel)
         );
 
         pack();
@@ -85,6 +86,6 @@ public class Loading extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel loadingLabel;
     // End of variables declaration//GEN-END:variables
 }

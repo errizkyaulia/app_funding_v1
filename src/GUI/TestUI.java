@@ -29,21 +29,34 @@ public class TestUI extends javax.swing.JFrame {
     private void initComponents() {
 
         panelTest1 = new GUI.PanelTest();
+        loadingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
         panelTest1.setBackground(new java.awt.Color(255, 255, 255));
 
+        loadingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Dual Ring@1.25x-1.0s-200px-200px.gif"))); // NOI18N
+
         javax.swing.GroupLayout panelTest1Layout = new javax.swing.GroupLayout(panelTest1);
         panelTest1.setLayout(panelTest1Layout);
         panelTest1Layout.setHorizontalGroup(
             panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelTest1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(loadingLabel)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         panelTest1Layout.setVerticalGroup(
             panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelTest1Layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(loadingLabel)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -97,6 +110,7 @@ public class TestUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel loadingLabel;
     private GUI.PanelTest panelTest1;
     // End of variables declaration//GEN-END:variables
 }

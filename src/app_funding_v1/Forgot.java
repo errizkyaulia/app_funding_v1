@@ -6,8 +6,8 @@
 package app_funding_v1;
 import Connection.ConnectionDatabase;
 import Connection.ConnectionEmail;
-import User.UserData;
 import GUI.Loading;
+import GUI.TestUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -155,27 +155,34 @@ public class Forgot extends javax.swing.JFrame {
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
-        // Call Loading Screen
-        this.setVisible(false);
-        Loading loadingScreen = new Loading();
-        loadingScreen.setVisible(true);
-        
         // Terima input user
         String username = usernameForgotTextField.getText();
         String email = emailForgotTextField.getText();
         String phonenumber = phonenumberForgotTextField.getText();
         
+        // Loading Screen
+        Loading loadingScreen = new Loading();
+        
         // Cek Koneksi
         if (conn != null){
+            // Call Loading Screen
+            this.setVisible(false);
+            // loadingScreen.setVisible(true);
+            loadingLabel.getIcon();
+            TestUI UIFrame = new TestUI();
+            UIFrame.setVisible(true);
+            
+            JOptionPane.showMessageDialog(this, "Request Anda Sedang DI Proses", "Proccessing Request", JOptionPane.ERROR_MESSAGE);
+            //Cek User
             if (cekUser(conn, username, email, phonenumber)){
                 // Close the loading screen after the process is finished
-                loadingScreen.dispose();
-                JOptionPane.showMessageDialog(null, "Email Terkirim!");
+                UIFrame.dispose();
+                // loadingScreen.dispose();
                 return;
             }
         }
         // Close the loading screen after the process is finished
-        loadingScreen.dispose();
+        // loadingScreen.dispose();
         this.setVisible(true);
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
@@ -200,17 +207,12 @@ public class Forgot extends javax.swing.JFrame {
                     String emailBody = "Kode OTP Anda: " + OTP;
                     
                     // Sending Email and give the return
-                    if (emailSender.checkConnection()){
-                    //if(emailSender.sendEmail(emailOTP, emailSubject, emailBody)){
-                        // Save user information
-                        UserData userData = new UserData();
-                        userData.setEmail(emailOTP);
+                    if(emailSender.sendEmail(emailOTP, emailSubject, emailBody)){
                         // Masuk ke dalam OTP
                         OTP otpFrame = new OTP();
                         otpFrame.setVisible(true);
                         otpFrame.emailLabel.setText(emailOTP);
                         this.setVisible(false);
-                        // System.out.println(userData.getEmail());
                         return true;
                     } else {
                         JOptionPane.showMessageDialog(null, "Gagal mengirim Email");

@@ -147,8 +147,9 @@ public class OTP extends javax.swing.JFrame {
             resPass.setVisible(true);
 
             this.setVisible(false);
+        } else {
+            JOptionPane.showMessageDialog(this, "OTP Failed", "Invalid Input", JOptionPane.ERROR_MESSAGE);
         }
-        
     }//GEN-LAST:event_otpButtonActionPerformed
 
     // Metode Cek Database
