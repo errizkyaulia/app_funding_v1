@@ -42,21 +42,15 @@ public class TestUI extends javax.swing.JFrame {
         panelTest1.setLayout(panelTest1Layout);
         panelTest1Layout.setHorizontalGroup(
             panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-            .addGroup(panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelTest1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(loadingLabel)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(panelTest1Layout.createSequentialGroup()
+                .addComponent(loadingLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         panelTest1Layout.setVerticalGroup(
             panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-            .addGroup(panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelTest1Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(loadingLabel)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(panelTest1Layout.createSequentialGroup()
+                .addComponent(loadingLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

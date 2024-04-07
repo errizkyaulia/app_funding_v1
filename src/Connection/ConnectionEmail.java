@@ -5,6 +5,7 @@
  */
 package Connection;
 
+import GUI.Loading;
 import java.io.IOException;
 import java.util.Properties;
 import javax.mail.*;
@@ -46,14 +47,19 @@ public class ConnectionEmail {
             }
         });
 
+        Loading loadingScreen = new Loading();
+        loadingScreen.setVisible(true);
+        
         try {
             Transport transport = session.getTransport("smtp");
             transport.connect(host, Integer.parseInt(port), username, password);
             transport.close();
             System.out.println("Connection to SMTP server established successfully!");
+            loadingScreen.dispose();
             return true;
         } catch (MessagingException e) {
             System.err.println("Failed to connect to SMTP server. Error: " + e.getMessage());
+            loadingScreen.dispose();
             return false;
         }
     }
@@ -78,6 +84,9 @@ public class ConnectionEmail {
             }
         });
 
+        Loading loadingScreen = new Loading();
+        loadingScreen.setVisible(true);
+        
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
@@ -89,10 +98,12 @@ public class ConnectionEmail {
 
             System.out.println("Email sent successfully!");
             JOptionPane.showMessageDialog(null, "Email Terkirim!");
+            loadingScreen.dispose();
             return true;
         } catch (MessagingException e) {
             JOptionPane.showMessageDialog(null, "Kesalahan terjadi saat mengirim email");
             System.err.println("Failed to send email. Error: " + e.getMessage());
+            loadingScreen.dispose();
             return false;
         }
     }

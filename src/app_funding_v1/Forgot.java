@@ -160,29 +160,19 @@ public class Forgot extends javax.swing.JFrame {
         String email = emailForgotTextField.getText();
         String phonenumber = phonenumberForgotTextField.getText();
         
-        // Loading Screen
-        Loading loadingScreen = new Loading();
-        
         // Cek Koneksi
         if (conn != null){
-            // Call Loading Screen
+            // Hide The Screen While being Proccess
             this.setVisible(false);
-            // loadingScreen.setVisible(true);
-            loadingLabel.getIcon();
-            TestUI UIFrame = new TestUI();
-            UIFrame.setVisible(true);
             
             JOptionPane.showMessageDialog(this, "Request Anda Sedang DI Proses", "Proccessing Request", JOptionPane.ERROR_MESSAGE);
             //Cek User
             if (cekUser(conn, username, email, phonenumber)){
-                // Close the loading screen after the process is finished
-                UIFrame.dispose();
-                // loadingScreen.dispose();
                 return;
             }
         }
-        // Close the loading screen after the process is finished
-        // loadingScreen.dispose();
+        
+        // Show back the Screen if the proccess fails
         this.setVisible(true);
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
@@ -207,7 +197,8 @@ public class Forgot extends javax.swing.JFrame {
                     String emailBody = "Kode OTP Anda: " + OTP;
                     
                     // Sending Email and give the return
-                    if(emailSender.sendEmail(emailOTP, emailSubject, emailBody)){
+                    if (ConnectionEmail.checkConnection()){
+                    //if(emailSender.sendEmail(emailOTP, emailSubject, emailBody)){
                         // Masuk ke dalam OTP
                         OTP otpFrame = new OTP();
                         otpFrame.setVisible(true);

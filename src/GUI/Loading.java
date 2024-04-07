@@ -4,13 +4,18 @@
  * and open the template in the editor.
  */
 package GUI;
-
+import java.util.logging.Level;
+import javax.swing.*;
 /**
  *
  * @author Rizky
  */
 public class Loading extends javax.swing.JFrame {
 
+    private static void log(Level SEVERE, String error_creatingloading_frame, Exception ex) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     /**
      * Creates new form Loading
      */
@@ -32,7 +37,7 @@ public class Loading extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Loading");
 
-        loadingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Bars@1.25x-1.0s-200px-200px.gif"))); // NOI18N
+        loadingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Dual Ring@1.25x-1.0s-200px-200px.gif"))); // NOI18N
         loadingLabel.setLabelFor(this);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -78,13 +83,31 @@ public class Loading extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Loading().setVisible(true);
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                Loading loadingFrame = new Loading();
+                loadingFrame.setVisible(true);
+            } catch (Exception ex) {
+                log(Level.SEVERE, "Error creating/loading frame", ex);
             }
         });
     }
 
+    public void startAnimation() {
+        // Start animation on a separate thread
+        Thread animationThread = new Thread(() -> {
+            while (isVisible()) {
+                try {
+                    Thread.sleep(100); // Adjust the delay as needed
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                repaint(); // Repaint the frame to update the animation
+            }
+        });
+        animationThread.start();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel loadingLabel;
     // End of variables declaration//GEN-END:variables

@@ -7,6 +7,7 @@ package app_funding_v1;
 
 import Connection.ConnectionDatabase;
 import Connection.ConnectionEmail;
+import GUI.Loading;
 import GUI.TestUI;
 import java.sql.Connection;
 
@@ -32,12 +33,12 @@ public class App_funding_v1 {
             // Tambahkan logika aplikasi Anda di sini setelah koneksi berhasil
             // Membuat objek untuk frame login
             Login loginFrame = new Login();
-            
+            Loading loadingScreen = new Loading();
             // TestUI UIFrame = new TestUI();
             // UIFrame.setVisible(true);
             // Menampilkan frame login
             loginFrame.setVisible(true);
-            
+            // loadingScreen.setVisible(true);
             // ConnectionEmail.checkConnection();
         }  
     }

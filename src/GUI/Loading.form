@@ -37,7 +37,7 @@
     <Component class="javax.swing.JLabel" name="loadingLabel">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/GUI/Bars@1.25x-1.0s-200px-200px.gif"/>
+          <Image iconType="3" name="/GUI/Dual Ring@1.25x-1.0s-200px-200px.gif"/>
         </Property>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
           <ComponentRef name="Form"/>
