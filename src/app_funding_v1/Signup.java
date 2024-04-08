@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -211,6 +213,33 @@ public class Signup extends javax.swing.JFrame {
 
         // Cek Password
         if (confirmPassword.equals(password)) {
+            // Check if input length is more or equals 8 digits
+            if (password.length() < 8) {
+                // Display an error message or handle invalid OTP length
+                JOptionPane.showMessageDialog(this, "Password must be 8 digits long or more.", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                return false; // Exit the method early
+            }
+            
+            // Check if input length is more or equals 8 digits
+            if (username.length() < 3) {
+                // Display an error message or handle invalid OTP length
+                JOptionPane.showMessageDialog(this, "Username must be 3 chars long or more.", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+                return false; // Exit the method early
+            }
+            
+            // Check email format
+            if (!isValidEmail(email)) {
+                JOptionPane.showMessageDialog(this, "Invalid email format.", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            // Check if input is numeric
+            if (!phonenumber.matches("\\d+")) {
+                // Display an error message or handle non-numeric input
+                JOptionPane.showMessageDialog(this, "Phone Number must be numeric", "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+                return false; // Exit the method early
+            }
+            
             // Cek DATA Username, Email, Phone Number
             if (cekData(conn, username, email, phonenumber)) {
                 // User already exists
@@ -251,6 +280,18 @@ public class Signup extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Password does not match!");
             return false;
         }
+    }
+    
+    // Metode Cek Email is Valid
+    private boolean isValidEmail(String email) {
+        // Definisikan pola regex untuk format email
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        // Return true jika format email sesuai
+        return matcher.matches();
     }
     
     // Metode Cek Database
