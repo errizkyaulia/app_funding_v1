@@ -4,23 +4,19 @@
  * and open the template in the editor.
  */
 package GUI;
-import java.util.logging.Level;
-import javax.swing.*;
+import java.awt.Color;
 /**
  *
  * @author Rizky
  */
 public class Loading extends javax.swing.JFrame {
 
-    private static void log(Level SEVERE, String error_creatingloading_frame, Exception ex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     /**
-     * Creates new form Loading
+     * Creates new form TestUI
      */
     public Loading() {
         initComponents();
+        setBackground(new Color(0,0,0,0));
     }
 
     /**
@@ -32,23 +28,42 @@ public class Loading extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelTest1 = new GUI.PanelTest();
         loadingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Loading");
+        setAlwaysOnTop(true);
+        setUndecorated(true);
+        setType(java.awt.Window.Type.POPUP);
+
+        panelTest1.setBackground(new java.awt.Color(255, 255, 255));
 
         loadingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Dual Ring@1.25x-1.0s-200px-200px.gif"))); // NOI18N
-        loadingLabel.setLabelFor(this);
+
+        javax.swing.GroupLayout panelTest1Layout = new javax.swing.GroupLayout(panelTest1);
+        panelTest1.setLayout(panelTest1Layout);
+        panelTest1Layout.setHorizontalGroup(
+            panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTest1Layout.createSequentialGroup()
+                .addComponent(loadingLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        panelTest1Layout.setVerticalGroup(
+            panelTest1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTest1Layout.createSequentialGroup()
+                .addComponent(loadingLabel)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loadingLabel)
+            .addComponent(panelTest1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(loadingLabel)
+            .addComponent(panelTest1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -81,34 +96,18 @@ public class Loading extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Loading.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            try {
-                Loading loadingFrame = new Loading();
-                loadingFrame.setVisible(true);
-            } catch (Exception ex) {
-                log(Level.SEVERE, "Error creating/loading frame", ex);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Loading().setVisible(true);
             }
         });
     }
 
-    public void startAnimation() {
-        // Start animation on a separate thread
-        Thread animationThread = new Thread(() -> {
-            while (isVisible()) {
-                try {
-                    Thread.sleep(100); // Adjust the delay as needed
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                repaint(); // Repaint the frame to update the animation
-            }
-        });
-        animationThread.start();
-    }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JLabel loadingLabel;
+    private javax.swing.JLabel loadingLabel;
+    private GUI.PanelTest panelTest1;
     // End of variables declaration//GEN-END:variables
 }
