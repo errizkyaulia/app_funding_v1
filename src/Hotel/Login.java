@@ -7,11 +7,17 @@ package Hotel;
 import Connection.ConnectionDatabase;
 import GUI.Loading;
 import User.UserDashboard;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Properties;
 
 
 /**
@@ -134,6 +140,16 @@ public class Login extends javax.swing.JFrame {
 
     private int loginAttempts = 0;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
+    private static final Properties PROPS = new Properties();
+    private static final String FILE_PATH = "D:\\4 ISA 1\\Project\\Booking_Hotel\\src\\config\\user.properties";
+    
+    static {
+        try {
+            PROPS.load(Login.class.getClassLoader().getResourceAsStream("Config/user.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
@@ -161,6 +177,9 @@ public class Login extends javax.swing.JFrame {
                 UserDashboard userDashboard = new UserDashboard();
                 userDashboard.showWelcomeMessage();
 
+                // Save Login Info
+                saveUser(usernameEmail);
+                
                 // Menyembunyikan frame login saat ini jika diperlukan
                 this.setVisible(false);
             } else {
@@ -230,6 +249,25 @@ public class Login extends javax.swing.JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace(); // Log pesan kesalahan
             return false;
+        }
+    }
+    
+    // Metode untuk mendapatkan tanggal dan waktu saat ini dalam format yang diinginkan
+    private static String getCurrentDateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
+    }
+    
+    // Metode untuk menyimpan data pengguna ke dalam file user.properties
+    public static void saveUser(String username) {
+        try {
+            String loginTime = getCurrentDateTime();
+            PROPS.setProperty("User_Login", username);
+            PROPS.setProperty("User_LoginTime", loginTime);
+            PROPS.store(new FileOutputStream(FILE_PATH), null);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
     

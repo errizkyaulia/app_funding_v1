@@ -34,12 +34,17 @@ public class Hotel {
             // Membuat objek untuk frame login
             Login loginFrame = new Login();
             Loading loadingScreen = new Loading();
+            
+            ReservationMenu bookingFrame = new ReservationMenu();
+            
+            bookingFrame.setVisible(true);
+            
             // Loading UIFrame = new Loading();
             // UIFrame.setVisible(true);
             // Menampilkan frame login
-            loginFrame.setVisible(true);
+            // loginFrame.setVisible(true);
             // loadingScreen.setVisible(true);
-            ConnectionEmail.checkConnection();
+            // ConnectionEmail.checkConnection();
         }  
     }
 }
