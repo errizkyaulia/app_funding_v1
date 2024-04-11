@@ -7,16 +7,15 @@ package Hotel;
 import Connection.ConnectionDatabase;
 import GUI.Loading;
 import User.UserDashboard;
-import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import javax.swing.JOptionPane;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Properties;
 
 
@@ -158,7 +157,7 @@ public class Login extends javax.swing.JFrame {
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
-        // Buka Loading UI
+        // Menampilkan Loading UI
         Loading loadingScreen = new Loading();
         loadingScreen.setVisible(true);
         
@@ -169,17 +168,17 @@ public class Login extends javax.swing.JFrame {
             String password = new String(passwordField.getPassword()); // Mendapatkan password dari field kata sandi
 
             // Validasi Login
-            if (isLoginValid(conn, usernameEmail, password)) {
-                // Jika login berhasil, Anda dapat menavigasi ke halaman berikutnya
+            if (isLoginValid(conn, usernameEmail, password)) { // Jika login berhasil
+                // Save Login Info
+                saveUser(usernameEmail);
                 
+                // Menghilangkan Loading Screen
                 loadingScreen.dispose();
+                
                 // Membuat objek UserDashboard dan menampilkannya
                 UserDashboard userDashboard = new UserDashboard();
                 userDashboard.showWelcomeMessage();
 
-                // Save Login Info
-                saveUser(usernameEmail);
-                
                 // Menyembunyikan frame login saat ini jika diperlukan
                 this.setVisible(false);
             } else {
@@ -188,10 +187,10 @@ public class Login extends javax.swing.JFrame {
                 if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
                     loadingScreen.dispose();
                     JOptionPane.showMessageDialog(null, "Anda telah melebihi batas percobaan login.");
-                    
+                    setCooldownTimer();
                 } else {
                     loadingScreen.dispose();
-                    JOptionPane.showMessageDialog(null, "Username, email, atau password salah! Percobaan login ke-" + loginAttempts);
+                    JOptionPane.showMessageDialog(null, "Belum berhasil Login. Percobaan login ke-" + loginAttempts);
                 }
             }
         } else { // Koneksi GAGAL
@@ -211,6 +210,10 @@ public class Login extends javax.swing.JFrame {
     
     // Metode untuk Validasi Login
     private boolean isLoginValid(Connection conn, String usernameEmail, String password) {
+        if (!cekCooldownTimer()) {
+            return false;
+        }
+        
         // Query mencari akun
         String query = "SELECT * FROM user WHERE (username = ? OR email = ?) LIMIT 1";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -245,7 +248,12 @@ public class Login extends javax.swing.JFrame {
             pstmt.setString(2, usernameEmail);
             pstmt.setString(3, accountstate);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next(); // Jika terdapat data akun aktif return true
+            if (rs.next()){
+                return true; // Jika terdapat data akun aktif return true
+            } else {
+                JOptionPane.showMessageDialog(this, "Akun Tidak Aktif", "Failed Login", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
         } catch (SQLException ex) {
             ex.printStackTrace(); // Log pesan kesalahan
             return false;
@@ -271,6 +279,56 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
+    // Metode untuk menyimpan Cooldown Login Timer
+    public static void setCooldownTimer(){
+        try {
+            String loginTime = getCurrentDateTime();
+            PROPS.setProperty("User_FailedLoginTimer", loginTime);
+            PROPS.store(new FileOutputStream(FILE_PATH), null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Metode untuk cek Cooldown Timer
+    private boolean cekCooldownTimer(){
+        // Format string tanggal dan waktu
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        String failedLoginTime = PROPS.getProperty("User_FailedLoginTimer");
+        if (failedLoginTime != null) {
+            // Parse string menjadi objek Date
+            try {
+                Date date = sdf.parse(failedLoginTime);
+                // Waktu saat ini
+                Date now = new Date();
+                // Hitung selisih waktu dalam milidetik
+                long diffInMillies = now.getTime() - date.getTime();
+                // Konversi milidetik ke menit
+                long diffInMinutes = diffInMillies / (60 * 1000);
+
+                if (diffInMinutes > 5) {
+                    // Reset properti User_FailedLoginTimer
+                    PROPS.remove("User_FailedLoginTimer");
+                    return true;
+                } else {
+                    long remainingTime = 5 - diffInMinutes;
+                    JOptionPane.showMessageDialog(this, "Cooldown Aktif. Sisa waktu: " + remainingTime + " menit", "Failed Login", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("Cooldown timer still active.");
+                }
+            } catch (ParseException e) {
+                // Tangkap pengecualian jika parsing gagal
+                e.printStackTrace();
+            }
+        } else {
+            // Tangani kasus di mana properti tidak ditemukan
+            System.out.println("User_FailedLoginTimer property is not found.");
+            return true;
+        }
+        return false;
+    }
+    
+    // Membuka Form Signup
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
         Signup signupFrame = new Signup();
@@ -279,6 +337,7 @@ public class Login extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_signupButtonActionPerformed
 
+    // Membuka Form Lupa Password
     private void forgotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotButtonActionPerformed
         // TODO add your handling code here:
         Forgot forgotFrame = new Forgot();

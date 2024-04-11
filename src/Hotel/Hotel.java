@@ -6,8 +6,6 @@
 package Hotel;
 
 import Connection.ConnectionDatabase;
-import Connection.ConnectionEmail;
-import GUI.Loading;
 import GUI.Loading;
 import java.sql.Connection;
 
@@ -22,29 +20,25 @@ public class Hotel {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        // Menampilkan Loading Screen
+        Loading loadingScreen = new Loading();
+        loadingScreen.setVisible(true);
         
         // Connect into database and fetching user data
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
-        
+
         // Melakukan pengecekan apakah koneksi berhasil
-        if (conn != null) {
+        if (conn != null) { // setelah koneksi berhasil
             System.out.println("Database connection successful.");
-            // Tambahkan logika aplikasi Anda di sini setelah koneksi berhasil
+
             // Membuat objek untuk frame login
-            Login loginFrame = new Login();
-            Loading loadingScreen = new Loading();
+            new Login().setVisible(true);
             
-            ReservationMenu bookingFrame = new ReservationMenu();
-            
-            bookingFrame.setVisible(true);
-            
-            // Loading UIFrame = new Loading();
-            // UIFrame.setVisible(true);
-            // Menampilkan frame login
-            // loginFrame.setVisible(true);
-            // loadingScreen.setVisible(true);
-            // ConnectionEmail.checkConnection();
-        }  
+            //new ReservationMenu().setVisible(true);
+        }
+        
+        // Menghilangkan Loading Screen
+        loadingScreen.dispose();
     }
 }

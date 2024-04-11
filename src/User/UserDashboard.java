@@ -5,6 +5,7 @@
  */
 package User;
 import Connection.ConnectionEmail;
+import Hotel.ReservationMenu;
 import java.io.IOException;
 import java.util.Properties;
 import javax.swing.JOptionPane;
@@ -30,6 +31,7 @@ public class UserDashboard {
     public void showWelcomeMessage() {
         // Menampilkan pesan "Welcome" menggunakan JOptionPane
         JOptionPane.showMessageDialog(null, "Welcome to the User Dashboard!");
+        new ReservationMenu().setVisible(true);
     }
     
 }
