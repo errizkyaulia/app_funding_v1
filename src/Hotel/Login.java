@@ -147,6 +147,7 @@ public class Login extends javax.swing.JFrame {
             PROPS.load(Login.class.getClassLoader().getResourceAsStream("Config/user.properties"));
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal Memuat Konfigurasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -182,20 +183,11 @@ public class Login extends javax.swing.JFrame {
                 // Menyembunyikan frame login saat ini jika diperlukan
                 this.setVisible(false);
             } else {
-                // Counter gagal login
-                loginAttempts++;
-                if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
-                    loadingScreen.dispose();
-                    JOptionPane.showMessageDialog(null, "Anda telah melebihi batas percobaan login.");
-                    setCooldownTimer();
-                } else {
-                    loadingScreen.dispose();
-                    JOptionPane.showMessageDialog(null, "Belum berhasil Login. Percobaan login ke-" + loginAttempts);
-                }
+                // 
+                // setCooldownTimer();
             }
         } else { // Koneksi GAGAL
             // Logika untuk menangani kasus koneksi gagal
-            loadingScreen.dispose();
             JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
         }
         
@@ -276,56 +268,62 @@ public class Login extends javax.swing.JFrame {
             PROPS.store(new FileOutputStream(FILE_PATH), null);
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal Menyimpan Informasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     // Metode untuk menyimpan Cooldown Login Timer
-    public static void setCooldownTimer(){
+    public void setCooldownTimer() {
         try {
             String loginTime = getCurrentDateTime();
             PROPS.setProperty("User_FailedLoginTimer", loginTime);
             PROPS.store(new FileOutputStream(FILE_PATH), null);
         } catch (IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal Menyetel Cooldown Timer", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
     // Metode untuk cek Cooldown Timer
-    private boolean cekCooldownTimer(){
-        // Format string tanggal dan waktu
+    private boolean cekCooldownTimer() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String failedLoginTime = PROPS.getProperty("User_FailedLoginTimer");
         if (failedLoginTime != null) {
-            // Parse string menjadi objek Date
             try {
                 Date date = sdf.parse(failedLoginTime);
-                // Waktu saat ini
                 Date now = new Date();
-                // Hitung selisih waktu dalam milidetik
                 long diffInMillies = now.getTime() - date.getTime();
-                // Konversi milidetik ke menit
                 long diffInMinutes = diffInMillies / (60 * 1000);
 
+                System.out.println(failedLoginTime);
                 if (diffInMinutes > 5) {
-                    // Reset properti User_FailedLoginTimer
                     PROPS.remove("User_FailedLoginTimer");
+                    loginAttempts = 0;
                     return true;
                 } else {
                     long remainingTime = 5 - diffInMinutes;
                     JOptionPane.showMessageDialog(this, "Cooldown Aktif. Sisa waktu: " + remainingTime + " menit", "Failed Login", JOptionPane.ERROR_MESSAGE);
                     System.out.println("Cooldown timer still active.");
+                    System.out.println(loginAttempts);
+                    return false;
                 }
             } catch (ParseException e) {
-                // Tangkap pengecualian jika parsing gagal
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Gagal Memeriksa Cooldown Timer", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
             }
         } else {
-            // Tangani kasus di mana properti tidak ditemukan
+            loginAttempts++;
+            if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+                JOptionPane.showMessageDialog(null, "Anda telah melebihi batas percobaan login.");
+                setCooldownTimer();
+            } else {
+                JOptionPane.showMessageDialog(null, "Belum berhasil Login. Percobaan login ke-" + loginAttempts);
+            }
             System.out.println("Cooldown is clear");
             return true;
         }
-        return false;
     }
     
     // Membuka Form Signup

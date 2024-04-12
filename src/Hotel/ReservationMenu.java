@@ -189,7 +189,7 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         myReservationButton.setText("My Reservation");
 
-        jButton3.setText("Coupon");
+        jButton3.setText("Login");
 
         javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
         Menu.setLayout(MenuLayout);
