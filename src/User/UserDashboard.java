@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 package User;
-import Connection.ConnectionEmail;
 import Hotel.ReservationMenu;
 import java.io.IOException;
 import java.util.Properties;
-import javax.swing.JOptionPane;
 /**
  *
  * @author Rizky
@@ -29,8 +27,7 @@ public class UserDashboard {
     
     
     public void showWelcomeMessage() {
-        // Menampilkan pesan "Welcome" menggunakan JOptionPane
-        JOptionPane.showMessageDialog(null, "Welcome to the User Dashboard!");
+        // Buka menu Reservasi
         new ReservationMenu().setVisible(true);
     }
     

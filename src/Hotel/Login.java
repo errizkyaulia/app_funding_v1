@@ -322,7 +322,7 @@ public class Login extends javax.swing.JFrame {
             }
         } else {
             // Tangani kasus di mana properti tidak ditemukan
-            System.out.println("User_FailedLoginTimer property is not found.");
+            System.out.println("Cooldown is clear");
             return true;
         }
         return false;

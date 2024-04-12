@@ -8,6 +8,7 @@ package Hotel;
 import Connection.ConnectionDatabase;
 import java.sql.*;
 import java.util.Date;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,61 +32,47 @@ public class ReservationMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        BookingTab = new javax.swing.JPanel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
+        TabPanel = new javax.swing.JTabbedPane();
+        FindRoom = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         cekInDateChooser = new com.toedter.calendar.JDateChooser();
         cekOutDateChooser = new com.toedter.calendar.JDateChooser();
         searchButton = new javax.swing.JButton();
+        ChooseRoom = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        availableRoomsTable = new javax.swing.JTable();
+        Checkout = new javax.swing.JPanel();
+        Confirmation = new javax.swing.JPanel();
+        Menu = new javax.swing.JPanel();
+        findRoomButton = new javax.swing.JButton();
+        myReservationButton = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reservation");
-        setPreferredSize(new java.awt.Dimension(700, 400));
+        setMaximizedBounds(getMaximizedBounds());
+        setPreferredSize(new java.awt.Dimension(1000, 400));
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
+        TabPanel.setPreferredSize(new java.awt.Dimension(700, 405));
 
-        jButton1.setText("Find Room");
-
-        jButton2.setText("Login");
-
-        jButton3.setText("Signup");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(78, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addComponent(jButton1)
-                .addGap(35, 35, 35)
-                .addComponent(jButton2)
-                .addGap(38, 38, 38)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        BookingTab.setBackground(new java.awt.Color(153, 255, 204));
+        FindRoom.setBackground(new java.awt.Color(153, 255, 204));
 
         jLabel1.setText("Check In Date");
 
         jLabel2.setText("Check Out Date");
-
-        jLabel3.setText("People");
 
         searchButton.setText("Search Room");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
@@ -94,58 +81,153 @@ public class ReservationMenu extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout BookingTabLayout = new javax.swing.GroupLayout(BookingTab);
-        BookingTab.setLayout(BookingTabLayout);
-        BookingTabLayout.setHorizontalGroup(
-            BookingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BookingTabLayout.createSequentialGroup()
-                .addGap(109, 109, 109)
-                .addGroup(BookingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        javax.swing.GroupLayout FindRoomLayout = new javax.swing.GroupLayout(FindRoom);
+        FindRoom.setLayout(FindRoomLayout);
+        FindRoomLayout.setHorizontalGroup(
+            FindRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FindRoomLayout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addGroup(FindRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(searchButton)
-                    .addGroup(BookingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel3)
-                        .addGroup(BookingTabLayout.createSequentialGroup()
+                    .addGroup(FindRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(FindRoomLayout.createSequentialGroup()
                             .addComponent(jLabel2)
                             .addGap(22, 22, 22)
                             .addComponent(cekOutDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(BookingTabLayout.createSequentialGroup()
+                        .addGroup(FindRoomLayout.createSequentialGroup()
                             .addComponent(jLabel1)
                             .addGap(31, 31, 31)
                             .addComponent(cekInDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(134, Short.MAX_VALUE))
+                .addContainerGap(367, Short.MAX_VALUE))
         );
-        BookingTabLayout.setVerticalGroup(
-            BookingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BookingTabLayout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addGroup(BookingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(BookingTabLayout.createSequentialGroup()
-                        .addGroup(BookingTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+        FindRoomLayout.setVerticalGroup(
+            FindRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FindRoomLayout.createSequentialGroup()
+                .addGap(120, 120, 120)
+                .addGroup(FindRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(FindRoomLayout.createSequentialGroup()
+                        .addGroup(FindRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(cekInDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2))
                     .addComponent(cekOutDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(searchButton)
-                .addContainerGap(128, Short.MAX_VALUE))
+                .addContainerGap(151, Short.MAX_VALUE))
+        );
+
+        TabPanel.addTab("tab1", FindRoom);
+
+        ChooseRoom.setBackground(new java.awt.Color(204, 255, 204));
+
+        jScrollPane1.setBackground(new java.awt.Color(204, 255, 255));
+
+        availableRoomsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        availableRoomsTable.setColumnSelectionAllowed(true);
+        availableRoomsTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(availableRoomsTable);
+        availableRoomsTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        javax.swing.GroupLayout ChooseRoomLayout = new javax.swing.GroupLayout(ChooseRoom);
+        ChooseRoom.setLayout(ChooseRoomLayout);
+        ChooseRoomLayout.setHorizontalGroup(
+            ChooseRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
+        );
+        ChooseRoomLayout.setVerticalGroup(
+            ChooseRoomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ChooseRoomLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        TabPanel.addTab("tab2", ChooseRoom);
+
+        javax.swing.GroupLayout CheckoutLayout = new javax.swing.GroupLayout(Checkout);
+        Checkout.setLayout(CheckoutLayout);
+        CheckoutLayout.setHorizontalGroup(
+            CheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 755, Short.MAX_VALUE)
+        );
+        CheckoutLayout.setVerticalGroup(
+            CheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+
+        TabPanel.addTab("tab3", Checkout);
+
+        javax.swing.GroupLayout ConfirmationLayout = new javax.swing.GroupLayout(Confirmation);
+        Confirmation.setLayout(ConfirmationLayout);
+        ConfirmationLayout.setHorizontalGroup(
+            ConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 755, Short.MAX_VALUE)
+        );
+        ConfirmationLayout.setVerticalGroup(
+            ConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+
+        TabPanel.addTab("tab4", Confirmation);
+
+        Menu.setBackground(new java.awt.Color(204, 255, 255));
+        Menu.setPreferredSize(new java.awt.Dimension(200, 400));
+
+        findRoomButton.setText("Find Room");
+        findRoomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findRoomButtonActionPerformed(evt);
+            }
+        });
+
+        myReservationButton.setText("My Reservation");
+
+        jButton3.setText("Coupon");
+
+        javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
+        Menu.setLayout(MenuLayout);
+        MenuLayout.setHorizontalGroup(
+            MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(findRoomButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(myReservationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+        MenuLayout.setVerticalGroup(
+            MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MenuLayout.createSequentialGroup()
+                .addGap(103, 103, 103)
+                .addComponent(findRoomButton)
+                .addGap(35, 35, 35)
+                .addComponent(myReservationButton)
+                .addGap(38, 38, 38)
+                .addComponent(jButton3)
+                .addContainerGap(149, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(BookingTab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(TabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(BookingTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(TabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -159,10 +241,15 @@ public class ReservationMenu extends javax.swing.JFrame {
         // Connect into database and fetching user data
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
-        
+
         // Menampilkan kamar yang tersedia dan memberi tahu pengguna
         showAvailableRooms(conn, cekIn, cekOut);
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void findRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findRoomButtonActionPerformed
+        // TODO add your handling code here:
+        TabPanel.setSelectedIndex(0);
+    }//GEN-LAST:event_findRoomButtonActionPerformed
 
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
         try {
@@ -177,24 +264,43 @@ public class ReservationMenu extends javax.swing.JFrame {
             // Eksekusi kueri
             ResultSet rs = statement.executeQuery();
 
-            // Memproses hasil query untuk menampilkan informasi kamar yang tersedia
+            // Buat model tabel
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Available Room");
+            model.addColumn("Room Type");
+            model.addColumn("Total Bed");
+            model.addColumn("Room Capacity");
+            model.addColumn("Room Price");
+            // Tambahkan kolom lainnya sesuai kebutuhan Anda
+
+            // Memproses hasil query untuk menambahkan baris ke dalam model tabel
             while (rs.next()) {
                 String roomId = rs.getString("room_id");
                 String roomType = rs.getString("room_type");
+                String totalBed = rs.getString("room_bed");
+                String roomCapacity = rs.getString("room_capacity");
+                String roomPrice = rs.getString("room_price");
                 // Ambil informasi lainnya sesuai kebutuhan Anda
 
-                // Tampilkan informasi kamar kepada pengguna, misalnya, dengan mencetaknya ke konsol
-                System.out.println("Kamar Tersedia: " + roomId + " - " + roomType);
+                // Tambahkan baris ke dalam model tabel
+                model.addRow(new Object[]{roomId, roomType, totalBed, roomCapacity, roomPrice});
             }
+
+            // Set model tabel
+            availableRoomsTable.setModel(model);
 
             // Tutup statement dan result set
             statement.close();
             rs.close();
+            
+            // Open Table
+            TabPanel.setSelectedIndex(1);
         } catch (SQLException e) {
             e.printStackTrace();
             // Tangani pengecualian sesuai kebutuhan Anda
         }
     }
+    
     /**
      * @param args the command line arguments
      */
@@ -232,16 +338,22 @@ public class ReservationMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel BookingTab;
+    private javax.swing.JPanel Checkout;
+    private javax.swing.JPanel ChooseRoom;
+    private javax.swing.JPanel Confirmation;
+    private javax.swing.JPanel FindRoom;
+    private javax.swing.JPanel Menu;
+    private javax.swing.JTabbedPane TabPanel;
+    private javax.swing.JTable availableRoomsTable;
     private com.toedter.calendar.JDateChooser cekInDateChooser;
     private com.toedter.calendar.JDateChooser cekOutDateChooser;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton findRoomButton;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton myReservationButton;
     private javax.swing.JButton searchButton;
     // End of variables declaration//GEN-END:variables
 }
