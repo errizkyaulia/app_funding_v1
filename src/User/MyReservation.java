@@ -5,6 +5,9 @@
  */
 package User;
 
+import Hotel.Login;
+import Hotel.ReservationMenu;
+
 /**
  *
  * @author Rizky
@@ -27,21 +30,135 @@ public class MyReservation extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        UserMenu = new javax.swing.JPanel();
+        bookRoomButton = new javax.swing.JButton();
+        myReservationButton = new javax.swing.JButton();
+        profileButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
+        historyButton = new javax.swing.JButton();
+        UserTab = new javax.swing.JTabbedPane();
+        Dashboard = new javax.swing.JPanel();
+        MyReservation = new javax.swing.JPanel();
+        History = new javax.swing.JPanel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        bookRoomButton.setText("Book Room");
+        bookRoomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bookRoomButtonActionPerformed(evt);
+            }
+        });
+
+        myReservationButton.setText("My Reservation");
+
+        profileButton.setText("Profile");
+
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
+
+        historyButton.setText("History");
+
+        javax.swing.GroupLayout UserMenuLayout = new javax.swing.GroupLayout(UserMenu);
+        UserMenu.setLayout(UserMenuLayout);
+        UserMenuLayout.setHorizontalGroup(
+            UserMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UserMenuLayout.createSequentialGroup()
+                .addGroup(UserMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(UserMenuLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(UserMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(logoutButton)
+                            .addComponent(profileButton)
+                            .addComponent(historyButton)))
+                    .addGroup(UserMenuLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(bookRoomButton))
+                    .addGroup(UserMenuLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(myReservationButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        UserMenuLayout.setVerticalGroup(
+            UserMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(UserMenuLayout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(bookRoomButton)
+                .addGap(31, 31, 31)
+                .addComponent(myReservationButton)
+                .addGap(33, 33, 33)
+                .addComponent(historyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addComponent(profileButton)
+                .addGap(29, 29, 29)
+                .addComponent(logoutButton)
+                .addGap(27, 27, 27))
         );
+
+        getContentPane().add(UserMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 140, 400));
+
+        javax.swing.GroupLayout DashboardLayout = new javax.swing.GroupLayout(Dashboard);
+        Dashboard.setLayout(DashboardLayout);
+        DashboardLayout.setHorizontalGroup(
+            DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 555, Short.MAX_VALUE)
+        );
+        DashboardLayout.setVerticalGroup(
+            DashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+
+        UserTab.addTab("tab1", Dashboard);
+
+        javax.swing.GroupLayout MyReservationLayout = new javax.swing.GroupLayout(MyReservation);
+        MyReservation.setLayout(MyReservationLayout);
+        MyReservationLayout.setHorizontalGroup(
+            MyReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 555, Short.MAX_VALUE)
+        );
+        MyReservationLayout.setVerticalGroup(
+            MyReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+
+        UserTab.addTab("tab2", MyReservation);
+
+        javax.swing.GroupLayout HistoryLayout = new javax.swing.GroupLayout(History);
+        History.setLayout(HistoryLayout);
+        HistoryLayout.setHorizontalGroup(
+            HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 555, Short.MAX_VALUE)
+        );
+        HistoryLayout.setVerticalGroup(
+            HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+        );
+
+        UserTab.addTab("tab3", History);
+
+        getContentPane().add(UserTab, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, 560, 400));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bookRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookRoomButtonActionPerformed
+        // TODO add your handling code here:
+        new ReservationMenu().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_bookRoomButtonActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // TODO add your handling code here:
+        new Logout().removeUser();
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +196,15 @@ public class MyReservation extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Dashboard;
+    private javax.swing.JPanel History;
+    private javax.swing.JPanel MyReservation;
+    private javax.swing.JPanel UserMenu;
+    private javax.swing.JTabbedPane UserTab;
+    private javax.swing.JButton bookRoomButton;
+    private javax.swing.JButton historyButton;
+    private javax.swing.JButton logoutButton;
+    private javax.swing.JButton myReservationButton;
+    private javax.swing.JButton profileButton;
     // End of variables declaration//GEN-END:variables
 }

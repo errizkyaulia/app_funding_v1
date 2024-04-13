@@ -48,7 +48,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         Menu = new javax.swing.JPanel();
         findRoomButton = new javax.swing.JButton();
         myReservationButton = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        loginButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -189,7 +189,12 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         myReservationButton.setText("My Reservation");
 
-        jButton3.setText("Login");
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout MenuLayout = new javax.swing.GroupLayout(Menu);
         Menu.setLayout(MenuLayout);
@@ -200,7 +205,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGroup(MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(findRoomButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(myReservationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         MenuLayout.setVerticalGroup(
@@ -211,7 +216,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(myReservationButton)
                 .addGap(38, 38, 38)
-                .addComponent(jButton3)
+                .addComponent(loginButton)
                 .addContainerGap(149, Short.MAX_VALUE))
         );
 
@@ -250,6 +255,12 @@ public class ReservationMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         TabPanel.setSelectedIndex(0);
     }//GEN-LAST:event_findRoomButtonActionPerformed
+
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        // TODO add your handling code here:
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_loginButtonActionPerformed
 
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
         try {
@@ -348,11 +359,11 @@ public class ReservationMenu extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser cekInDateChooser;
     private com.toedter.calendar.JDateChooser cekOutDateChooser;
     private javax.swing.JButton findRoomButton;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton loginButton;
     private javax.swing.JButton myReservationButton;
     private javax.swing.JButton searchButton;
     // End of variables declaration//GEN-END:variables

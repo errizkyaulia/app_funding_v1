@@ -153,45 +153,51 @@ public class Login extends javax.swing.JFrame {
     
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        
-        // Connect into database and fetching user data
-        ConnectionDatabase database = new ConnectionDatabase();
-        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
-        
-        // Menampilkan Loading UI
-        Loading loadingScreen = new Loading();
-        loadingScreen.setVisible(true);
-        
-        // Cek Koneksi
-        if (conn != null){ // Koneksi Aman
-            // Masukan Input User
-            String usernameEmail = usernameTextField.getText(); // Mendapatkan username/email dari field teks
-            String password = new String(passwordField.getPassword()); // Mendapatkan password dari field kata sandi
+        long CooldownTimer = cekCooldownTimer();
+        if ( CooldownTimer > 0) {
+            System.out.println("ADA COOLDOWON");
+            // Cooldown masih aktif, lanjutkan dengan proses lain yang sesuai
+            JOptionPane.showMessageDialog(null, "Cooldown Aktif. Sisa waktu: " + CooldownTimer + " menit", "Failed Login", JOptionPane.ERROR_MESSAGE);
+        } else {
+            // Connect into database and fetching user data
+            ConnectionDatabase database = new ConnectionDatabase();
+            Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
 
-            // Validasi Login
-            if (isLoginValid(conn, usernameEmail, password)) { // Jika login berhasil
-                // Save Login Info
-                saveUser(usernameEmail);
-                
-                // Menghilangkan Loading Screen
-                loadingScreen.dispose();
-                
-                // Membuat objek UserDashboard dan menampilkannya
-                UserDashboard userDashboard = new UserDashboard();
-                userDashboard.showWelcomeMessage();
+            // Menampilkan Loading UI
+            Loading loadingScreen = new Loading();
+            loadingScreen.setVisible(true);
 
-                // Menyembunyikan frame login saat ini jika diperlukan
-                this.setVisible(false);
-            } else {
-                // 
-                // setCooldownTimer();
+            // Cek Koneksi
+            if (conn != null){ // Koneksi Aman
+                // Masukan Input User
+                String usernameEmail = usernameTextField.getText(); // Mendapatkan username/email dari field teks
+                String password = new String(passwordField.getPassword()); // Mendapatkan password dari field kata sandi
+
+                // Validasi Login
+                if (isLoginValid(conn, usernameEmail, password)) { // Jika login berhasil
+                    // Save Login Info
+                    saveUser(usernameEmail);
+
+                    // Menghilangkan Loading Screen
+                    loadingScreen.dispose();
+
+                    // Membuat objek UserDashboard dan menampilkannya
+                    UserDashboard userDashboard = new UserDashboard();
+                    userDashboard.showWelcomeMessage();
+
+                    // Menyembunyikan frame login saat ini jika diperlukan
+                    this.setVisible(false);
+                } else {
+                    loginAttempts++;
+                    JOptionPane.showMessageDialog(null, "Belum berhasil Login. Percobaan login ke-" + loginAttempts);
+                }
+            } else { // Koneksi GAGAL
+                // Logika untuk menangani kasus koneksi gagal
+                JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
             }
-        } else { // Koneksi GAGAL
-            // Logika untuk menangani kasus koneksi gagal
-            JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
+
+            loadingScreen.dispose();
         }
-        
-        loadingScreen.dispose();
     }//GEN-LAST:event_loginButtonActionPerformed
 
     // Metode untuk memverifikasi password
@@ -202,10 +208,6 @@ public class Login extends javax.swing.JFrame {
     
     // Metode untuk Validasi Login
     private boolean isLoginValid(Connection conn, String usernameEmail, String password) {
-        if (!cekCooldownTimer()) {
-            return false;
-        }
-        
         // Query mencari akun
         String query = "SELECT * FROM user WHERE (username = ? OR email = ?) LIMIT 1";
         try (PreparedStatement pstmt = conn.prepareStatement(query)) {
@@ -284,8 +286,7 @@ public class Login extends javax.swing.JFrame {
         }
     }
     
-    // Metode untuk cek Cooldown Timer
-    private boolean cekCooldownTimer() {
+    private long cekCooldownTimer() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String failedLoginTime = PROPS.getProperty("User_FailedLoginTimer");
@@ -296,33 +297,28 @@ public class Login extends javax.swing.JFrame {
                 long diffInMillies = now.getTime() - date.getTime();
                 long diffInMinutes = diffInMillies / (60 * 1000);
 
-                System.out.println(failedLoginTime);
                 if (diffInMinutes > 5) {
                     PROPS.remove("User_FailedLoginTimer");
                     loginAttempts = 0;
-                    return true;
+                    System.out.println("Berhasil Menghapus Cooldown");
+                    return 0; // Tidak ada cooldown
                 } else {
                     long remainingTime = 5 - diffInMinutes;
-                    JOptionPane.showMessageDialog(this, "Cooldown Aktif. Sisa waktu: " + remainingTime + " menit", "Failed Login", JOptionPane.ERROR_MESSAGE);
-                    System.out.println("Cooldown timer still active.");
-                    System.out.println(loginAttempts);
-                    return false;
+                    return remainingTime; // Kembalikan sisa waktu cooldown
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(null, "Gagal Memeriksa Cooldown Timer", "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+                return -1; // Gunakan nilai yang tidak valid untuk menunjukkan kesalahan
             }
         } else {
-            loginAttempts++;
             if (loginAttempts >= MAX_LOGIN_ATTEMPTS) {
-                JOptionPane.showMessageDialog(null, "Anda telah melebihi batas percobaan login.");
-                setCooldownTimer();
+                setCooldownTimer(); // atur cooldown timer baru
+                return 5;
             } else {
-                JOptionPane.showMessageDialog(null, "Belum berhasil Login. Percobaan login ke-" + loginAttempts);
+                System.out.println("Cooldown is clear");
+                return 0; // Tidak ada cooldown
             }
-            System.out.println("Cooldown is clear");
-            return true;
         }
     }
     

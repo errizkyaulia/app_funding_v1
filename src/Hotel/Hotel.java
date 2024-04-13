@@ -7,7 +7,11 @@ package Hotel;
 
 import Connection.ConnectionDatabase;
 import GUI.Loading;
+import User.UserDashboard;
+import java.io.IOException;
 import java.sql.Connection;
+import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,6 +19,21 @@ import java.sql.Connection;
  */
 public class Hotel {
 
+    private static final Properties PROPS = new Properties();
+    static {
+        try {
+            PROPS.load(Hotel.class.getClassLoader().getResourceAsStream("Config/user.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Gagal Memuat Konfigurasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    // Metode Apakah User sudah pernah Login
+    private static boolean cekUserLogin(){
+        String user = PROPS.getProperty("User_Login");
+        return user != null;
+    }
     /**
      * @param args the command line arguments
      */
@@ -32,10 +51,14 @@ public class Hotel {
         if (conn != null) { // setelah koneksi berhasil
             System.out.println("Database connection successful.");
 
-            // Membuat objek untuk frame login
-            new Login().setVisible(true);
-            
-            //new ReservationMenu().setVisible(true);
+            if (cekUserLogin()){
+                // Membuat objek UserDashboard dan menampilkannya
+                UserDashboard userDashboard = new UserDashboard();
+                userDashboard.showWelcomeMessage();
+            } else {
+                // Tampilkan menu reservasi
+                new ReservationMenu().setVisible(true);
+            }
         }
         
         // Menghilangkan Loading Screen

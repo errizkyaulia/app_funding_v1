@@ -27,8 +27,8 @@ public class UserDashboard {
     
     
     public void showWelcomeMessage() {
-        // Buka menu Reservasi
-        new ReservationMenu().setVisible(true);
+        // Buka Reservasi User
+        new MyReservation().setVisible(true);
     }
     
 }
