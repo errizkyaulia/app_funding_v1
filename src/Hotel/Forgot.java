@@ -165,10 +165,9 @@ public class Forgot extends javax.swing.JFrame {
             if (cekUser(conn, username, email, phonenumber)){
                 return;
             }
+            // Show back the Screen if the proccess fails
+            this.setVisible(true);
         }
-        
-        // Show back the Screen if the proccess fails
-        this.setVisible(true);
     }//GEN-LAST:event_requestForgotButtonActionPerformed
 
     private boolean cekUser(Connection conn, String username, String email, String phonenumber) {
@@ -187,20 +186,19 @@ public class Forgot extends javax.swing.JFrame {
                 // Masukan OTP ke Database
                 if (otpInsert(conn, emailOTP, OTP)){
                     // Mengirimkan Email Verifikasi
-                    ConnectionEmail emailSender = new ConnectionEmail();
                     String emailSubject = "One-Time Password (OTP)";
                     String emailBody = "Kode OTP Anda: " + OTP;
                     
                     // Sending Email and give the return
-                    //if (ConnectionEmail.checkConnection()){
-                    if(emailSender.sendEmail(emailOTP, emailSubject, emailBody)){
-                        // Masuk ke dalam OTP
-                        OTP otpFrame = new OTP();
-                        otpFrame.setVisible(true);
-                        otpFrame.emailLabel.setText(emailOTP);
-                        this.setVisible(false);
-                        return true;
+                   if (ConnectionEmail.sendEmail(emailOTP, emailSubject, emailBody, null)) {
+                    // Jika email berhasil terkirim
+                    OTP otpFrame = new OTP();
+                    otpFrame.setVisible(true);
+                    otpFrame.emailLabel.setText(emailOTP);
+                    this.setVisible(false);
+                    return true;
                     } else {
+                        // Jika gagal mengirim email
                         JOptionPane.showMessageDialog(null, "Gagal mengirim Email");
                         return false;
                     }         

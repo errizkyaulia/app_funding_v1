@@ -268,7 +268,7 @@ public class Signup extends javax.swing.JFrame {
                 String web_url = PROPS.getProperty("WEB_HOST");
                 String emailSubject = "Verifikasi Akun";
                 String emailBody = "Klik link berikut untuk verifikasi akun Anda: " + web_url + "verify.php?token=" + token;
-                return emailSender.sendEmail(email, emailSubject, emailBody);
+                return emailSender.sendEmail(email, emailSubject, emailBody, null);
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 return false;

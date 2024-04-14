@@ -6,6 +6,7 @@
 package Hotel;
 
 import Connection.ConnectionDatabase;
+import Connection.ConnectionEmail;
 import GUI.Loading;
 import User.UserDashboard;
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class Hotel {
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
 
+        // ConnectionEmail.checkConnection();
         // Melakukan pengecekan apakah koneksi berhasil
         if (conn != null) { // setelah koneksi berhasil
             System.out.println("Database connection successful.");

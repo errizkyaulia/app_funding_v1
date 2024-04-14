@@ -7,11 +7,16 @@ package Connection;
 
 import GUI.Loading;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
+import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Rizky
@@ -27,7 +32,7 @@ public class ConnectionEmail {
         }
     }
     
-    //Check Connection
+    // Check Connection
     public static boolean checkConnection() {
         final String username = PROPS.getProperty("email.smtp.username");
         final String password = PROPS.getProperty("email.smtp.password");
@@ -42,6 +47,7 @@ public class ConnectionEmail {
         props.put("mail.smtp.port", port); // Port 587
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
@@ -49,9 +55,10 @@ public class ConnectionEmail {
 
         Loading loadingScreen = new Loading();
         loadingScreen.setVisible(true);
-        
+
         try {
-            Transport transport = session.getTransport("smtp");
+            Transport transport;
+            transport = session.getTransport("smtp");
             transport.connect(host, Integer.parseInt(port), username, password);
             transport.close();
             System.out.println("Connection to SMTP server established successfully!");
@@ -64,8 +71,8 @@ public class ConnectionEmail {
         }
     }
     
-    // Mengirim Email
-    public static boolean sendEmail(String recipient, String subject, String body) {
+    // Send Email
+    public static boolean sendEmail(String recipient, String subject, String body, List<String> attachmentPaths) {
         final String username = PROPS.getProperty("email.smtp.username");
         final String password = PROPS.getProperty("email.smtp.password");
         final String host = PROPS.getProperty("email.smtp.host");
@@ -79,6 +86,7 @@ public class ConnectionEmail {
         props.put("mail.smtp.port", port); // Port 587
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
             }
@@ -86,13 +94,32 @@ public class ConnectionEmail {
 
         Loading loadingScreen = new Loading();
         loadingScreen.setVisible(true);
-        
+
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
             message.setSubject(subject);
-            message.setText(body);
+
+            // Create the message body part
+            MimeBodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(body);
+
+            // Create a multipart message
+            Multipart multipart = new MimeMultipart();
+            multipart.addBodyPart(messageBodyPart);
+
+            // Add attachments if available
+            if (attachmentPaths != null && !attachmentPaths.isEmpty()) {
+                for (String attachmentPath : attachmentPaths) {
+                    MimeBodyPart attachmentPart = new MimeBodyPart();
+                    attachmentPart.attachFile(attachmentPath);
+                    multipart.addBodyPart(attachmentPart);
+                }
+            }
+
+            // Set the multipart message as the email's content
+            message.setContent(multipart);
 
             Transport.send(message);
 
@@ -100,7 +127,7 @@ public class ConnectionEmail {
             JOptionPane.showMessageDialog(null, "Email Terkirim!");
             loadingScreen.dispose();
             return true;
-        } catch (MessagingException e) {
+        } catch (MessagingException | IOException e) {
             JOptionPane.showMessageDialog(null, "Kesalahan terjadi saat mengirim email");
             System.err.println("Failed to send email. Error: " + e.getMessage());
             loadingScreen.dispose();
