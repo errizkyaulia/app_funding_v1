@@ -6,7 +6,6 @@
 package Hotel;
 
 import Connection.ConnectionDatabase;
-import Connection.ConnectionEmail;
 import GUI.Loading;
 import User.UserDashboard;
 import java.io.IOException;

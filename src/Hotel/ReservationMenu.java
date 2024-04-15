@@ -62,6 +62,18 @@ public class ReservationMenu extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         cartRoomTable = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        checkInDateLabel = new javax.swing.JLabel();
+        checkOutDateLabel = new javax.swing.JLabel();
+        totalNightsConfirmLabel = new javax.swing.JLabel();
+        totalPriceLabel = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
         Checkout = new javax.swing.JPanel();
         Confirmation = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
@@ -210,6 +222,26 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         jLabel3.setText("This is the Room You choose:");
 
+        jLabel4.setText("Check In Date:");
+
+        jLabel5.setText("Check Out Date:");
+
+        jLabel6.setText("Total Nights:");
+
+        jLabel7.setText("Total Prices:");
+
+        checkInDateLabel.setText("Eror getting CheckIn data");
+
+        checkOutDateLabel.setText("Eror getting CheckOut data");
+
+        totalNightsConfirmLabel.setText("Eror getting TotalNights data");
+
+        totalPriceLabel.setText("Eror getting TotalPrices data");
+
+        jLabel8.setText("Your Name:");
+
+        jLabel9.setText("Email:");
+
         javax.swing.GroupLayout RoomCartLayout = new javax.swing.GroupLayout(RoomCart);
         RoomCart.setLayout(RoomCartLayout);
         RoomCartLayout.setHorizontalGroup(
@@ -217,29 +249,80 @@ public class ReservationMenu extends javax.swing.JFrame {
             .addGroup(RoomCartLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
                     .addGroup(RoomCartLayout.createSequentialGroup()
-                        .addComponent(chooseOtherRoomButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(continueBookingButton))
-                    .addGroup(RoomCartLayout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                            .addGroup(RoomCartLayout.createSequentialGroup()
+                                .addComponent(chooseOtherRoomButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(continueBookingButton))
+                            .addGroup(RoomCartLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(RoomCartLayout.createSequentialGroup()
+                                        .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextField1)
+                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RoomCartLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(checkInDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(checkOutDateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(RoomCartLayout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalPriceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                            .addGroup(RoomCartLayout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(totalNightsConfirmLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(16, 16, 16))))
         );
         RoomCartLayout.setVerticalGroup(
             RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(RoomCartLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RoomCartLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel6)
+                    .addComponent(checkInDateLabel)
+                    .addComponent(totalNightsConfirmLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7)
+                    .addComponent(checkOutDateLabel)
+                    .addComponent(totalPriceLabel))
+                .addGap(35, 35, 35)
                 .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chooseOtherRoomButton)
                     .addComponent(continueBookingButton))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         TabPanel.addTab("tab2", RoomCart);
@@ -252,7 +335,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         );
         CheckoutLayout.setVerticalGroup(
             CheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
+            .addGap(0, 365, Short.MAX_VALUE)
         );
 
         TabPanel.addTab("tab3", Checkout);
@@ -339,6 +422,8 @@ public class ReservationMenu extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
         model.setRowCount(0); // Menghapus semua baris dalam tabel
         
+        totalNightsLabel.setText("0");
+        
         // Mendapatkan tanggal hari ini
         Date today = new Date();
         Date cekIn = cekInDateChooser.getDate();
@@ -355,7 +440,6 @@ public class ReservationMenu extends javax.swing.JFrame {
                     // Pastikan tanggal check-in dan check-out tidak sama
                     if (cekOut.equals(cekIn)) {
                         JOptionPane.showMessageDialog(null, "Maaf, tanggal check-out harus berbeda dengan tanggal check-in.", "Kesalahan", JOptionPane.ERROR_MESSAGE);
-                        availableRoomsTable.removeAll();
                     } else {
                         // Penghitungan total hari
                         long totalHari = ChronoUnit.DAYS.between(cekIn.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), 
@@ -365,6 +449,13 @@ public class ReservationMenu extends javax.swing.JFrame {
 
                         // Set teks label dengan total hari
                         totalNightsLabel.setText(totalHariString);
+                        totalNightsConfirmLabel.setText(totalHariString);
+                        
+                        String ckInDate = String.valueOf(cekIn);
+                        String ckOutDate = String.valueOf(cekOut);
+                        // Set Tanggal CekIn dan CekOut di Next Tab
+                        checkInDateLabel.setText(ckInDate);
+                        checkOutDateLabel.setText(ckOutDate);
                         
                         if (totalHari != 0){ // Tidak bisa memesan dengan tanggal cekout yang sama (minimal 1 hari)
                             // Tampilkan Loading
@@ -411,12 +502,13 @@ public class ReservationMenu extends javax.swing.JFrame {
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
         try {
             // Query untuk mengambil informasi kamar yang tersedia pada rentang tanggal tertentu
-            String query = "SELECT * FROM room WHERE room_id NOT IN (SELECT room_id FROM reservation WHERE (? < check_out AND ? > check_in))";
+            String query = "SELECT * FROM room WHERE room_id NOT IN (SELECT room_id FROM reservation WHERE (? <= check_out AND ? >= check_in)) AND room_status = ?";
 
             // Persiapkan statement
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setDate(1, new java.sql.Date(checkInDate.getTime())); // Set tanggal cek-in
             statement.setDate(2, new java.sql.Date(checkOutDate.getTime())); // Set tanggal cek-out
+            statement.setString(3, "Available");
 
             // Eksekusi kueri
             ResultSet rs = statement.executeQuery();
@@ -499,35 +591,34 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         // Method untuk menambah data ke dalam cartRoomTable
         private void addToCart(String roomId) {
-            // Implementasi logika untuk menambah data ke dalam cartRoomTable
+            // Ambil data dari availableRoomsTable berdasarkan roomId
+            int selectedRow = availableRoomsTable.getSelectedRow();
+            if (selectedRow != -1) { // Pastikan baris terpilih valid
+                String[] rowData = new String[availableRoomsTable.getColumnCount()];
+                for (int i = 0; i < availableRoomsTable.getColumnCount(); i++) {
+                    rowData[i] = availableRoomsTable.getValueAt(selectedRow, i).toString();
+                }
 
-            // Buat model untuk cartRoomTable jika belum ada
-            if (cartRoomTable.getModel() == null) {
+                // Buat model baru untuk cartRoomTable
                 DefaultTableModel cartModel = new DefaultTableModel();
-                cartModel.addColumn("Available Room");
+                cartModel.addColumn("Room Number");
                 cartModel.addColumn("Room Type");
                 cartModel.addColumn("Total Bed");
                 cartModel.addColumn("Max People");
                 cartModel.addColumn("Room Price per Night");
                 cartRoomTable.setModel(cartModel);
+
+                // Tambahkan data ke dalam cartRoomTable
+                cartModel.addRow(rowData);
+
+                // Tampilkan pesan konfirmasi
+                JOptionPane.showMessageDialog(null, "Kamar telah ditambahkan ke dalam keranjang.", "Konfirmasi", JOptionPane.INFORMATION_MESSAGE);
+
+                // Pindah ke TabPanel index 1
+                TabPanel.setSelectedIndex(1);
+            } else {
+                JOptionPane.showMessageDialog(null, "Pilih kamar yang ingin ditambahkan ke dalam keranjang.", "Peringatan", JOptionPane.WARNING_MESSAGE);
             }
-
-            // Ambil data dari availableRoomsTable berdasarkan roomId
-            int selectedRow = availableRoomsTable.getSelectedRow();
-            String[] rowData = new String[availableRoomsTable.getColumnCount()];
-            for (int i = 0; i < availableRoomsTable.getColumnCount(); i++) {
-                rowData[i] = availableRoomsTable.getValueAt(selectedRow, i).toString();
-            }
-
-            // Tambahkan data ke dalam cartRoomTable
-            DefaultTableModel cartModel = (DefaultTableModel) cartRoomTable.getModel();
-            cartModel.addRow(rowData);
-
-            // Tampilkan pesan konfirmasi
-            JOptionPane.showMessageDialog(null, "Kamar telah ditambahkan ke dalam keranjang.", "Konfirmasi", JOptionPane.INFORMATION_MESSAGE);
-
-            // Pindah ke TabPanel index 1
-            TabPanel.setSelectedIndex(1);
         }
     }
 
@@ -593,19 +684,31 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JTable cartRoomTable;
     private com.toedter.calendar.JDateChooser cekInDateChooser;
     private com.toedter.calendar.JDateChooser cekOutDateChooser;
+    private javax.swing.JLabel checkInDateLabel;
+    private javax.swing.JLabel checkOutDateLabel;
     private javax.swing.JButton chooseOtherRoomButton;
     private javax.swing.JButton continueBookingButton;
     private javax.swing.JButton findRoomButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton loginButton;
     private javax.swing.JButton myReservationButton;
     private javax.swing.JLabel nightsLabel;
     private javax.swing.JButton searchButton;
+    private javax.swing.JLabel totalNightsConfirmLabel;
     private javax.swing.JLabel totalNightsLabel;
+    private javax.swing.JLabel totalPriceLabel;
     // End of variables declaration//GEN-END:variables
 }

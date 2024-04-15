@@ -9,7 +9,6 @@ import GUI.Loading;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;

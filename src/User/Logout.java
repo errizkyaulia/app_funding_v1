@@ -27,6 +27,6 @@ public class Logout {
     public void removeUser(){
         PROPS.remove("User_Login");
         PROPS.remove("User_LoginTime");
-        JOptionPane.showMessageDialog(null, "Berhasil Keluar", "Successful Logout", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Berhasil Keluar", "Successful Logout", JOptionPane.INFORMATION_MESSAGE);
     }
 }
