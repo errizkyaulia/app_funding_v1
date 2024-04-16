@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hotel;
+package User;
 
 import Connection.ConnectionDatabase;
 import GUI.Loading;
+import Hotel.Login;
+import config.propsLoader;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -72,14 +75,16 @@ public class ReservationMenu extends javax.swing.JFrame {
         totalPriceLabel = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        usernameTextField = new javax.swing.JTextField();
+        emailTextField = new javax.swing.JTextField();
         Checkout = new javax.swing.JPanel();
         Confirmation = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
         findRoomButton = new javax.swing.JButton();
         myReservationButton = new javax.swing.JButton();
-        loginButton = new javax.swing.JButton();
+        historyButton = new javax.swing.JButton();
+        profileButton = new javax.swing.JButton();
+        logoutButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -95,7 +100,6 @@ public class ReservationMenu extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reservation");
         setMaximizedBounds(getMaximizedBounds());
-        setPreferredSize(new java.awt.Dimension(1100, 400));
 
         TabPanel.setPreferredSize(new java.awt.Dimension(700, 405));
 
@@ -242,6 +246,10 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         jLabel9.setText("Email:");
 
+        usernameTextField.setEditable(false);
+
+        emailTextField.setEditable(false);
+
         javax.swing.GroupLayout RoomCartLayout = new javax.swing.GroupLayout(RoomCart);
         RoomCart.setLayout(RoomCartLayout);
         RoomCartLayout.setHorizontalGroup(
@@ -266,8 +274,8 @@ public class ReservationMenu extends javax.swing.JFrame {
                                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField1)
-                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
+                                            .addComponent(usernameTextField)
+                                            .addComponent(emailTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, RoomCartLayout.createSequentialGroup()
@@ -297,11 +305,11 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -364,11 +372,30 @@ public class ReservationMenu extends javax.swing.JFrame {
         });
 
         myReservationButton.setText("My Reservation");
-
-        loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        myReservationButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                myReservationButtonActionPerformed(evt);
+            }
+        });
+
+        historyButton.setText("History");
+        historyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                historyButtonActionPerformed(evt);
+            }
+        });
+
+        profileButton.setText("Profile");
+        profileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profileButtonActionPerformed(evt);
+            }
+        });
+
+        logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
             }
         });
 
@@ -380,20 +407,26 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(findRoomButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(myReservationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(loginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(myReservationButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addComponent(historyButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addComponent(profileButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
+                    .addComponent(logoutButton, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         MenuLayout.setVerticalGroup(
             MenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MenuLayout.createSequentialGroup()
-                .addGap(103, 103, 103)
+                .addGap(71, 71, 71)
                 .addComponent(findRoomButton)
-                .addGap(35, 35, 35)
+                .addGap(30, 30, 30)
                 .addComponent(myReservationButton)
+                .addGap(34, 34, 34)
+                .addComponent(historyButton)
                 .addGap(38, 38, 38)
-                .addComponent(loginButton)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addComponent(profileButton)
+                .addGap(41, 41, 41)
+                .addComponent(logoutButton)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -417,7 +450,6 @@ public class ReservationMenu extends javax.swing.JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         // TODO add your handling code here:
-        
         // Reset Table
         DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
         model.setRowCount(0); // Menghapus semua baris dalam tabel
@@ -451,8 +483,9 @@ public class ReservationMenu extends javax.swing.JFrame {
                         totalNightsLabel.setText(totalHariString);
                         totalNightsConfirmLabel.setText(totalHariString);
                         
-                        String ckInDate = String.valueOf(cekIn);
-                        String ckOutDate = String.valueOf(cekOut);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy");;
+                        String ckInDate = dateFormat.format(cekIn);
+                        String ckOutDate = dateFormat.format(cekOut);
                         // Set Tanggal CekIn dan CekOut di Next Tab
                         checkInDateLabel.setText(ckInDate);
                         checkOutDateLabel.setText(ckOutDate);
@@ -484,19 +517,44 @@ public class ReservationMenu extends javax.swing.JFrame {
 
     private void findRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findRoomButtonActionPerformed
         // TODO add your handling code here:
+        // Reset Table
+        DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
+        model.setRowCount(0); // Menghapus semua baris dalam tabel
         TabPanel.setSelectedIndex(0);
     }//GEN-LAST:event_findRoomButtonActionPerformed
-
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
-        new Login().setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_loginButtonActionPerformed
 
     private void chooseOtherRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseOtherRoomButtonActionPerformed
         // TODO add your handling code here:
         TabPanel.setSelectedIndex(0);
     }//GEN-LAST:event_chooseOtherRoomButtonActionPerformed
+
+    private void myReservationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myReservationButtonActionPerformed
+        // TODO add your handling code here:
+        // Reset Table
+        DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
+        model.setRowCount(0); // Menghapus semua baris dalam tabel
+    }//GEN-LAST:event_myReservationButtonActionPerformed
+
+    private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
+        // TODO add your handling code here:
+        // Reset Table
+        DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
+        model.setRowCount(0); // Menghapus semua baris dalam tabel
+    }//GEN-LAST:event_historyButtonActionPerformed
+
+    private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
+        // TODO add your handling code here:
+        // Reset Table
+        DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
+        model.setRowCount(0); // Menghapus semua baris dalam tabel
+    }//GEN-LAST:event_profileButtonActionPerformed
+
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        // TODO add your handling code here:
+        new Logout().removeUser();
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_logoutButtonActionPerformed
 
     // Menampilkan Kamar
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
@@ -530,7 +588,6 @@ public class ReservationMenu extends javax.swing.JFrame {
                 String totalBed = rs.getString("room_bed");
                 String roomCapacity = rs.getString("room_capacity");
                 String roomPrice = rs.getString("room_price");
-                // Ambil informasi lainnya sesuai kebutuhan Anda
 
                 // Tambahkan baris ke dalam model tabel
                 model.addRow(new Object[]{roomId, roomType, totalBed, roomCapacity, roomPrice, "Select"});
@@ -591,6 +648,13 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         // Method untuk menambah data ke dalam cartRoomTable
         private void addToCart(String roomId) {
+            // User Loader
+            String usernameLoader = new propsLoader().loadUser();
+            String emailLoader = new propsLoader().loadEmail();
+            
+            usernameTextField.setText(usernameLoader);
+            emailTextField.setText(emailLoader);
+            
             // Ambil data dari availableRoomsTable berdasarkan roomId
             int selectedRow = availableRoomsTable.getSelectedRow();
             if (selectedRow != -1) { // Pastikan baris terpilih valid
@@ -614,6 +678,21 @@ public class ReservationMenu extends javax.swing.JFrame {
                 // Tampilkan pesan konfirmasi
                 JOptionPane.showMessageDialog(null, "Kamar telah ditambahkan ke dalam keranjang.", "Konfirmasi", JOptionPane.INFORMATION_MESSAGE);
 
+                // Ambil data
+                String labelText = totalNightsLabel.getText();
+
+                // Melakukan parsing teks ke tipe data long
+                long nightsTotal = Long.parseLong(labelText);
+                
+                // Ambil harga per malam dari data yang ditambahkan ke dalam cartRoomTable
+                String roomPricePerNightText = (String) cartRoomTable.getValueAt(0, 4); // 4 adalah indeks kolom "Room Price per Night"
+
+                // Melakukan parsing harga per malam ke tipe data double
+                double roomPricePerNight = Double.parseDouble(roomPricePerNightText);
+
+                // Hitung harga total kamar
+                double totalRoomPrice = roomPricePerNight * nightsTotal;
+                totalPriceLabel.setText(String.valueOf(totalRoomPrice));
                 // Pindah ke TabPanel index 1
                 TabPanel.setSelectedIndex(1);
             } else {
@@ -688,7 +767,9 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JLabel checkOutDateLabel;
     private javax.swing.JButton chooseOtherRoomButton;
     private javax.swing.JButton continueBookingButton;
+    private javax.swing.JTextField emailTextField;
     private javax.swing.JButton findRoomButton;
+    private javax.swing.JButton historyButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -701,14 +782,14 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JButton loginButton;
+    private javax.swing.JButton logoutButton;
     private javax.swing.JButton myReservationButton;
     private javax.swing.JLabel nightsLabel;
+    private javax.swing.JButton profileButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel totalNightsConfirmLabel;
     private javax.swing.JLabel totalNightsLabel;
     private javax.swing.JLabel totalPriceLabel;
+    private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }

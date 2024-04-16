@@ -7,7 +7,7 @@ package Hotel;
 
 import Connection.ConnectionDatabase;
 import GUI.Loading;
-import User.UserDashboard;
+import User.ReservationMenu;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.Properties;
@@ -32,6 +32,7 @@ public class Hotel {
     // Metode Apakah User sudah pernah Login
     private static boolean cekUserLogin(){
         String user = PROPS.getProperty("User_Login");
+        String lastLogin = PROPS.getProperty("User_LoginTime");
         return user != null;
     }
     /**
@@ -54,11 +55,10 @@ public class Hotel {
 
             if (cekUserLogin()){
                 // Membuat objek UserDashboard dan menampilkannya
-                UserDashboard userDashboard = new UserDashboard();
-                userDashboard.showWelcomeMessage();
-            } else {
-                // Tampilkan menu reservasi
                 new ReservationMenu().setVisible(true);
+            } else {
+                // Tampilkan menu Login
+                new Login().setVisible(true);
             }
         }
         

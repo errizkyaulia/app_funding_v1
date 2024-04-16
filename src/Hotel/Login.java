@@ -6,7 +6,7 @@
 package Hotel;
 import Connection.ConnectionDatabase;
 import GUI.Loading;
-import User.UserDashboard;
+import User.ReservationMenu;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.io.FileOutputStream;
@@ -175,15 +175,11 @@ public class Login extends javax.swing.JFrame {
 
                 // Validasi Login
                 if (isLoginValid(conn, usernameEmail, password)) { // Jika login berhasil
-                    // Save Login Info
-                    saveUser(usernameEmail);
-
                     // Menghilangkan Loading Screen
                     loadingScreen.dispose();
 
-                    // Membuat objek UserDashboard dan menampilkannya
-                    UserDashboard userDashboard = new UserDashboard();
-                    userDashboard.showWelcomeMessage();
+                    // Membuat objek Reservation Menu dan Menampilkan
+                    new ReservationMenu().setVisible(true);
 
                     // Menyembunyikan frame login saat ini jika diperlukan
                     this.setVisible(false);
@@ -243,6 +239,14 @@ public class Login extends javax.swing.JFrame {
             pstmt.setString(3, accountstate);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()){
+                
+                // Simpan Info User di Device
+                String saveUsername = rs.getString("username");
+                String saveEmail = rs.getString("email");
+                
+                // Save Login Info
+                saveUser(saveUsername, saveEmail);
+                
                 return true; // Jika terdapat data akun aktif return true
             } else {
                 JOptionPane.showMessageDialog(this, "Akun Tidak Aktif", "Failed Login", JOptionPane.ERROR_MESSAGE);
@@ -262,10 +266,11 @@ public class Login extends javax.swing.JFrame {
     }
     
     // Metode untuk menyimpan data pengguna ke dalam file user.properties
-    public static void saveUser(String username) {
+    public static void saveUser(String username, String email) {
         try {
             String loginTime = getCurrentDateTime();
             PROPS.setProperty("User_Login", username);
+            PROPS.setProperty("User_Email", email);
             PROPS.setProperty("User_LoginTime", loginTime);
             PROPS.store(new FileOutputStream(FILE_PATH), null);
         } catch (IOException e) {

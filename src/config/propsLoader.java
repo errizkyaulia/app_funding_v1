@@ -29,6 +29,10 @@ public class propsLoader {
         return PROPS.getProperty("User_Login");
     }
 
+    public static String loadEmail(){
+        return PROPS.getProperty("User_Email");
+    }
+    
     public static String loadPassword() {
         return PROPS.getProperty("password");
     }
