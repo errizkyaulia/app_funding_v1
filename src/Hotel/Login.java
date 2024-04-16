@@ -241,11 +241,14 @@ public class Login extends javax.swing.JFrame {
             if (rs.next()){
                 
                 // Simpan Info User di Device
+                int userID = rs.getInt("userid");
+                String saveUserID = String.valueOf(userID);
                 String saveUsername = rs.getString("username");
                 String saveEmail = rs.getString("email");
+                String saveFullName = rs.getString("fullname");
                 
                 // Save Login Info
-                saveUser(saveUsername, saveEmail);
+                saveUser(saveUserID, saveUsername, saveEmail, saveFullName);
                 
                 return true; // Jika terdapat data akun aktif return true
             } else {
@@ -266,11 +269,13 @@ public class Login extends javax.swing.JFrame {
     }
     
     // Metode untuk menyimpan data pengguna ke dalam file user.properties
-    public static void saveUser(String username, String email) {
+    public static void saveUser(String UserID, String username, String email, String fullname) {
         try {
             String loginTime = getCurrentDateTime();
+            PROPS.setProperty("User_ID", UserID);
             PROPS.setProperty("User_Login", username);
             PROPS.setProperty("User_Email", email);
+            PROPS.setProperty("User_FullName", fullname);
             PROPS.setProperty("User_LoginTime", loginTime);
             PROPS.store(new FileOutputStream(FILE_PATH), null);
         } catch (IOException e) {

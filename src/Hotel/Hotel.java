@@ -5,8 +5,8 @@
  */
 package Hotel;
 
+import Admin.AdminPanel;
 import Connection.ConnectionDatabase;
-import GUI.Loading;
 import User.ReservationMenu;
 import java.io.IOException;
 import java.sql.Connection;
@@ -40,10 +40,6 @@ public class Hotel {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        // Menampilkan Loading Screen
-        Loading loadingScreen = new Loading();
-        loadingScreen.setVisible(true);
-        
         // Connect into database and fetching user data
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
@@ -58,11 +54,9 @@ public class Hotel {
                 new ReservationMenu().setVisible(true);
             } else {
                 // Tampilkan menu Login
-                new Login().setVisible(true);
+                //new Login().setVisible(true);
             }
         }
-        
-        // Menghilangkan Loading Screen
-        loadingScreen.dispose();
+         //new AdminPanel().setVisible(true);
     }
 }

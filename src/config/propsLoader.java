@@ -25,18 +25,17 @@ public class propsLoader {
         }
     }
 
+    public static String loadUserID(){
+        return PROPS.getProperty("User_ID");
+    }
     public static String loadUser() {
         return PROPS.getProperty("User_Login");
     }
 
+    public static String loadFullName(){
+        return PROPS.getProperty("User_FullName");
+    }
     public static String loadEmail(){
         return PROPS.getProperty("User_Email");
     }
-    
-    public static String loadPassword() {
-        return PROPS.getProperty("password");
-    }
-
-    // Tambahkan metode lain untuk memuat properti lainnya sesuai kebutuhan
-    
 }

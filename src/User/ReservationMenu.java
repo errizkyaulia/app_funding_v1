@@ -6,12 +6,12 @@
 package User;
 
 import Connection.ConnectionDatabase;
-import GUI.Loading;
 import Hotel.Login;
 import config.propsLoader;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
@@ -60,7 +60,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         nightsLabel = new javax.swing.JLabel();
         totalNightsLabel = new javax.swing.JLabel();
         RoomCart = new javax.swing.JPanel();
-        continueBookingButton = new javax.swing.JButton();
+        confirmBookingButton = new javax.swing.JButton();
         chooseOtherRoomButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         cartRoomTable = new javax.swing.JTable();
@@ -77,8 +77,17 @@ public class ReservationMenu extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         usernameTextField = new javax.swing.JTextField();
         emailTextField = new javax.swing.JTextField();
-        Checkout = new javax.swing.JPanel();
-        Confirmation = new javax.swing.JPanel();
+        MyReservation = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        myReservationTable = new javax.swing.JTable();
+        ReservationEditor = new javax.swing.JPanel();
+        cancleReservationButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        History = new javax.swing.JPanel();
+        Profile = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
         findRoomButton = new javax.swing.JButton();
         myReservationButton = new javax.swing.JButton();
@@ -183,7 +192,12 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         RoomCart.setBackground(new java.awt.Color(204, 255, 204));
 
-        continueBookingButton.setText("Continue Booking");
+        confirmBookingButton.setText("Confirm Booking");
+        confirmBookingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmBookingButtonActionPerformed(evt);
+            }
+        });
 
         chooseOtherRoomButton.setText("Choose Other Room");
         chooseOtherRoomButton.addActionListener(new java.awt.event.ActionListener() {
@@ -263,7 +277,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                             .addGroup(RoomCartLayout.createSequentialGroup()
                                 .addComponent(chooseOtherRoomButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(continueBookingButton))
+                                .addComponent(confirmBookingButton))
                             .addGroup(RoomCartLayout.createSequentialGroup()
                                 .addGap(16, 16, 16)
                                 .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,37 +343,128 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(RoomCartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chooseOtherRoomButton)
-                    .addComponent(continueBookingButton))
+                    .addComponent(confirmBookingButton))
                 .addGap(47, 47, 47))
         );
 
         TabPanel.addTab("tab2", RoomCart);
 
-        javax.swing.GroupLayout CheckoutLayout = new javax.swing.GroupLayout(Checkout);
-        Checkout.setLayout(CheckoutLayout);
-        CheckoutLayout.setHorizontalGroup(
-            CheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 760, Short.MAX_VALUE)
+        jLabel10.setText("Here is the Room list that you have Booked");
+
+        myReservationTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(myReservationTable);
+
+        javax.swing.GroupLayout MyReservationLayout = new javax.swing.GroupLayout(MyReservation);
+        MyReservation.setLayout(MyReservationLayout);
+        MyReservationLayout.setHorizontalGroup(
+            MyReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MyReservationLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(MyReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                    .addGroup(MyReservationLayout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        CheckoutLayout.setVerticalGroup(
-            CheckoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 365, Short.MAX_VALUE)
+        MyReservationLayout.setVerticalGroup(
+            MyReservationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MyReservationLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        TabPanel.addTab("tab3", Checkout);
+        TabPanel.addTab("tab3", MyReservation);
 
-        javax.swing.GroupLayout ConfirmationLayout = new javax.swing.GroupLayout(Confirmation);
-        Confirmation.setLayout(ConfirmationLayout);
-        ConfirmationLayout.setHorizontalGroup(
-            ConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        cancleReservationButton.setText("Cancle Book");
+        cancleReservationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancleReservationButtonActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Reschedule");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane4.setViewportView(jTable1);
+
+        javax.swing.GroupLayout ReservationEditorLayout = new javax.swing.GroupLayout(ReservationEditor);
+        ReservationEditor.setLayout(ReservationEditorLayout);
+        ReservationEditorLayout.setHorizontalGroup(
+            ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReservationEditorLayout.createSequentialGroup()
+                .addContainerGap(176, Short.MAX_VALUE)
+                .addComponent(cancleReservationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(63, 63, 63)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(261, 261, 261))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReservationEditorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4)
+                .addContainerGap())
+        );
+        ReservationEditorLayout.setVerticalGroup(
+            ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ReservationEditorLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53)
+                .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(cancleReservationButton))
+                .addContainerGap(145, Short.MAX_VALUE))
+        );
+
+        TabPanel.addTab("tab4", ReservationEditor);
+
+        javax.swing.GroupLayout HistoryLayout = new javax.swing.GroupLayout(History);
+        History.setLayout(HistoryLayout);
+        HistoryLayout.setHorizontalGroup(
+            HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 760, Short.MAX_VALUE)
         );
-        ConfirmationLayout.setVerticalGroup(
-            ConfirmationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        HistoryLayout.setVerticalGroup(
+            HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 370, Short.MAX_VALUE)
         );
 
-        TabPanel.addTab("tab4", Confirmation);
+        TabPanel.addTab("tab5", History);
+
+        javax.swing.GroupLayout ProfileLayout = new javax.swing.GroupLayout(Profile);
+        Profile.setLayout(ProfileLayout);
+        ProfileLayout.setHorizontalGroup(
+            ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 760, Short.MAX_VALUE)
+        );
+        ProfileLayout.setVerticalGroup(
+            ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 365, Short.MAX_VALUE)
+        );
+
+        TabPanel.addTab("tab6", Profile);
 
         Menu.setBackground(new java.awt.Color(204, 255, 255));
         Menu.setPreferredSize(new java.awt.Dimension(200, 400));
@@ -491,17 +596,12 @@ public class ReservationMenu extends javax.swing.JFrame {
                         checkOutDateLabel.setText(ckOutDate);
                         
                         if (totalHari != 0){ // Tidak bisa memesan dengan tanggal cekout yang sama (minimal 1 hari)
-                            // Tampilkan Loading
-                            Loading loadingScreen = new Loading();
-                            loadingScreen.setVisible(true);
-
                             // Connect into database and fetching user data
                             ConnectionDatabase database = new ConnectionDatabase();
                             Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
 
                             // Menampilkan kamar yang tersedia dan memberi tahu pengguna
                             showAvailableRooms(conn, cekIn, cekOut);
-                            loadingScreen.dispose();
                         } else {
                             JOptionPane.showMessageDialog(null, "Maaf, tanggal check-out harus setelah tanggal check-in.", "Kesalahan", JOptionPane.ERROR_MESSAGE);
                         }
@@ -533,6 +633,9 @@ public class ReservationMenu extends javax.swing.JFrame {
         // Reset Table
         DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
         model.setRowCount(0); // Menghapus semua baris dalam tabel
+        
+        reservationEditor();
+        TabPanel.setSelectedIndex(2);
     }//GEN-LAST:event_myReservationButtonActionPerformed
 
     private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
@@ -547,6 +650,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         // Reset Table
         DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
         model.setRowCount(0); // Menghapus semua baris dalam tabel
+        TabPanel.setSelectedIndex(3);
     }//GEN-LAST:event_profileButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -556,17 +660,106 @@ public class ReservationMenu extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_logoutButtonActionPerformed
 
+    private void confirmBookingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmBookingButtonActionPerformed
+        // TODO add your handling code here:
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        
+        // Ambil nomor kamar dari tabel dan konversi ke integer
+        int roomNumber = Integer.parseInt((String) cartRoomTable.getValueAt(0, 0));
+        int userID = Integer.parseInt(new propsLoader().loadUserID()); // Mengambil data UserID yang tersimpan
+        String FullName = new propsLoader().loadFullName();
+        
+        // Ambil tanggal cekin dan cekout dari date picker (java.util.Date)
+        Date cekInUtilDate = cekInDateChooser.getDate();
+        Date cekOutUtilDate = cekOutDateChooser.getDate();
+        java.sql.Date cekInDate = new java.sql.Date(cekInUtilDate.getTime());// Konversi java.util.Date ke java.sql.Date
+        java.sql.Date cekOutDate = new java.sql.Date(cekOutUtilDate.getTime());
+        
+        int totalNights = Integer.parseInt(totalNightsLabel.getText());
+        
+        BigDecimal totalPrices = new BigDecimal(totalPriceLabel.getText());
+        
+        String billStatus = "Pending Payment";
+        
+        String reservationStatus = "Booked";
+        
+        String reservationNotes = "Not Check In";
+        
+        // Membuat pesan konfirmasi
+        String confirmationMessage = "Nomor Kamar: " + roomNumber + "\n" +
+                                      "Full Name: " + FullName + "\n" +
+                                      "Tanggal Check-in: " + cekInDate + "\n" +
+                                      "Tanggal Check-out: " + cekOutDate + "\n" +
+                                      "Total Malam: " + totalNights + "\n" +
+                                      "Total Harga: " + totalPrices + "\n" +
+                                      "Status Tagihan: " + billStatus + "\n" +
+                                      "Apakah Anda yakin ingin melakukan pemesanan dengan detail ini?";
+
+        // Tampilkan pesan konfirmasi menggunakan JOptionPane
+        int option = JOptionPane.showConfirmDialog(this, confirmationMessage, "Konfirmasi Pemesanan", JOptionPane.YES_NO_OPTION);
+
+        // Cek apakah pengguna menekan tombol "Yes"
+        if (option == JOptionPane.YES_OPTION) {
+            try {
+                // Membuat PreparedStatement
+                String query = "INSERT INTO reservation (room_id, userid, check_in, check_out, totalNights, reservation_bills, bill_status, reservation_status, reservation_notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement statement = conn.prepareStatement(query);
+
+                // Mengatur nilai parameter
+                statement.setInt(1, roomNumber);
+                statement.setInt(2, userID);
+                statement.setDate(3, cekInDate);
+                statement.setDate(4, cekOutDate);
+                statement.setInt(5, totalNights);
+                statement.setBigDecimal(6, totalPrices);
+                statement.setString(7, billStatus);
+                statement.setString(8, reservationStatus);
+                statement.setString(9, reservationNotes);
+
+                // Menjalankan query
+                int rowsInserted = statement.executeUpdate();
+
+                if (rowsInserted > 0) {
+                    JOptionPane.showMessageDialog(this, "Pemesanan berhasil dilakukan.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Gagal menyimpan data reservasi.", "Gagal", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Terjadi kesalahan saat menyimpan data reservasi: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                // Menutup koneksi setelah selesai digunakan
+                try {
+                    if (conn != null) {
+                        conn.close();
+                    }
+                } catch (SQLException e) {
+                    // Tangani kesalahan penutupan koneksi
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            // Pengguna membatalkan pemesanan
+            JOptionPane.showMessageDialog(this, "Pemesanan dibatalkan.", "Batalkan", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_confirmBookingButtonActionPerformed
+
+    private void cancleReservationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleReservationButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cancleReservationButtonActionPerformed
+
     // Menampilkan Kamar
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
+        // Query untuk mengambil informasi kamar yang tersedia pada rentang tanggal tertentu
+        String query = "SELECT * FROM room WHERE room_id NOT IN (SELECT room_id FROM reservation WHERE (? <= check_out AND ? >= check_in) AND reservation_status = ?) AND room_status = ?";
         try {
-            // Query untuk mengambil informasi kamar yang tersedia pada rentang tanggal tertentu
-            String query = "SELECT * FROM room WHERE room_id NOT IN (SELECT room_id FROM reservation WHERE (? <= check_out AND ? >= check_in)) AND room_status = ?";
-
             // Persiapkan statement
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setDate(1, new java.sql.Date(checkInDate.getTime())); // Set tanggal cek-in
             statement.setDate(2, new java.sql.Date(checkOutDate.getTime())); // Set tanggal cek-out
-            statement.setString(3, "Available");
+            statement.setString(3, "Booked");
+            statement.setString(4, "Available");
 
             // Eksekusi kueri
             ResultSet rs = statement.executeQuery();
@@ -603,13 +796,20 @@ public class ReservationMenu extends javax.swing.JFrame {
             // Tutup statement dan result set
             statement.close();
             rs.close();
-
-            // Open Table
-            // TabPanel.setSelectedIndex(1);
         } catch (SQLException e) {
             e.printStackTrace();
             // Tangani pengecualian sesuai kebutuhan Anda
             JOptionPane.showMessageDialog(null, "Gagal Memuat Kamar", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Menutup koneksi setelah selesai digunakan
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Tangani kesalahan penutupan koneksi
+                e.printStackTrace();
+            }
         }
     }
 
@@ -716,6 +916,69 @@ public class ReservationMenu extends javax.swing.JFrame {
         }
     }
     
+    // Metode Edit Reservasi
+    private void reservationEditor(){
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        String UserId = new propsLoader().loadUserID();
+        String status = "Booked";
+        try {
+            // Query untuk mengambil informasi kamar yang tersedia pada rentang tanggal tertentu
+            String query = "SELECT * FROM reservation WHERE userid = ? AND reservation_status = ?";
+
+            // Persiapkan statement
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, UserId);
+            statement.setString(2, status);
+
+            // Eksekusi kueri
+            ResultSet rs = statement.executeQuery();
+
+            // Buat model tabel
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Room Number");
+            model.addColumn("Check In");
+            model.addColumn("Check Out");
+            model.addColumn("Bills");
+            model.addColumn("Status");
+            model.addColumn("Select"); // Kolom tambahan untuk tombol Select
+
+
+            // Memproses hasil query untuk menambahkan baris ke dalam model tabel
+            while (rs.next()) {
+                String roomId = rs.getString("room_id");
+                String checkIn = rs.getString("check_in");
+                String checkOut = rs.getString("check_out");
+                String Bills = rs.getString("reservation_bills");
+                String billsStatus = rs.getString("bill_status");
+
+                // Tambahkan baris ke dalam model tabel
+                model.addRow(new Object[]{roomId, checkIn, checkOut, Bills, billsStatus, "Select"});
+            }
+
+            // Set model tabel
+            myReservationTable.setModel(model);
+
+            // Tutup statement dan result set
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Tangani pengecualian sesuai kebutuhan Anda
+            JOptionPane.showMessageDialog(null, "Gagal Memuat Kamar", "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            // Menutup koneksi setelah selesai digunakan
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Tangani kesalahan penutupan koneksi
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -753,24 +1016,29 @@ public class ReservationMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Checkout;
-    private javax.swing.JPanel Confirmation;
     private javax.swing.JPanel FindRoom;
+    private javax.swing.JPanel History;
     private javax.swing.JPanel Menu;
+    private javax.swing.JPanel MyReservation;
+    private javax.swing.JPanel Profile;
+    private javax.swing.JPanel ReservationEditor;
     private javax.swing.JPanel RoomCart;
     private javax.swing.JTabbedPane TabPanel;
     private javax.swing.JTable availableRoomsTable;
+    private javax.swing.JButton cancleReservationButton;
     private javax.swing.JTable cartRoomTable;
     private com.toedter.calendar.JDateChooser cekInDateChooser;
     private com.toedter.calendar.JDateChooser cekOutDateChooser;
     private javax.swing.JLabel checkInDateLabel;
     private javax.swing.JLabel checkOutDateLabel;
     private javax.swing.JButton chooseOtherRoomButton;
-    private javax.swing.JButton continueBookingButton;
+    private javax.swing.JButton confirmBookingButton;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JButton findRoomButton;
     private javax.swing.JButton historyButton;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -782,8 +1050,12 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton myReservationButton;
+    private javax.swing.JTable myReservationTable;
     private javax.swing.JLabel nightsLabel;
     private javax.swing.JButton profileButton;
     private javax.swing.JButton searchButton;
