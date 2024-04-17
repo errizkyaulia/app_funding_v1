@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Hotel;
+import Admin.AdminPanel;
 import Connection.ConnectionDatabase;
 import GUI.Loading;
 import User.ReservationMenu;
@@ -17,6 +18,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -175,13 +178,7 @@ public class Login extends javax.swing.JFrame {
 
                 // Validasi Login
                 if (isLoginValid(conn, usernameEmail, password)) { // Jika login berhasil
-                    // Menghilangkan Loading Screen
-                    loadingScreen.dispose();
-
-                    // Membuat objek Reservation Menu dan Menampilkan
-                    new ReservationMenu().setVisible(true);
-
-                    // Menyembunyikan frame login saat ini jika diperlukan
+                    // Menyembunyikan frame login saat ini
                     this.setVisible(false);
                 } else {
                     loginAttempts++;
@@ -191,7 +188,14 @@ public class Login extends javax.swing.JFrame {
                 // Logika untuk menangani kasus koneksi gagal
                 JOptionPane.showMessageDialog(null, "Gagal Terhubung, Periksa Koneksi Anda");
             }
-
+            
+            if (conn != null) {
+                try {
+                    conn.close(); // Tutup koneksi setelah selesai menggunakan
+                } catch (SQLException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             loadingScreen.dispose();
         }
     }//GEN-LAST:event_loginButtonActionPerformed
@@ -204,29 +208,55 @@ public class Login extends javax.swing.JFrame {
     
     // Metode untuk Validasi Login
     private boolean isLoginValid(Connection conn, String usernameEmail, String password) {
-        // Query mencari akun
-        String query = "SELECT * FROM user WHERE (username = ? OR email = ?) LIMIT 1";
-        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, usernameEmail);
-            pstmt.setString(2, usernameEmail);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) { // Akun terdaftar
-                // Cek Password
-                String storedPassword = rs.getString("password");
-                if (verifyPassword(password, storedPassword)){
-                    return isAccountActive(conn, usernameEmail); // Cek Akun aktif
-                } else {
-                    JOptionPane.showMessageDialog(null, "Wrong Password");
-                    return false;
+        try {
+            // Cek apakah pengguna adalah admin
+            if (isAdmin(conn, usernameEmail, password)) {
+                new AdminPanel().setVisible(true);
+                return true; // Pengguna adalah admin
+            } else { // Pengguna bukan admin, lanjutkan ke pengecekan akun pengguna biasa
+                // Query mencari akun pengguna
+                String userQuery = "SELECT * FROM user WHERE (username = ? OR email = ?) LIMIT 1";
+                try (PreparedStatement userPstmt = conn.prepareStatement(userQuery)) {
+                    userPstmt.setString(1, usernameEmail);
+                    userPstmt.setString(2, usernameEmail);
+                    try (ResultSet userRs = userPstmt.executeQuery()) {
+                        if (userRs.next()) { // Akun pengguna terdaftar
+                            // Cek Password
+                            String storedPassword = userRs.getString("password");
+                            if (verifyPassword(password, storedPassword)) {
+                                return isAccountActive(conn, usernameEmail); // Cek Akun aktif untuk pengguna biasa
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Wrong Password");
+                                return false;
+                            }
+                        } else {
+                            return false; // Username/email pengguna tidak ditemukan
+                        }
+                    }
                 }
-            } else {
-                return false; // Username/email tidak ditemukan
             }
         } catch (SQLException ex) {
             ex.printStackTrace(); // Log pesan kesalahan
             return false;
         }
+    }
+
+    // Metode untuk memeriksa apakah pengguna adalah admin
+    private boolean isAdmin(Connection conn, String usernameEmail, String password) throws SQLException {
+        // Query mencari admin
+        String adminQuery = "SELECT * FROM admin WHERE adminName = ? LIMIT 1";
+        try (PreparedStatement adminPstmt = conn.prepareStatement(adminQuery)) {
+            adminPstmt.setString(1, usernameEmail);
+            try (ResultSet adminRs = adminPstmt.executeQuery()) {
+                if (adminRs.next()) {
+                    String storedPassword = adminRs.getString("adminPass");
+                    if (verifyPassword(password, storedPassword)) {
+                        return true; // Pengguna adalah admin
+                    }
+                }
+            }
+        }
+        return false; // Admin tidak ditemukan atau password tidak cocok
     }
     
     // Metode Cek Akun Aktif
@@ -250,6 +280,8 @@ public class Login extends javax.swing.JFrame {
                 // Save Login Info
                 saveUser(saveUserID, saveUsername, saveEmail, saveFullName);
                 
+                // Membuat objek Reservation Menu dan Menampilkan
+                new ReservationMenu().setVisible(true);
                 return true; // Jika terdapat data akun aktif return true
             } else {
                 JOptionPane.showMessageDialog(this, "Akun Tidak Aktif", "Failed Login", JOptionPane.ERROR_MESSAGE);

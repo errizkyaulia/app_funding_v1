@@ -87,7 +87,20 @@ public class ReservationMenu extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         History = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        historyTable = new javax.swing.JTable();
+        jLabel15 = new javax.swing.JLabel();
         Profile = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        updateProfileButton = new javax.swing.JButton();
+        resetPasswordButton = new javax.swing.JButton();
+        fullnameProfileTextField = new javax.swing.JTextField();
+        usernameProfileTextField = new javax.swing.JTextField();
+        emailProfileTextField = new javax.swing.JTextField();
+        phonenumberProfileTextField = new javax.swing.JTextField();
         Menu = new javax.swing.JPanel();
         findRoomButton = new javax.swing.JButton();
         myReservationButton = new javax.swing.JButton();
@@ -440,28 +453,105 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         TabPanel.addTab("tab4", ReservationEditor);
 
+        historyTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane5.setViewportView(historyTable);
+
+        jLabel15.setText("Your Booking History:");
+
         javax.swing.GroupLayout HistoryLayout = new javax.swing.GroupLayout(History);
         History.setLayout(HistoryLayout);
         HistoryLayout.setHorizontalGroup(
             HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 760, Short.MAX_VALUE)
+            .addGroup(HistoryLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                    .addGroup(HistoryLayout.createSequentialGroup()
+                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         HistoryLayout.setVerticalGroup(
             HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 370, Short.MAX_VALUE)
+            .addGroup(HistoryLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jLabel15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         TabPanel.addTab("tab5", History);
+
+        jLabel11.setText("Full Name:");
+
+        jLabel12.setText("Username:");
+
+        jLabel13.setText("Email:");
+
+        jLabel14.setText("Phone Number:");
+
+        updateProfileButton.setText("Update");
+
+        resetPasswordButton.setText("Reset Password");
 
         javax.swing.GroupLayout ProfileLayout = new javax.swing.GroupLayout(Profile);
         Profile.setLayout(ProfileLayout);
         ProfileLayout.setHorizontalGroup(
             ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 760, Short.MAX_VALUE)
+            .addGroup(ProfileLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resetPasswordButton)
+                    .addGroup(ProfileLayout.createSequentialGroup()
+                        .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(updateProfileButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fullnameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(usernameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(emailProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(417, Short.MAX_VALUE))
         );
         ProfileLayout.setVerticalGroup(
             ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 365, Short.MAX_VALUE)
+            .addGroup(ProfileLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(fullnameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(usernameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(emailProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addComponent(updateProfileButton)
+                .addGap(43, 43, 43)
+                .addComponent(resetPasswordButton)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         TabPanel.addTab("tab6", Profile);
@@ -640,9 +730,73 @@ public class ReservationMenu extends javax.swing.JFrame {
 
     private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
         // TODO add your handling code here:
-        // Reset Table
-        DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
-        model.setRowCount(0); // Menghapus semua baris dalam tabel
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+
+        try {
+            // Query untuk mengambil informasi kamar
+            String query = "SELECT * FROM reservation r JOIN user u ON r.userid = u.userid WHERE r.userid = ? AND reservation_status != ?";
+
+            // Persiapkan statement
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, new propsLoader().loadUserID());
+            statement.setString(2, "Booked");
+
+            // Eksekusi kueri
+            ResultSet rs = statement.executeQuery();
+
+            // Buat model tabel
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID");
+            model.addColumn("Room");
+            model.addColumn("Full Name");
+            model.addColumn("Check In");
+            model.addColumn("Check Out");
+            model.addColumn("Total Nights");
+            model.addColumn("Bills");
+            model.addColumn("Bills Status");
+            model.addColumn("Book Status");
+
+
+            // Memproses hasil query untuk menambahkan baris ke dalam model tabel
+            while (rs.next()) {
+                String reserID = rs.getString("reservation_id");
+                String roomNum = rs.getString("room_id");
+                String fullname = rs.getString("fullname");
+                String ckIn = rs.getString("check_in");
+                String ckOut = rs.getString("check_out");
+                String tNights = rs.getString("totalNights");
+                String bills = rs.getString("reservation_bills");
+                String payStatus = rs.getString("bill_status");
+                String status = rs.getString("reservation_status");
+                
+                // Tambahkan baris ke dalam model tabel
+                model.addRow(new Object[]{reserID, roomNum, fullname, ckIn, ckOut, tNights, bills, payStatus, status});
+            }
+
+            // Set model tabel
+            historyTable.setModel(model);
+
+            // Tutup statement dan result set
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Tangani pengecualian sesuai kebutuhan Anda
+            JOptionPane.showMessageDialog(null, "Gagal Memuat Kamar", "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            // Menutup koneksi setelah selesai digunakan
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Tangani kesalahan penutupan koneksi
+                e.printStackTrace();
+            }
+        }
+        TabPanel.setSelectedIndex(4);
     }//GEN-LAST:event_historyButtonActionPerformed
 
     private void profileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileButtonActionPerformed
@@ -650,7 +804,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         // Reset Table
         DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
         model.setRowCount(0); // Menghapus semua baris dalam tabel
-        TabPanel.setSelectedIndex(3);
+        TabPanel.setSelectedIndex(5);
     }//GEN-LAST:event_profileButtonActionPerformed
 
     private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
@@ -684,8 +838,9 @@ public class ReservationMenu extends javax.swing.JFrame {
         String billStatus = "Pending Payment";
         
         String reservationStatus = "Booked";
-        
-        String reservationNotes = "Not Check In";
+        // Mendapatkan tanggal hari ini
+        java.util.Date today = new java.util.Date();
+        String reservationNotes = "Booked on: " + today;
         
         // Membuat pesan konfirmasi
         String confirmationMessage = "Nomor Kamar: " + roomNumber + "\n" +
@@ -1033,12 +1188,20 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JLabel checkOutDateLabel;
     private javax.swing.JButton chooseOtherRoomButton;
     private javax.swing.JButton confirmBookingButton;
+    private javax.swing.JTextField emailProfileTextField;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JButton findRoomButton;
+    private javax.swing.JTextField fullnameProfileTextField;
     private javax.swing.JButton historyButton;
+    private javax.swing.JTable historyTable;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1052,16 +1215,21 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton myReservationButton;
     private javax.swing.JTable myReservationTable;
     private javax.swing.JLabel nightsLabel;
+    private javax.swing.JTextField phonenumberProfileTextField;
     private javax.swing.JButton profileButton;
+    private javax.swing.JButton resetPasswordButton;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel totalNightsConfirmLabel;
     private javax.swing.JLabel totalNightsLabel;
     private javax.swing.JLabel totalPriceLabel;
+    private javax.swing.JButton updateProfileButton;
+    private javax.swing.JTextField usernameProfileTextField;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
 }

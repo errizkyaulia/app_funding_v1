@@ -13,10 +13,9 @@ import javax.swing.JOptionPane;
  * @author Rizky
  */
 public class propsLoader {
-    
     private static final Properties PROPS = new Properties();
-
-    static {
+    
+    public static void loadProperties() {
         try {
             PROPS.load(propsLoader.class.getResourceAsStream("user.properties"));
         } catch (IOException e) {
@@ -24,18 +23,29 @@ public class propsLoader {
             JOptionPane.showMessageDialog(null, "Gagal Memuat Konfigurasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
     public static String loadUserID(){
+        loadProperties();
         return PROPS.getProperty("User_ID");
     }
+    
     public static String loadUser() {
+        loadProperties();
         return PROPS.getProperty("User_Login");
     }
 
     public static String loadFullName(){
+        loadProperties();
         return PROPS.getProperty("User_FullName");
     }
+    
     public static String loadEmail(){
+        loadProperties();
         return PROPS.getProperty("User_Email");
+    }
+    
+    public static String loadLastLogin(){
+        loadProperties();
+        return PROPS.getProperty("User_LastLogin");
     }
 }

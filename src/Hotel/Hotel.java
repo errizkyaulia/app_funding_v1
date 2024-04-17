@@ -5,13 +5,9 @@
  */
 package Hotel;
 
-import Admin.AdminPanel;
 import Connection.ConnectionDatabase;
-import User.ReservationMenu;
-import java.io.IOException;
+import config.propsLoader;
 import java.sql.Connection;
-import java.util.Properties;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,22 +15,13 @@ import javax.swing.JOptionPane;
  */
 public class Hotel {
 
-    private static final Properties PROPS = new Properties();
-    static {
-        try {
-            PROPS.load(Hotel.class.getClassLoader().getResourceAsStream("Config/user.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal Memuat Konfigurasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
     // Metode Apakah User sudah pernah Login
     private static boolean cekUserLogin(){
-        String user = PROPS.getProperty("User_Login");
-        String lastLogin = PROPS.getProperty("User_LoginTime");
+        String user = new propsLoader().loadUser();
+        String lastLogin = new propsLoader().loadLastLogin();
         return user != null;
     }
+    
     /**
      * @param args the command line arguments
      */
@@ -51,12 +38,13 @@ public class Hotel {
 
             if (cekUserLogin()){
                 // Membuat objek UserDashboard dan menampilkannya
-                new ReservationMenu().setVisible(true);
+                // new ReservationMenu().setVisible(true);
             } else {
                 // Tampilkan menu Login
-                //new Login().setVisible(true);
+                // new Login().setVisible(true);
             }
+            
+            new Login().setVisible(true);
         }
-         //new AdminPanel().setVisible(true);
     }
 }
