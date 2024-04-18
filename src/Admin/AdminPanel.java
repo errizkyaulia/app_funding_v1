@@ -5,7 +5,7 @@
 package Admin;
 
 import Connection.ConnectionDatabase;
-import Hotel.BCrypt;
+import config.BCrypt;
 import Hotel.Login;
 import User.Logout;
 import java.sql.*;
@@ -18,6 +18,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdminPanel extends javax.swing.JFrame {
 
+    // Deklarasi variabel publik untuk menyimpan opsi yang dipilih
+    public String adminRole = "";
+    public String adminStatus = "";
+    
     /**
      * Creates new form AdminPanel
      */
@@ -51,13 +55,13 @@ public class AdminPanel extends javax.swing.JFrame {
         checkOutButton = new javax.swing.JButton();
         cancleBookingButton = new javax.swing.JButton();
         RoomManagementTab = new javax.swing.JPanel();
-        reservationTextField1 = new javax.swing.JTextField();
+        roomIDTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        reservationTable1 = new javax.swing.JTable();
+        roomManagementTable = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        searchRoomButton = new javax.swing.JButton();
+        setAvailableButton = new javax.swing.JButton();
+        setUnavailableButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -66,10 +70,10 @@ public class AdminPanel extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         adminNameTextField = new javax.swing.JTextPane();
         adminRoleChooser = new javax.swing.JComboBox<>();
-        adminStatusBox = new javax.swing.JComboBox<>();
+        adminStatusChooser = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         adminTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        insertUpdateAdminButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         adminPasswordField = new javax.swing.JPasswordField();
         resetPasswordButton = new javax.swing.JButton();
@@ -236,7 +240,7 @@ public class AdminPanel extends javax.swing.JFrame {
 
         AdminTabPanel.addTab("Reservation", ReservationTab);
 
-        reservationTable1.setModel(new javax.swing.table.DefaultTableModel(
+        roomManagementTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -247,15 +251,25 @@ public class AdminPanel extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane2.setViewportView(reservationTable1);
+        jScrollPane2.setViewportView(roomManagementTable);
 
         jLabel2.setText("ID Room:");
 
-        jButton8.setText("Search");
+        searchRoomButton.setText("Search");
+        searchRoomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchRoomButtonActionPerformed(evt);
+            }
+        });
 
-        jButton9.setText("Set Available");
+        setAvailableButton.setText("Set Available");
+        setAvailableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setAvailableButtonActionPerformed(evt);
+            }
+        });
 
-        jButton10.setText("Set Unavailable");
+        setUnavailableButton.setText("Set Unavailable");
 
         javax.swing.GroupLayout RoomManagementTabLayout = new javax.swing.GroupLayout(RoomManagementTab);
         RoomManagementTab.setLayout(RoomManagementTabLayout);
@@ -268,14 +282,14 @@ public class AdminPanel extends javax.swing.JFrame {
                     .addGroup(RoomManagementTabLayout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(reservationTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(roomIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton8)
+                        .addComponent(searchRoomButton)
                         .addGap(35, 35, 35)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(setAvailableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)))
+                        .addComponent(setUnavailableButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 115, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         RoomManagementTabLayout.setVerticalGroup(
@@ -283,14 +297,14 @@ public class AdminPanel extends javax.swing.JFrame {
             .addGroup(RoomManagementTabLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addGroup(RoomManagementTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(reservationTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(roomIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9)
-                    .addComponent(jButton10))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(searchRoomButton)
+                    .addComponent(setAvailableButton)
+                    .addComponent(setUnavailableButton))
+                .addGap(77, 77, 77)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         AdminTabPanel.addTab("Room Management", RoomManagementTab);
@@ -310,9 +324,19 @@ public class AdminPanel extends javax.swing.JFrame {
 
         jScrollPane3.setViewportView(adminNameTextField);
 
-        adminRoleChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        adminRoleChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Super", "Management", "Receptionist" }));
+        adminRoleChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminRoleChooserActionPerformed(evt);
+            }
+        });
 
-        adminStatusBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        adminStatusChooser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Suspend" }));
+        adminStatusChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                adminStatusChooserActionPerformed(evt);
+            }
+        });
 
         adminTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -327,7 +351,12 @@ public class AdminPanel extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(adminTable);
 
-        jButton1.setText("Insert/Update");
+        insertUpdateAdminButton.setText("Insert/Update");
+        insertUpdateAdminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertUpdateAdminButtonActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Admin Password:");
 
@@ -346,8 +375,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 822, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -358,21 +386,20 @@ public class AdminPanel extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3)
                             .addComponent(adminRoleChooser, 0, 200, Short.MAX_VALUE)
-                            .addComponent(adminStatusBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(adminStatusChooser, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(searchAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(25, 25, 25)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(adminPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(adminPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(insertUpdateAdminButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(resetPasswordButton)))))
-                .addContainerGap())
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -391,9 +418,9 @@ public class AdminPanel extends javax.swing.JFrame {
                     .addComponent(adminRoleChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(adminStatusBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminStatusChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jButton1)
+                    .addComponent(insertUpdateAdminButton)
                     .addComponent(resetPasswordButton))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -653,16 +680,18 @@ public class AdminPanel extends javax.swing.JFrame {
             model.addColumn("Admin ID");
             model.addColumn("Admin Name");
             model.addColumn("Admin Role");
+            model.addColumn("Admin Status");
 
 
             // Memproses hasil query untuk menambahkan baris ke dalam model tabel
             while (rs.next()) {
-                String roomId = rs.getString("adminid");
-                String checkIn = rs.getString("adminName");
-                String checkOut = rs.getString("adminRole");
+                String adminId = rs.getString("adminid");
+                String adminName = rs.getString("adminName");
+                String adminRoles = rs.getString("adminRole");
+                String adminStats = rs.getString("adminStatus");
 
                 // Tambahkan baris ke dalam model tabel
-                model.addRow(new Object[]{roomId, checkIn, checkOut,});
+                model.addRow(new Object[]{adminId, adminName, adminRoles, adminStats});
             }
 
             // Set model tabel
@@ -799,28 +828,98 @@ public class AdminPanel extends javax.swing.JFrame {
         // Mendapatkan tanggal hari ini
         java.util.Date today = new java.util.Date();
         String Notes = reservationNotes(conn, ID);
-        try {
-            // Query untuk check In
-            String query = "UPDATE reservation SET reservation_status = ?, reservation_notes = ? WHERE reservation_id = ?";
-            // Persiapkan statement
-            PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, "Cancle");
-            statement.setString(2, Notes + " AND Cancled on: " + today);
-            statement.setString(3, ID); // Mengatur nilai untuk parameter kedua (reservation_id)
+        
+        int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin membatalkan reservasi ini?", "Konfirmasi Pembatalan", JOptionPane.YES_NO_OPTION);
+    
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Query untuk check In
+                String query = "UPDATE reservation SET reservation_status = ?, reservation_notes = ? WHERE reservation_id = ?";
+                // Persiapkan statement
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, "Canceled");
+                statement.setString(2, Notes + " AND Canceled on: " + today);
+                statement.setString(3, ID); // Mengatur nilai untuk parameter ketiga (reservation_id)
 
-            // Eksekusi kueri
-            int rowsUpdated = statement.executeUpdate(); // Menggunakan executeUpdate() untuk menjalankan query UPDATE
-            if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(null, "Berhasil Cancle pada:  " + today, "Sukses", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, "Gagal Mencancle Reservasi", "Error", JOptionPane.ERROR_MESSAGE);
+                // Eksekusi kueri
+                int rowsUpdated = statement.executeUpdate(); // Menggunakan executeUpdate() untuk menjalankan query UPDATE
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Reservasi berhasil dibatalkan pada:  " + today, "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Gagal membatalkan reservasi", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Tangani pengecualian sesuai kebutuhan Anda
+                JOptionPane.showMessageDialog(null, "Gagal membatalkan reservasi", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Tangani pengecualian sesuai kebutuhan Anda
-            JOptionPane.showMessageDialog(null, "Gagal Mencancle Reservasi", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_cancleBookingButtonActionPerformed
+
+    private void insertUpdateAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertUpdateAdminButtonActionPerformed
+        // TODO add your handling code here:
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        
+        String adminName = adminNameTextField.getText();
+        String adminPass = new String(adminPasswordField.getPassword());
+        try {
+            // Mengecek apakah admin dengan nama yang sama sudah ada dalam tabel
+            PreparedStatement checkStatement = conn.prepareStatement("SELECT COUNT(*) FROM admin WHERE adminName = ?");
+            checkStatement.setString(1, adminName);
+            ResultSet rs = checkStatement.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+
+            if (count > 0) {
+                // Jika admin dengan nama yang sama sudah ada, lakukan update
+                PreparedStatement updateStatement = conn.prepareStatement("UPDATE admin SET adminRole = ?, adminStatus = ? WHERE adminName = ?");
+                updateStatement.setString(1, adminRole);
+                updateStatement.setString(2, adminStatus);
+                updateStatement.setString(3, adminName);
+                updateStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data admin diupdate.");
+            } else {
+                // Jika tidak ada admin dengan nama yang sama, lakukan insert
+                PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO admin (adminName, adminPass, adminRole, adminStatus) VALUES (?, ?, ?, ?)");
+                insertStatement.setString(1, adminName);
+                insertStatement.setString(2, adminPass);
+                insertStatement.setString(3, adminRole);
+                insertStatement.setString(4, adminStatus);
+                insertStatement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data admin ditambahkan.");
+            }
+
+            // Tutup statement dan koneksi
+            rs.close();
+            conn.close();
+        } catch (SQLException ex) {
+            // Tangani kesalahan SQL
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_insertUpdateAdminButtonActionPerformed
+
+    private void searchRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchRoomButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_searchRoomButtonActionPerformed
+
+    private void adminRoleChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminRoleChooserActionPerformed
+        // TODO add your handling code here:
+        // Mendapatkan opsi yang dipilih
+        adminRole = (String) adminRoleChooser.getSelectedItem();
+    }//GEN-LAST:event_adminRoleChooserActionPerformed
+
+    private void adminStatusChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminStatusChooserActionPerformed
+        // TODO add your handling code here:
+        // Mendapatkan opsi yang dipilih
+        adminStatus = (String) adminStatusChooser.getSelectedItem();
+    }//GEN-LAST:event_adminStatusChooserActionPerformed
+
+    private void setAvailableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setAvailableButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_setAvailableButtonActionPerformed
 
     // Metode untuk menghash password menggunakan BCrypt
     private String hashPassword(String password) {
@@ -871,17 +970,14 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JPasswordField adminPasswordField;
     private javax.swing.JButton adminProfileButton;
     private javax.swing.JComboBox<String> adminRoleChooser;
-    private javax.swing.JComboBox<String> adminStatusBox;
+    private javax.swing.JComboBox<String> adminStatusChooser;
     private javax.swing.JTable adminTable;
     private javax.swing.JButton bookingListButton;
     private javax.swing.JTable bookingListTable;
     private javax.swing.JButton cancleBookingButton;
     private javax.swing.JButton checkInButton;
     private javax.swing.JButton checkOutButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
+    private javax.swing.JButton insertUpdateAdminButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -898,12 +994,15 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton reservationButton;
     private javax.swing.JTable reservationTable;
-    private javax.swing.JTable reservationTable1;
     private javax.swing.JTextField reservationTextField;
-    private javax.swing.JTextField reservationTextField1;
     private javax.swing.JButton resetPasswordButton;
+    private javax.swing.JTextField roomIDTextField;
     private javax.swing.JButton roomManagementButton;
+    private javax.swing.JTable roomManagementTable;
     private javax.swing.JButton searchAdminButton;
     private javax.swing.JButton searchReservationButton;
+    private javax.swing.JButton searchRoomButton;
+    private javax.swing.JButton setAvailableButton;
+    private javax.swing.JButton setUnavailableButton;
     // End of variables declaration//GEN-END:variables
 }

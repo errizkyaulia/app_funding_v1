@@ -83,13 +83,25 @@ public class ReservationMenu extends javax.swing.JFrame {
         myReservationTable = new javax.swing.JTable();
         ReservationEditor = new javax.swing.JPanel();
         cancleReservationButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        reshceduleButton = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        reservationEditorTable = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
+        fullnameCancleTextField = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        emailCancleTextField = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        roomEditorTable = new javax.swing.JTable();
+        otherReservationButton = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        reservationIDTextField = new javax.swing.JTextField();
         History = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         historyTable = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
+        userHistoryLabel = new javax.swing.JLabel();
         Profile = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -101,6 +113,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         usernameProfileTextField = new javax.swing.JTextField();
         emailProfileTextField = new javax.swing.JTextField();
         phonenumberProfileTextField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         Menu = new javax.swing.JPanel();
         findRoomButton = new javax.swing.JButton();
         myReservationButton = new javax.swing.JButton();
@@ -201,7 +214,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE))
         );
 
-        TabPanel.addTab("tab1", FindRoom);
+        TabPanel.addTab("Find Room", FindRoom);
 
         RoomCart.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -360,7 +373,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGap(47, 47, 47))
         );
 
-        TabPanel.addTab("tab2", RoomCart);
+        TabPanel.addTab("Reservation Summary", RoomCart);
 
         jLabel10.setText("Here is the Room list that you have Booked");
 
@@ -400,7 +413,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        TabPanel.addTab("tab3", MyReservation);
+        TabPanel.addTab("My Reservation", MyReservation);
 
         cancleReservationButton.setText("Cancle Book");
         cancleReservationButton.addActionListener(new java.awt.event.ActionListener() {
@@ -409,9 +422,14 @@ public class ReservationMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Reschedule");
+        reshceduleButton.setText("Reschedule");
+        reshceduleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reshceduleButtonActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        reservationEditorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -422,36 +440,110 @@ public class ReservationMenu extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        jScrollPane4.setViewportView(reservationEditorTable);
+
+        jLabel16.setText("Full Name:");
+
+        fullnameCancleTextField.setEditable(false);
+
+        jLabel17.setText("Email:");
+
+        emailCancleTextField.setEditable(false);
+
+        jLabel18.setText("Reservation Details:");
+
+        jLabel19.setText("Room Details:");
+
+        roomEditorTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane6.setViewportView(roomEditorTable);
+
+        otherReservationButton.setText("Choose Other Reservation");
+        otherReservationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                otherReservationButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("Reservation ID:");
+
+        reservationIDTextField.setEditable(false);
 
         javax.swing.GroupLayout ReservationEditorLayout = new javax.swing.GroupLayout(ReservationEditor);
         ReservationEditor.setLayout(ReservationEditorLayout);
         ReservationEditorLayout.setHorizontalGroup(
             ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReservationEditorLayout.createSequentialGroup()
-                .addContainerGap(176, Short.MAX_VALUE)
-                .addComponent(cancleReservationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(261, 261, 261))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ReservationEditorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4)
+                .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ReservationEditorLayout.createSequentialGroup()
+                        .addComponent(otherReservationButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancleReservationButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(reshceduleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ReservationEditorLayout.createSequentialGroup()
+                        .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ReservationEditorLayout.createSequentialGroup()
+                                .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ReservationEditorLayout.createSequentialGroup()
+                                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(emailCancleTextField))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, ReservationEditorLayout.createSequentialGroup()
+                                        .addComponent(jLabel16)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(fullnameCancleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(64, 64, 64)
+                                .addComponent(jLabel20)
+                                .addGap(18, 18, 18)
+                                .addComponent(reservationIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         ReservationEditorLayout.setVerticalGroup(
             ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ReservationEditorLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(cancleReservationButton))
-                .addContainerGap(145, Short.MAX_VALUE))
+                    .addComponent(jLabel16)
+                    .addComponent(fullnameCancleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20)
+                    .addComponent(reservationIDTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(8, 8, 8)
+                .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(emailCancleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(ReservationEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reshceduleButton)
+                    .addComponent(cancleReservationButton)
+                    .addComponent(otherReservationButton))
+                .addGap(51, 51, 51))
         );
 
-        TabPanel.addTab("tab4", ReservationEditor);
+        TabPanel.addTab("Reservation Editor", ReservationEditor);
 
         historyTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -478,6 +570,8 @@ public class ReservationMenu extends javax.swing.JFrame {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
                     .addGroup(HistoryLayout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(userHistoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -485,13 +579,15 @@ public class ReservationMenu extends javax.swing.JFrame {
             HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(HistoryLayout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addComponent(jLabel15)
+                .addGroup(HistoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userHistoryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(68, Short.MAX_VALUE))
         );
 
-        TabPanel.addTab("tab5", History);
+        TabPanel.addTab("History", History);
 
         jLabel11.setText("Full Name:");
 
@@ -502,59 +598,76 @@ public class ReservationMenu extends javax.swing.JFrame {
         jLabel14.setText("Phone Number:");
 
         updateProfileButton.setText("Update");
+        updateProfileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateProfileButtonActionPerformed(evt);
+            }
+        });
 
         resetPasswordButton.setText("Reset Password");
+        resetPasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetPasswordButtonActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Request Account Delete");
 
         javax.swing.GroupLayout ProfileLayout = new javax.swing.GroupLayout(Profile);
         Profile.setLayout(ProfileLayout);
         ProfileLayout.setHorizontalGroup(
             ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProfileLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(24, 24, 24)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(resetPasswordButton)
-                    .addGroup(ProfileLayout.createSequentialGroup()
-                        .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(updateProfileButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fullnameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(usernameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(emailProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(417, Short.MAX_VALUE))
+                    .addComponent(usernameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emailProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(fullnameProfileTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(ProfileLayout.createSequentialGroup()
+                            .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(updateProfileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(146, 146, 146)
+                            .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(resetPasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
         ProfileLayout.setVerticalGroup(
             ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ProfileLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(87, 87, 87)
                 .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(fullnameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fullnameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGap(18, 18, 18)
                 .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(usernameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(usernameProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(emailProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(emailProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
                 .addGap(18, 18, 18)
                 .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(updateProfileButton)
-                .addGap(43, 43, 43)
-                .addComponent(resetPasswordButton)
-                .addContainerGap(90, Short.MAX_VALUE))
+                    .addComponent(resetPasswordButton))
+                .addGap(18, 18, 18)
+                .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(updateProfileButton)
+                    .addComponent(jButton1))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
-        TabPanel.addTab("tab6", Profile);
+        TabPanel.addTab("Profile", Profile);
 
         Menu.setBackground(new java.awt.Color(204, 255, 255));
         Menu.setPreferredSize(new java.awt.Dimension(200, 400));
@@ -750,7 +863,6 @@ public class ReservationMenu extends javax.swing.JFrame {
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("ID");
             model.addColumn("Room");
-            model.addColumn("Full Name");
             model.addColumn("Check In");
             model.addColumn("Check Out");
             model.addColumn("Total Nights");
@@ -758,12 +870,11 @@ public class ReservationMenu extends javax.swing.JFrame {
             model.addColumn("Bills Status");
             model.addColumn("Book Status");
 
-
+            String fullname = ""; // Menyimpan nama pengguna
             // Memproses hasil query untuk menambahkan baris ke dalam model tabel
             while (rs.next()) {
                 String reserID = rs.getString("reservation_id");
                 String roomNum = rs.getString("room_id");
-                String fullname = rs.getString("fullname");
                 String ckIn = rs.getString("check_in");
                 String ckOut = rs.getString("check_out");
                 String tNights = rs.getString("totalNights");
@@ -772,9 +883,13 @@ public class ReservationMenu extends javax.swing.JFrame {
                 String status = rs.getString("reservation_status");
                 
                 // Tambahkan baris ke dalam model tabel
-                model.addRow(new Object[]{reserID, roomNum, fullname, ckIn, ckOut, tNights, bills, payStatus, status});
+                model.addRow(new Object[]{reserID, roomNum, ckIn, ckOut, tNights, bills, payStatus, status});
+                // Simpan nama pengguna
+                fullname = rs.getString("fullname");
             }
 
+            // Set nama pengguna ke label
+            userHistoryLabel.setText(fullname);
             // Set model tabel
             historyTable.setModel(model);
 
@@ -804,6 +919,49 @@ public class ReservationMenu extends javax.swing.JFrame {
         // Reset Table
         DefaultTableModel model = (DefaultTableModel) availableRoomsTable.getModel();
         model.setRowCount(0); // Menghapus semua baris dalam tabel
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        
+        String ID = new propsLoader().loadUserID();
+        try {
+            // Query untuk check Out
+            String query = "SELECT * FROM user WHERE userid = ?";
+            // Persiapkan statement
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, ID);
+
+            // Eksekusi kueri
+            ResultSet rs = statement.executeQuery();
+
+            // Periksa apakah ResultSet mengandung baris
+            if (rs.next()) {
+                String FullName = rs.getString("fullname");
+                String userName = rs.getString("username");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phonenumber");
+                
+                fullnameProfileTextField.setText(FullName);
+                usernameProfileTextField.setText(userName);
+                emailProfileTextField.setText(email);
+                phonenumberProfileTextField.setText(phoneNumber);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Tangani pengecualian sesuai kebutuhan Anda
+            JOptionPane.showMessageDialog(null, "Gagal Mengecek Check Out", "Error", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            // Menutup koneksi setelah selesai digunakan
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Tangani kesalahan penutupan koneksi
+                e.printStackTrace();
+            }
+        }
+        
         TabPanel.setSelectedIndex(5);
     }//GEN-LAST:event_profileButtonActionPerformed
 
@@ -902,7 +1060,44 @@ public class ReservationMenu extends javax.swing.JFrame {
 
     private void cancleReservationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleReservationButtonActionPerformed
         // TODO add your handling code here:
+        String ID = (String) reservationIDTextField.getText();
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        
+        if (cancleReservation(conn, ID)){
+            TabPanel.setSelectedIndex(4);
+        }
     }//GEN-LAST:event_cancleReservationButtonActionPerformed
+
+    private void resetPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPasswordButtonActionPerformed
+        // TODO add your handling code here:
+        new ResetPassword().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_resetPasswordButtonActionPerformed
+
+    private void reshceduleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reshceduleButtonActionPerformed
+        // TODO add your handling code here:
+        String ID = (String) reservationIDTextField.getText();
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        
+        JOptionPane.showMessageDialog(null, "Anda akan membatalkan Reservasi ini terlebih dahulu kemudian pilih kamar lain yang tersedia", "Information", JOptionPane.INFORMATION_MESSAGE);
+        if (cancleReservation(conn, ID)){
+            TabPanel.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_reshceduleButtonActionPerformed
+
+    private void otherReservationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otherReservationButtonActionPerformed
+        // TODO add your handling code here:
+        TabPanel.setSelectedIndex(2);
+    }//GEN-LAST:event_otherReservationButtonActionPerformed
+
+    private void updateProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfileButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_updateProfileButtonActionPerformed
 
     // Menampilkan Kamar
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
@@ -946,7 +1141,7 @@ public class ReservationMenu extends javax.swing.JFrame {
 
             // Tambahkan ActionListener untuk tombol Select
             availableRoomsTable.getColumn("Select").setCellRenderer(new ButtonRenderer());
-            availableRoomsTable.getColumn("Select").setCellEditor(new ButtonEditor(new JCheckBox()));
+            availableRoomsTable.getColumn("Select").setCellEditor(new AvailableRoomsButtonEditor(new JCheckBox()));
 
             // Tutup statement dan result set
             statement.close();
@@ -969,12 +1164,12 @@ public class ReservationMenu extends javax.swing.JFrame {
     }
 
     // Editor untuk tombol Select
-    class ButtonEditor extends DefaultCellEditor {
+    class AvailableRoomsButtonEditor extends DefaultCellEditor {
         protected JButton button;
 
         private String roomId;
 
-        public ButtonEditor(JCheckBox checkBox) {
+        public AvailableRoomsButtonEditor(JCheckBox checkBox) {
             super(checkBox);
             button = new JButton();
             button.setOpaque(true);
@@ -998,7 +1193,7 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         @Override
         public Object getCellEditorValue() {
-            return roomId;
+            return "Select";
         }
 
         // Method untuk menambah data ke dalam cartRoomTable
@@ -1078,9 +1273,10 @@ public class ReservationMenu extends javax.swing.JFrame {
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         String UserId = new propsLoader().loadUserID();
         String status = "Booked";
+        
         try {
-            // Query untuk mengambil informasi kamar yang tersedia pada rentang tanggal tertentu
-            String query = "SELECT * FROM reservation WHERE userid = ? AND reservation_status = ?";
+            // Query untuk mengambil informasi kamar yang sudah di Booking
+            String query = "SELECT * FROM reservation r JOIN user u ON r.userid = u.userid WHERE r.userid = ? AND reservation_status = ?";
 
             // Persiapkan statement
             PreparedStatement statement = conn.prepareStatement(query);
@@ -1095,26 +1291,41 @@ public class ReservationMenu extends javax.swing.JFrame {
             model.addColumn("Room Number");
             model.addColumn("Check In");
             model.addColumn("Check Out");
+            model.addColumn("Total Nights");
             model.addColumn("Bills");
             model.addColumn("Status");
             model.addColumn("Select"); // Kolom tambahan untuk tombol Select
 
-
+            String fullname ="";
+            String email ="";
+            String reservationID = "";
             // Memproses hasil query untuk menambahkan baris ke dalam model tabel
             while (rs.next()) {
                 String roomId = rs.getString("room_id");
                 String checkIn = rs.getString("check_in");
                 String checkOut = rs.getString("check_out");
+                String totalNigths = rs.getString("totalNights");
                 String Bills = rs.getString("reservation_bills");
                 String billsStatus = rs.getString("bill_status");
 
                 // Tambahkan baris ke dalam model tabel
-                model.addRow(new Object[]{roomId, checkIn, checkOut, Bills, billsStatus, "Select"});
+                model.addRow(new Object[]{roomId, checkIn, checkOut, totalNigths, Bills, billsStatus, "Select"});
+                // Simpan nama pengguna
+                fullname = rs.getString("fullname");
+                email = rs.getString("email");
+                reservationID = rs.getString("reservation_id");
             }
 
+            fullnameCancleTextField.setText(fullname);
+            emailCancleTextField.setText(email);
+            reservationIDTextField.setText(reservationID);
             // Set model tabel
             myReservationTable.setModel(model);
-
+            
+            // Tambahkan ActionListener untuk tombol "Select" pada reservationEditorTable
+            myReservationTable.getColumn("Select").setCellRenderer(new ButtonRenderer());
+            myReservationTable.getColumn("Select").setCellEditor(new ReservationEditorButtonEditor(new JCheckBox()));
+            
             // Tutup statement dan result set
             statement.close();
             rs.close();
@@ -1134,6 +1345,180 @@ public class ReservationMenu extends javax.swing.JFrame {
             }
         }
     }
+    // Editor untuk tombol Select pada reservationEditorTable
+    class ReservationEditorButtonEditor extends DefaultCellEditor {
+        protected JButton button;
+
+        private String roomId;
+        public ReservationEditorButtonEditor(JCheckBox checkBox) {
+            super(checkBox);
+            button = new JButton();
+            button.setOpaque(true);
+            // Tambahkan ActionListener untuk tombol "Select" pada reservationEditorTable
+            button.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Dapatkan room_id dari baris yang diklik
+                    roomId = (String) myReservationTable.getValueAt(myReservationTable.getSelectedRow(), 0);
+                    showRoomEditor(roomId);
+                }
+            });
+        }
+        
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value,
+                                                     boolean isSelected, int row, int column) {
+            button.setText((value == null) ? "" : value.toString());
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            return ""; // Sesuaikan dengan nilai yang dibutuhkan
+        }
+        
+        // Method untuk menambah data ke dalam cartRoomTable
+        private void showRoomEditor(String roomId) {
+            // Ambil data dari myReservationTable berdasarkan roomId
+            int selectedRow = myReservationTable.getSelectedRow();
+            if (selectedRow != -1) { // Pastikan baris terpilih valid
+                String[] rowData = new String[myReservationTable.getColumnCount()];
+                for (int i = 0; i < myReservationTable.getColumnCount(); i++) {
+                    rowData[i] = myReservationTable.getValueAt(selectedRow, i).toString();
+                }
+
+                // Buat model baru untuk cartRoomTable
+                DefaultTableModel editorModel = new DefaultTableModel();
+                editorModel.addColumn("Room Number");
+                editorModel.addColumn("Check In");
+                editorModel.addColumn("Check Out");
+                editorModel.addColumn("Total Nigths");
+                editorModel.addColumn("Bills");
+                editorModel.addColumn("Status");
+                reservationEditorTable.setModel(editorModel);
+
+                // Tambahkan data ke dalam cartRoomTable
+                editorModel.addRow(rowData);
+                
+                showRoomDetails(roomId);
+                // Pindah ke TabPanel index 1
+                TabPanel.setSelectedIndex(3);
+            } else {
+                JOptionPane.showMessageDialog(null, "Pilih kamar yang ingin di Cancle.", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+        
+        private void showRoomDetails(String roomId){
+            // Connect into database and fetching user data
+            ConnectionDatabase database = new ConnectionDatabase();
+            Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+            try {
+                // Query untuk mengambil informasi kamar yang sudah di Booking
+                String query = "SELECT * FROM room WHERE room_id = ?";
+
+                // Persiapkan statement
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, roomId);
+
+                // Eksekusi kueri
+                ResultSet rs = statement.executeQuery();
+
+                // Buat model tabel
+                DefaultTableModel model = new DefaultTableModel();
+                model.addColumn("Room Number");
+                model.addColumn("Room Type");
+                model.addColumn("Room Bed");
+                model.addColumn("Room Capacity");
+                model.addColumn("Room Floor");
+                model.addColumn("Room Price per Night");
+
+                // Memproses hasil query untuk menambahkan baris ke dalam model tabel
+                while (rs.next()) {
+                    String roomNum = rs.getString("room_id");
+                    String roomType = rs.getString("room_type");
+                    String roomBed = rs.getString("room_bed");
+                    String roomCapacity = rs.getString("room_capacity");
+                    String roomFloor = rs.getString("room_floor");
+                    String roomPrice = rs.getString("room_price");
+
+                    // Tambahkan baris ke dalam model tabel
+                    model.addRow(new Object[]{roomNum, roomType, roomBed, roomCapacity, roomFloor, roomPrice});
+                }
+
+                // Set model tabel
+                roomEditorTable.setModel(model);
+
+                // Tutup statement dan result set
+                statement.close();
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Tangani pengecualian sesuai kebutuhan Anda
+                JOptionPane.showMessageDialog(null, "Gagal Memuat Kamar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private boolean cancleReservation(Connection conn, String ID){
+        
+        // Mendapatkan tanggal hari ini
+        java.util.Date today = new java.util.Date();
+        String Notes = reservationNotes(conn, ID);
+        
+        int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin membatalkan reservasi ini?", "Konfirmasi Pembatalan", JOptionPane.YES_NO_OPTION);
+    
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Query untuk check In
+                String query = "UPDATE reservation SET reservation_status = ?, reservation_notes = ? WHERE reservation_id = ?";
+                // Persiapkan statement
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, "Canceled");
+                statement.setString(2, Notes + " AND Canceled on: " + today);
+                statement.setString(3, ID); // Mengatur nilai untuk parameter ketiga (reservation_id)
+
+                // Eksekusi kueri
+                int rowsUpdated = statement.executeUpdate(); // Menggunakan executeUpdate() untuk menjalankan query UPDATE
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Reservasi berhasil dibatalkan pada:  " + today, "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    // Kembali ke My Reservation
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Gagal membatalkan reservasi", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Tangani pengecualian sesuai kebutuhan Anda
+                JOptionPane.showMessageDialog(null, "Gagal membatalkan reservasi", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        return false;
+    }
+    
+    private String reservationNotes(Connection conn, String ID){
+        String checkOutNotes = "";
+        try {
+            // Query untuk check Out
+            String query = "SELECT reservation_notes FROM reservation WHERE reservation_id = ?";
+            // Persiapkan statement
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, ID);
+
+            // Eksekusi kueri
+            ResultSet rs = statement.executeQuery();
+
+            // Periksa apakah ResultSet mengandung baris
+            if (rs.next()) {
+                checkOutNotes = rs.getString("reservation_notes");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Tangani pengecualian sesuai kebutuhan Anda
+            JOptionPane.showMessageDialog(null, "Gagal Mengecek Check Out", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return checkOutNotes;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -1188,13 +1573,15 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JLabel checkOutDateLabel;
     private javax.swing.JButton chooseOtherRoomButton;
     private javax.swing.JButton confirmBookingButton;
+    private javax.swing.JTextField emailCancleTextField;
     private javax.swing.JTextField emailProfileTextField;
     private javax.swing.JTextField emailTextField;
     private javax.swing.JButton findRoomButton;
+    private javax.swing.JTextField fullnameCancleTextField;
     private javax.swing.JTextField fullnameProfileTextField;
     private javax.swing.JButton historyButton;
     private javax.swing.JTable historyTable;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1202,7 +1589,12 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1216,19 +1608,25 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JButton logoutButton;
     private javax.swing.JButton myReservationButton;
     private javax.swing.JTable myReservationTable;
     private javax.swing.JLabel nightsLabel;
+    private javax.swing.JButton otherReservationButton;
     private javax.swing.JTextField phonenumberProfileTextField;
     private javax.swing.JButton profileButton;
+    private javax.swing.JTable reservationEditorTable;
+    private javax.swing.JTextField reservationIDTextField;
     private javax.swing.JButton resetPasswordButton;
+    private javax.swing.JButton reshceduleButton;
+    private javax.swing.JTable roomEditorTable;
     private javax.swing.JButton searchButton;
     private javax.swing.JLabel totalNightsConfirmLabel;
     private javax.swing.JLabel totalNightsLabel;
     private javax.swing.JLabel totalPriceLabel;
     private javax.swing.JButton updateProfileButton;
+    private javax.swing.JLabel userHistoryLabel;
     private javax.swing.JTextField usernameProfileTextField;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables

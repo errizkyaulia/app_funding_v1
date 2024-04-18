@@ -48,4 +48,9 @@ public class propsLoader {
         loadProperties();
         return PROPS.getProperty("User_LastLogin");
     }
+    
+    public static String loadEmailForgot(){
+        loadProperties();
+        return PROPS.getProperty("User_EmailForgotPassReq");
+    }
 }

@@ -5,6 +5,12 @@
  */
 package User;
 
+import Connection.ConnectionDatabase;
+import Hotel.Login;
+import config.BCrypt;
+import java.sql.*;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Rizky
@@ -43,10 +49,20 @@ public class ResetPassword extends javax.swing.JFrame {
         jLabel2.setText("Confirm New Password");
 
         confirmResetButton.setText("Confirm");
+        confirmResetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmResetButtonActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Change your password here");
 
         cancleResetButton.setText("Cancle");
+        cancleResetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancleResetButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,6 +114,70 @@ public class ResetPassword extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void confirmResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmResetButtonActionPerformed
+        // TODO add your handling code here:
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        if (resetPass(conn)){
+            
+        }
+        
+    }//GEN-LAST:event_confirmResetButtonActionPerformed
+
+    private void cancleResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleResetButtonActionPerformed
+        // TODO add your handling code here:
+        
+        new Login().setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_cancleResetButtonActionPerformed
+
+    private boolean resetPass(Connection conn){
+        String pass = new String(resetPasswordField.getPassword());
+        String conPass = new String(confirmResetPasswordField.getPassword());
+        if (conPass.equals(pass)){
+            // Check if input length is more or equals 8 digits
+            if (pass.length() < 8) {
+                // Display an error message or handle invalid OTP length
+                JOptionPane.showMessageDialog(this, "Password must be 8 digits long or more.", "Invalid Password", JOptionPane.ERROR_MESSAGE);
+                return false; // Exit the method early
+            }
+            // Encrypt user Password before storing into Database
+            String hashedPassword = hashPassword(pass);
+            int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin merubah Password?", "Konfirmasi Reset", JOptionPane.YES_NO_OPTION);
+    
+            if (confirm == JOptionPane.YES_OPTION) {
+                try {
+                    // Query untuk check In
+                    String query = "UPDATE user SET password = ? WHERE userid = ?";
+                    // Persiapkan statement
+                    PreparedStatement statement = conn.prepareStatement(query);
+                    statement.setString(1, hashedPassword);
+                    //statement.setString(2, userid);
+
+                    // Eksekusi kueri
+                    int rowsUpdated = statement.executeUpdate(); // Menggunakan executeUpdate() untuk menjalankan query UPDATE
+                    if (rowsUpdated > 0) {
+                        JOptionPane.showMessageDialog(null, "Password Berhasil Diganti", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Gagal Mengganti Password", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    // Tangani pengecualian sesuai kebutuhan Anda
+                    JOptionPane.showMessageDialog(null, "Gagal mengganti Password", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    // Metode untuk menghash password menggunakan BCrypt
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+    
     /**
      * @param args the command line arguments
      */

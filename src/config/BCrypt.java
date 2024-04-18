@@ -13,7 +13,7 @@
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 // package src.org.mindrot.jbcrypt;
-package Hotel;
+package config;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
