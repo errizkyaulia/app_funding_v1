@@ -303,9 +303,9 @@
                           <Component id="setAvailableButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="setUnavailableButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="125" max="-2" attributes="0"/>
-                      <EmptySpace pref="104" max="32767" attributes="0"/>
+                      <EmptySpace pref="163" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -360,6 +360,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set Unavailable"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setUnavailableButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

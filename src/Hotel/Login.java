@@ -9,6 +9,7 @@ import Admin.AdminPanel;
 import Connection.ConnectionDatabase;
 import GUI.Loading;
 import User.ReservationMenu;
+import config.propsLoader;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.io.FileOutputStream;
@@ -28,7 +29,8 @@ import java.util.logging.Logger;
  * @author Rizky
  */
 public class Login extends javax.swing.JFrame {
-
+    private static final Properties PROPS = new Properties();
+    private static final String FILE_PATH = "D:\\4 ISA 1\\Project\\Booking_Hotel\\src\\config\\user.properties";
     /**
      * Creates new form Login
      */
@@ -45,49 +47,30 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        usernameTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         passwordField = new javax.swing.JPasswordField();
         loginButton = new javax.swing.JButton();
-        signupButton = new javax.swing.JButton();
-        forgotButton = new javax.swing.JButton();
-        loginLabel = new javax.swing.JLabel();
-        usernameTextField = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        forgotButton = new javax.swing.JButton();
+        signupButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
-        setPreferredSize(new java.awt.Dimension(650, 400));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(passwordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 180, 200, 30));
+        setBackground(new java.awt.Color(190, 152, 152));
+        setPreferredSize(new java.awt.Dimension(590, 420));
 
-        loginButton.setText("Login");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(loginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 220, 200, -1));
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Login.png"))); // NOI18N
+        jPanel1.add(jLabel8);
 
-        signupButton.setText("Signup");
-        signupButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signupButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(signupButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 300, 80, -1));
+        jPanel2.setBackground(new java.awt.Color(190, 152, 152));
 
-        forgotButton.setText("I'm Forgot");
-        forgotButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                forgotButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(forgotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, -1, -1));
-
-        loginLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/Login.png"))); // NOI18N
-        getContentPane().add(loginLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 300, 400));
+        jLabel3.setText("Username/Email");
 
         usernameTextField.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         usernameTextField.setOpaque(true);
@@ -96,19 +79,108 @@ public class Login extends javax.swing.JFrame {
                 usernameTextFieldActionPerformed(evt);
             }
         });
-        getContentPane().add(usernameTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 200, 30));
-
-        jLabel3.setText("Username/Email");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, -1, -1));
 
         jLabel4.setText("Password");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(354, 162, -1, -1));
 
-        jLabel5.setText("Create Account");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 279, -1, -1));
+        loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Forgot Password?");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, -1, -1));
+
+        forgotButton.setText("I'm Forgot");
+        forgotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                forgotButtonActionPerformed(evt);
+            }
+        });
+
+        signupButton.setText("Signup");
+        signupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signupButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Create Account");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(signupButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(6, 6, 6)
+                            .addComponent(jLabel3))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(usernameTextField)
+                                .addComponent(jLabel4)
+                                .addComponent(passwordField)))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(forgotButton, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel5)))
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(68, 68, 68)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(loginButton)
+                .addGap(39, 39, 39)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(forgotButton)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(signupButton)
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         pack();
         setLocationRelativeTo(null);
@@ -116,17 +188,6 @@ public class Login extends javax.swing.JFrame {
 
     private int loginAttempts = 0;
     private static final int MAX_LOGIN_ATTEMPTS = 3;
-    private static final Properties PROPS = new Properties();
-    private static final String FILE_PATH = "D:\\4 ISA 1\\Project\\Booking_Hotel\\src\\config\\user.properties";
-    
-    static {
-        try {
-            PROPS.load(Login.class.getClassLoader().getResourceAsStream("Config/user.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal Memuat Konfigurasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
     
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
@@ -252,7 +313,7 @@ public class Login extends javax.swing.JFrame {
                 String saveFullName = rs.getString("fullname");
                 
                 // Save Login Info
-                saveUser(saveUserID, saveUsername, saveEmail, saveFullName);
+                propsLoader.saveUser(saveUserID, saveUsername, saveEmail, saveFullName);
                 
                 // Membuat objek Reservation Menu dan Menampilkan
                 new ReservationMenu().setVisible(true);
@@ -272,22 +333,6 @@ public class Login extends javax.swing.JFrame {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return now.format(formatter);
-    }
-    
-    // Metode untuk menyimpan data pengguna ke dalam file user.properties
-    public static void saveUser(String UserID, String username, String email, String fullname) {
-        try {
-            String loginTime = getCurrentDateTime();
-            PROPS.setProperty("User_ID", UserID);
-            PROPS.setProperty("User_Login", username);
-            PROPS.setProperty("User_Email", email);
-            PROPS.setProperty("User_FullName", fullname);
-            PROPS.setProperty("User_LoginTime", loginTime);
-            PROPS.store(new FileOutputStream(FILE_PATH), null);
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Gagal Menyimpan Informasi Pengguna", "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
     
     // Metode untuk menyimpan Cooldown Login Timer
@@ -401,8 +446,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loginButton;
-    private javax.swing.JLabel loginLabel;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JButton signupButton;
     private javax.swing.JTextField usernameTextField;

@@ -270,6 +270,11 @@ public class AdminPanel extends javax.swing.JFrame {
         });
 
         setUnavailableButton.setText("Set Unavailable");
+        setUnavailableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setUnavailableButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout RoomManagementTabLayout = new javax.swing.GroupLayout(RoomManagementTab);
         RoomManagementTab.setLayout(RoomManagementTabLayout);
@@ -302,9 +307,9 @@ public class AdminPanel extends javax.swing.JFrame {
                     .addComponent(searchRoomButton)
                     .addComponent(setAvailableButton)
                     .addComponent(setUnavailableButton))
-                .addGap(77, 77, 77)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(163, Short.MAX_VALUE))
         );
 
         AdminTabPanel.addTab("Room Management", RoomManagementTab);
@@ -864,6 +869,7 @@ public class AdminPanel extends javax.swing.JFrame {
         
         String adminName = adminNameTextField.getText();
         String adminPass = new String(adminPasswordField.getPassword());
+        String Pass = hashPassword(adminPass);
         try {
             // Mengecek apakah admin dengan nama yang sama sudah ada dalam tabel
             PreparedStatement checkStatement = conn.prepareStatement("SELECT COUNT(*) FROM admin WHERE adminName = ?");
@@ -884,7 +890,7 @@ public class AdminPanel extends javax.swing.JFrame {
                 // Jika tidak ada admin dengan nama yang sama, lakukan insert
                 PreparedStatement insertStatement = conn.prepareStatement("INSERT INTO admin (adminName, adminPass, adminRole, adminStatus) VALUES (?, ?, ?, ?)");
                 insertStatement.setString(1, adminName);
-                insertStatement.setString(2, adminPass);
+                insertStatement.setString(2, Pass);
                 insertStatement.setString(3, adminRole);
                 insertStatement.setString(4, adminStatus);
                 insertStatement.executeUpdate();
@@ -902,7 +908,68 @@ public class AdminPanel extends javax.swing.JFrame {
 
     private void searchRoomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchRoomButtonActionPerformed
         // TODO add your handling code here:
-        
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        String roomid = roomIDTextField.getText();
+        try {
+            // Query untuk mengambil informasi kamar
+            String query = "SELECT * FROM room WHERE room_id = ?";
+
+            // Persiapkan statement
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, roomid);
+
+            // Eksekusi kueri
+            ResultSet rs = statement.executeQuery();
+
+            // Buat model tabel
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Room Number");
+            model.addColumn("Room Name");
+            model.addColumn("Room Bed");
+            model.addColumn("Room Capacity");
+            model.addColumn("Room Floor");
+            model.addColumn("Room Type");
+            model.addColumn("Room Price");
+            model.addColumn("Room Status");
+            
+            // Memproses hasil query untuk menambahkan baris ke dalam model tabel
+            while (rs.next()) {
+                String id = rs.getString("room_id");
+                String roomname = rs.getString("room_name");
+                String roombed = rs.getString("room_bed");
+                String roomcap = rs.getString("room_capacity");
+                String roomfloor = rs.getString("room_floor");
+                String roomtype = rs.getString("room_type");
+                String rprice = rs.getString("room_price");
+                String rstatus = rs.getString("room_status");
+                
+                // Tambahkan baris ke dalam model tabel
+                model.addRow(new Object[]{id, roomname, roombed, roomcap, roomfloor, roomtype, rprice, rstatus});
+            }
+
+            // Set model tabel
+            roomManagementTable.setModel(model);
+
+            // Tutup statement dan result set
+            statement.close();
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Tangani pengecualian sesuai kebutuhan Anda
+            JOptionPane.showMessageDialog(null, "Gagal Memuat Kamar", "Error", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            // Menutup koneksi setelah selesai digunakan
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                // Tangani kesalahan penutupan koneksi
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_searchRoomButtonActionPerformed
 
     private void adminRoleChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminRoleChooserActionPerformed
@@ -919,8 +986,48 @@ public class AdminPanel extends javax.swing.JFrame {
 
     private void setAvailableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setAvailableButtonActionPerformed
         // TODO add your handling code here:
+        String roomid = roomIDTextField.getText();
+        String status = "Available";
+        updateRoom(status, roomid);
     }//GEN-LAST:event_setAvailableButtonActionPerformed
 
+    private void setUnavailableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setUnavailableButtonActionPerformed
+        // TODO add your handling code here:
+        String roomid = roomIDTextField.getText();
+        String status = "Unavailable";
+        updateRoom(status, roomid);
+    }//GEN-LAST:event_setUnavailableButtonActionPerformed
+
+    private void updateRoom(String Status, String roomid){
+        // Connect into database and fetching user data
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+        
+        int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin mengubah Status Kamar?", "Konfirmasi Pengubahan", JOptionPane.YES_NO_OPTION);
+    
+        if (confirm == JOptionPane.YES_OPTION) {
+            try {
+                // Query untuk check In
+                String query = "UPDATE room SET room_status = ? WHERE room_id = ?";
+                // Persiapkan statement
+                PreparedStatement statement = conn.prepareStatement(query);
+                statement.setString(1, Status);
+                statement.setString(2, roomid);
+
+                // Eksekusi kueri
+                int rowsUpdated = statement.executeUpdate(); // Menggunakan executeUpdate() untuk menjalankan query UPDATE
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Room Number: " + roomid + " Berhasil Diubah Menjadi " + Status, "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Gagal mengubah status kamar", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Tangani pengecualian sesuai kebutuhan Anda
+                JOptionPane.showMessageDialog(null, "Gagal mengubah status kamar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     // Metode untuk menghash password menggunakan BCrypt
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());

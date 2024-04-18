@@ -6,6 +6,7 @@
 package Hotel;
 import Connection.ConnectionDatabase;
 import Connection.ConnectionEmail;
+import config.propsLoader;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import java.util.Random;
@@ -150,6 +151,9 @@ public class Forgot extends javax.swing.JFrame {
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
+        // Hapus Data User Sebelumnya
+        propsLoader.removeUser();
+        
         // Terima input user
         String username = usernameForgotTextField.getText();
         String email = emailForgotTextField.getText();
@@ -182,7 +186,7 @@ public class Forgot extends javax.swing.JFrame {
                 // OTP
                 String emailOTP = rs.getString("email");
                 String OTP = generateOTP();
-                
+                propsLoader.setEmail(emailOTP);
                 // Masukan OTP ke Database
                 if (otpInsert(conn, emailOTP, OTP)){
                     // Mengirimkan Email Verifikasi

@@ -8,6 +8,7 @@ package User;
 import Connection.ConnectionDatabase;
 import Hotel.Login;
 import config.BCrypt;
+import config.propsLoader;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -120,7 +121,8 @@ public class ResetPassword extends javax.swing.JFrame {
         ConnectionDatabase database = new ConnectionDatabase();
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         if (resetPass(conn)){
-            
+            new Login().setVisible(true);
+            this.setVisible(false);
         }
         
     }//GEN-LAST:event_confirmResetButtonActionPerformed
@@ -142,23 +144,27 @@ public class ResetPassword extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Password must be 8 digits long or more.", "Invalid Password", JOptionPane.ERROR_MESSAGE);
                 return false; // Exit the method early
             }
+            
             // Encrypt user Password before storing into Database
             String hashedPassword = hashPassword(pass);
             int confirm = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin merubah Password?", "Konfirmasi Reset", JOptionPane.YES_NO_OPTION);
     
+            String email = propsLoader.loadEmail();
+
             if (confirm == JOptionPane.YES_OPTION) {
                 try {
                     // Query untuk check In
-                    String query = "UPDATE user SET password = ? WHERE userid = ?";
+                    String query = "UPDATE user SET password = ? WHERE email = ?";
                     // Persiapkan statement
                     PreparedStatement statement = conn.prepareStatement(query);
                     statement.setString(1, hashedPassword);
-                    //statement.setString(2, userid);
+                    statement.setString(2, email);
 
                     // Eksekusi kueri
                     int rowsUpdated = statement.executeUpdate(); // Menggunakan executeUpdate() untuk menjalankan query UPDATE
                     if (rowsUpdated > 0) {
                         JOptionPane.showMessageDialog(null, "Password Berhasil Diganti", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                        return true;
                     } else {
                         JOptionPane.showMessageDialog(null, "Gagal Mengganti Password", "Error", JOptionPane.ERROR_MESSAGE);
                     }

@@ -6,17 +6,24 @@
 package User;
 
 import Connection.ConnectionDatabase;
+import Connection.ConnectionEmail;
 import Hotel.Login;
+import Hotel.Signup;
+import static Hotel.Signup.generateToken;
 import config.propsLoader;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -31,6 +38,16 @@ import javax.swing.table.TableCellRenderer;
  */
 public class ReservationMenu extends javax.swing.JFrame {
 
+    private static final Properties PROPS = new Properties();
+
+        static {
+            try {
+                PROPS.load(Signup.class.getClassLoader().getResourceAsStream("Config/application.properties"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
     /**
      * Creates new form Reservation
      */
@@ -113,7 +130,7 @@ public class ReservationMenu extends javax.swing.JFrame {
         usernameProfileTextField = new javax.swing.JTextField();
         emailProfileTextField = new javax.swing.JTextField();
         phonenumberProfileTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        requestDeleteAccountButton = new javax.swing.JButton();
         Menu = new javax.swing.JPanel();
         findRoomButton = new javax.swing.JButton();
         myReservationButton = new javax.swing.JButton();
@@ -134,11 +151,13 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reservation");
+        setBackground(new java.awt.Color(190, 152, 152));
         setMaximizedBounds(getMaximizedBounds());
 
+        TabPanel.setBackground(new java.awt.Color(244, 164, 96));
         TabPanel.setPreferredSize(new java.awt.Dimension(700, 405));
 
-        FindRoom.setBackground(new java.awt.Color(153, 255, 204));
+        FindRoom.setBackground(new java.awt.Color(244, 164, 96));
 
         jLabel1.setText("Check In Date");
 
@@ -216,7 +235,7 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         TabPanel.addTab("Find Room", FindRoom);
 
-        RoomCart.setBackground(new java.awt.Color(204, 255, 204));
+        RoomCart.setBackground(new java.awt.Color(244, 164, 96));
 
         confirmBookingButton.setText("Confirm Booking");
         confirmBookingButton.addActionListener(new java.awt.event.ActionListener() {
@@ -375,6 +394,8 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         TabPanel.addTab("Reservation Summary", RoomCart);
 
+        MyReservation.setBackground(new java.awt.Color(244, 164, 96));
+
         jLabel10.setText("Here is the Room list that you have Booked");
 
         myReservationTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -414,6 +435,8 @@ public class ReservationMenu extends javax.swing.JFrame {
         );
 
         TabPanel.addTab("My Reservation", MyReservation);
+
+        ReservationEditor.setBackground(new java.awt.Color(244, 164, 96));
 
         cancleReservationButton.setText("Cancle Book");
         cancleReservationButton.addActionListener(new java.awt.event.ActionListener() {
@@ -545,6 +568,8 @@ public class ReservationMenu extends javax.swing.JFrame {
 
         TabPanel.addTab("Reservation Editor", ReservationEditor);
 
+        History.setBackground(new java.awt.Color(244, 164, 96));
+
         historyTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -571,7 +596,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                     .addGroup(HistoryLayout.createSequentialGroup()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(userHistoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(userHistoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -588,6 +613,8 @@ public class ReservationMenu extends javax.swing.JFrame {
         );
 
         TabPanel.addTab("History", History);
+
+        Profile.setBackground(new java.awt.Color(244, 164, 96));
 
         jLabel11.setText("Full Name:");
 
@@ -611,7 +638,12 @@ public class ReservationMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Request Account Delete");
+        requestDeleteAccountButton.setText("Request Account Delete");
+        requestDeleteAccountButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestDeleteAccountButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ProfileLayout = new javax.swing.GroupLayout(Profile);
         Profile.setLayout(ProfileLayout);
@@ -636,7 +668,7 @@ public class ReservationMenu extends javax.swing.JFrame {
                                 .addComponent(phonenumberProfileTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(146, 146, 146)
                             .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(requestDeleteAccountButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(resetPasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
@@ -663,13 +695,13 @@ public class ReservationMenu extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(ProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(updateProfileButton)
-                    .addComponent(jButton1))
+                    .addComponent(requestDeleteAccountButton))
                 .addContainerGap(94, Short.MAX_VALUE))
         );
 
         TabPanel.addTab("Profile", Profile);
 
-        Menu.setBackground(new java.awt.Color(204, 255, 255));
+        Menu.setBackground(new java.awt.Color(210, 105, 30));
         Menu.setPreferredSize(new java.awt.Dimension(200, 400));
 
         findRoomButton.setText("Find Room");
@@ -1000,15 +1032,16 @@ public class ReservationMenu extends javax.swing.JFrame {
         java.util.Date today = new java.util.Date();
         String reservationNotes = "Booked on: " + today;
         
+        String recap = "Nomor Kamar: " + roomNumber + "\n" +
+                        "Full Name: " + FullName + "\n" +
+                        "Tanggal Check-in: " + cekInDate + "\n" +
+                        "Tanggal Check-out: " + cekOutDate + "\n" +
+                        "Total Malam: " + totalNights + "\n" +
+                        "Total Harga: " + totalPrices + "\n" +
+                        "Status Tagihan: " + billStatus + "\n";
+        
         // Membuat pesan konfirmasi
-        String confirmationMessage = "Nomor Kamar: " + roomNumber + "\n" +
-                                      "Full Name: " + FullName + "\n" +
-                                      "Tanggal Check-in: " + cekInDate + "\n" +
-                                      "Tanggal Check-out: " + cekOutDate + "\n" +
-                                      "Total Malam: " + totalNights + "\n" +
-                                      "Total Harga: " + totalPrices + "\n" +
-                                      "Status Tagihan: " + billStatus + "\n" +
-                                      "Apakah Anda yakin ingin melakukan pemesanan dengan detail ini?";
+        String confirmationMessage = recap + "Apakah Anda yakin ingin melakukan pemesanan dengan detail ini?";
 
         // Tampilkan pesan konfirmasi menggunakan JOptionPane
         int option = JOptionPane.showConfirmDialog(this, confirmationMessage, "Konfirmasi Pemesanan", JOptionPane.YES_NO_OPTION);
@@ -1036,6 +1069,11 @@ public class ReservationMenu extends javax.swing.JFrame {
 
                 if (rowsInserted > 0) {
                     JOptionPane.showMessageDialog(this, "Pemesanan berhasil dilakukan.", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                    // Kirim email Konfirmasi Pesanan
+                    ConnectionEmail emailSender = new ConnectionEmail();
+                    String emailSubject = "Booking Details";
+                    String emailBody = recap;
+                    // emailSender.sendEmail(propsLoader.loadEmail(), emailSubject, emailBody, null);
                 } else {
                     JOptionPane.showMessageDialog(this, "Gagal menyimpan data reservasi.", "Gagal", JOptionPane.ERROR_MESSAGE);
                 }
@@ -1066,6 +1104,11 @@ public class ReservationMenu extends javax.swing.JFrame {
         Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
         
         if (cancleReservation(conn, ID)){
+            // Kirim email Konfirmasi Pesanan
+            ConnectionEmail emailSender = new ConnectionEmail();
+            String emailSubject = "Cancel Booking";
+            String emailBody = "Berhasil Membatalkan Pesanan dengan ID " + ID;
+            //  emailSender.sendEmail(propsLoader.loadEmail(), emailSubject, emailBody, null);
             TabPanel.setSelectedIndex(4);
         }
     }//GEN-LAST:event_cancleReservationButtonActionPerformed
@@ -1096,9 +1139,122 @@ public class ReservationMenu extends javax.swing.JFrame {
 
     private void updateProfileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateProfileButtonActionPerformed
         // TODO add your handling code here:
-        
+        // TODO add your handling code here:
+        ConnectionDatabase database = new ConnectionDatabase();
+        Connection conn = database.connect(); // Memanggil metode connect untuk membuat koneksi ke database
+
+        // Tampilkan dialog konfirmasi
+        int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to update your profile? You will be logout to confirm your update through mail.", "Confirm Update", JOptionPane.YES_NO_OPTION);
+
+        // Periksa pilihan pengguna
+        if (choice == JOptionPane.YES_OPTION) {
+            if (changeProfile(conn)){
+                new Logout().removeUser();
+                new Login().setVisible(true);
+                this.setVisible(false);
+            }
+        }  
     }//GEN-LAST:event_updateProfileButtonActionPerformed
 
+    private void requestDeleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestDeleteAccountButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_requestDeleteAccountButtonActionPerformed
+
+    private boolean changeProfile(Connection conn) {
+        String fullname = fullnameProfileTextField.getText();
+        String username = usernameProfileTextField.getText();
+        String email = emailProfileTextField.getText();
+        String phoneNum = phonenumberProfileTextField.getText();
+
+        try {
+            // Validasi input
+            if (username.length() < 3) {
+                JOptionPane.showMessageDialog(this, "Username must be at least 3 characters long.", "Invalid Username", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (!isValidEmail(email)) {
+                JOptionPane.showMessageDialog(this, "Invalid email format.", "Invalid Email", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            if (!phoneNum.matches("\\d+")) {
+                JOptionPane.showMessageDialog(this, "Phone Number must be numeric.", "Invalid Phone Number", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            // Cek apakah data sudah ada
+            if (cekData(conn, username, email, phoneNum)) {
+                JOptionPane.showMessageDialog(this, "Username, email, or phone number is already in use.", "Duplicate Data", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
+            // Generate token
+            String token = generateToken(conn);
+
+            String accountstate = "Pending Activation";
+            String query = "UPDATE user SET username = ?, fullname = ?, email = ?, phonenumber = ?, accountstate = ?, token = ? WHERE userid = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, username);
+                pstmt.setString(2, fullname);
+                pstmt.setString(3, email);
+                pstmt.setString(4, phoneNum);
+                pstmt.setString(5, accountstate);
+                pstmt.setString(6, token);
+                pstmt.setString(7, propsLoader.loadUserID());
+
+                if (pstmt.executeUpdate() > 0) {
+                    // Kirim email verifikasi
+                    ConnectionEmail emailSender = new ConnectionEmail();
+                    String web_url = PROPS.getProperty("WEB_HOST");
+                    String emailSubject = "Account Verification";
+                    String emailBody = "Click the following link to verify your profile update: " + web_url + "verify.php?token=" + token;
+                    return emailSender.sendEmail(email, emailSubject, emailBody, null);
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Failed to update profile.", "Profile Update Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An unexpected error occurred.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return false;
+    }
+    
+    // Metode Cek Database
+    private boolean cekData(Connection conn, String username, String email, String phonenumber) {
+        String query = "SELECT * FROM user WHERE (username = ? OR email = ? OR phonenumber = ?) AND userid <> ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, email);
+            pstmt.setString(3, phonenumber);
+            pstmt.setString(4, propsLoader.loadUserID()); // Mengecualikan pengguna saat ini dari hasil query
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next(); // Jika ResultSet memiliki hasil, artinya data sudah ada
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while checking data.", "Database Error", JOptionPane.ERROR_MESSAGE);
+            return true;
+        }
+    }
+    
+    // Metode Cek Email is Valid
+    private boolean isValidEmail(String email) {
+        // Definisikan pola regex untuk format email
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+
+        // Return true jika format email sesuai
+        return matcher.matches();
+    }
+    
     // Menampilkan Kamar
     private void showAvailableRooms(Connection conn, Date checkInDate, Date checkOutDate) {
         // Query untuk mengambil informasi kamar yang tersedia pada rentang tanggal tertentu
@@ -1581,7 +1737,6 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JTextField fullnameProfileTextField;
     private javax.swing.JButton historyButton;
     private javax.swing.JTable historyTable;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1616,6 +1771,7 @@ public class ReservationMenu extends javax.swing.JFrame {
     private javax.swing.JButton otherReservationButton;
     private javax.swing.JTextField phonenumberProfileTextField;
     private javax.swing.JButton profileButton;
+    private javax.swing.JButton requestDeleteAccountButton;
     private javax.swing.JTable reservationEditorTable;
     private javax.swing.JTextField reservationIDTextField;
     private javax.swing.JButton resetPasswordButton;
