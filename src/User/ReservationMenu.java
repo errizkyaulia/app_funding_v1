@@ -1158,7 +1158,17 @@ public class ReservationMenu extends javax.swing.JFrame {
 
     private void requestDeleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestDeleteAccountButtonActionPerformed
         // TODO add your handling code here:
-        
+        // Tampilkan dialog konfirmasi
+        int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete your Account? You will be logout.", "Confirm Update", JOptionPane.YES_NO_OPTION);
+
+        // Periksa pilihan pengguna
+        if (choice == JOptionPane.YES_OPTION) {
+            if (RequestDeleteAccount.deleteAccount()){
+                new Logout().removeUser();
+                new Login().setVisible(true);
+                this.setVisible(false);
+            }
+        } 
     }//GEN-LAST:event_requestDeleteAccountButtonActionPerformed
 
     private boolean changeProfile(Connection conn) {
