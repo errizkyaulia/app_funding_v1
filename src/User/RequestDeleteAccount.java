@@ -17,6 +17,25 @@ public class RequestDeleteAccount {
     public static boolean deleteAccount() {
         ConnectionDatabase database = new ConnectionDatabase();
         try (Connection conn = database.connect()) {
+            String query = "DELETE FROM reservation WHERE userid = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+                pstmt.setString(1, propsLoader.loadUserID());
+                int rowsAffected = pstmt.executeUpdate();
+                if (rowsAffected > 0){
+                    return delAccount();
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "An error occurred while deleting user.", "Database Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return false;
+    }
+    
+    public static boolean delAccount() {
+        ConnectionDatabase database = new ConnectionDatabase();
+        try (Connection conn = database.connect()) {
             String query = "DELETE FROM user WHERE userid = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(query)) {
                 pstmt.setString(1, propsLoader.loadUserID());
